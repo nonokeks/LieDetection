@@ -1,8 +1,8 @@
 ﻿#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-This experiment was created using PsychoPy3 Experiment Builder (v2021.1.4),
-    on Mai 23, 2022, at 14:52
+This experiment was created using PsychoPy3 Experiment Builder (v2021.2.3),
+    on Fr 27 Mai 2022 13:10:47 CEST
 If you publish work using this script the most relevant publication is:
 
     Peirce J, Gray JR, Simpson S, MacAskill M, Höchenberger R, Sogo H, Kastman E, Lindeløv JK. (2019) 
@@ -35,7 +35,7 @@ _thisDir = os.path.dirname(os.path.abspath(__file__))
 os.chdir(_thisDir)
 
 # Store info about the experiment session
-psychopyVersion = '2021.1.4'
+psychopyVersion = '2021.2.3'
 expName = 'LieDetection'  # from the Builder filename that created this script
 expInfo = {'participant': '', 'session': '001'}
 dlg = gui.DlgFromDict(dictionary=expInfo, sortKeys=False, title=expName)
@@ -51,7 +51,7 @@ filename = _thisDir + os.sep + u'data/%s_%s_%s' % (expInfo['participant'], expNa
 # An ExperimentHandler isn't essential but helps with data saving
 thisExp = data.ExperimentHandler(name=expName, version='',
     extraInfo=expInfo, runtimeInfo=None,
-    originPath='Z:\\Dokumente\\Uni\\Hiwi\\HannahBA\\LieDetection\\LieDetection_lastrun.py',
+    originPath='/home/nori/Dokumente/Hiwi/LieDetection/LieDetection_lastrun.py',
     savePickle=True, saveWideText=True,
     dataFileName=filename)
 # save a log file for detail verbose info
@@ -76,6 +76,9 @@ if expInfo['frameRate'] != None:
     frameDur = 1.0 / round(expInfo['frameRate'])
 else:
     frameDur = 1.0 / 60.0  # could not measure, so guess
+
+# Setup eyetracking
+ioDevice = ioConfig = ioSession = ioServer = eyetracker = None
 
 # create a default keyboard (e.g. to check for escape)
 defaultKeyboard = keyboard.Keyboard()
@@ -107,6 +110,18 @@ instructions_space = keyboard.Keyboard()
 # lie = 0, truth = 1, choorse = 2
 
 order = [2, 1, 0]
+
+# generates list with len 20, 10 ints < 10, 10 ints > 10
+def gen_rand_list():
+    # list len 10, random num from 11 to 19
+    randomlist_1 = random.sample(range(11, 19), 5)
+    randomlist_1.extend(random.sample(range(11, 19), 5))
+    #list len 10, random num from 1 to 9
+    randomlist_2 = random.sample(range(1, 9), 5)
+    randomlist_2.extend(random.sample(range(1, 9), 5))
+    
+    randomlist_1.extend(randomlist_2)
+    return randomlist_1
 
 # Initialize components for Routine "Baseline"
 BaselineClock = core.Clock()
@@ -350,7 +365,7 @@ thisExp.nextEntry()
 routineTimer.reset()
 
 # set up handler to look after randomisation of conditions etc
-trials_instruct_num = data.TrialHandler(nReps=0.0, method='sequential', 
+trials_instruct_num = data.TrialHandler(nReps=3.0, method='sequential', 
     extraInfo=expInfo, originPath=-1,
     trialList=[None],
     seed=None, name='trials_instruct_num')
@@ -376,17 +391,25 @@ for thisTrials_instruct_num in trials_instruct_num:
     _instructions_space_allKeys = []
     # depending on the oder decided in the beginning
     # edit the displayed text and write to output file
+    numbers_rand =[]
     if order[trials_instruct_num.thisN] == 0:
         instructions_text.text  = "In the following, you will be asked if the number in the middle is greater than 10.\n \nPlease always lie! \n \nPress 'space' to start"
         thisExp.addData('numbers.instructions', 'lie')
+        numbers_rand = gen_rand_list()
     if order[trials_instruct_num.thisN] == 1:
         instructions_text.text  = "In the following, you will be asked if the number in the middle is greater than 10.\n \nPlease always tell the truth! \n \nPress 'space' to start"
         thisExp.addData('numbers.instructions', 'truth')
+        numbers_rand = gen_rand_list()
     if order[trials_instruct_num.thisN] == 2:
         instructions_text.text  = "In the following, you will be asked if the number in the middle is greater than 10.\n \nYou can choose to lie or tell the truth! \n \nPress 'space' to start"
-        thisExp.addData('numbers.instructions', 'choose')
-    #instruct = visual.TextBox2(win, text=instructions_text1, font='Open Sans', letterHeight=50, color="white", alignment='center', pos=(0,0), size=[None, None], units='pix',bold=True)
-    #instruct.autoDraw = True
+        thisExp.addData('numbers.instructions', 'choice')
+        numbers_rand = gen_rand_list()
+        numbers_rand. extend(gen_rand_list())
+    
+    # randomize numbers
+    random.shuffle(numbers_rand)
+    print(numbers_rand)
+    
     # keep track of which components have finished
     InstructionsComponents = [instructions_text, instructions_space]
     for thisComponent in InstructionsComponents:
@@ -560,11 +583,14 @@ for thisTrials_instruct_num in trials_instruct_num:
         routineTimer.add(5.000000)
         # update component parameters for each repeat
         # generate a random number to be displayed which is not 10
-        num = 10
+        #num = 10
         corResp = ''
-        while num == 10:
-            num = random.randint(0,20)
-            
+        #while num == 10:
+        #    num = random.randint(0,20)
+           
+        # select number from list generated in the introduction
+        num = numbers_rand[trials_num.thisN]
+           
         # write generated number to data
         thisExp.addData('num_test.value', num)
         
@@ -770,7 +796,7 @@ for thisTrials_instruct_num in trials_instruct_num:
     
     thisExp.nextEntry()
     
-# completed 0.0 repeats of 'trials_instruct_num'
+# completed 3.0 repeats of 'trials_instruct_num'
 
 
 # set up handler to look after randomisation of conditions etc
