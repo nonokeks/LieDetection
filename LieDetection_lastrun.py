@@ -1,8 +1,8 @@
 ﻿#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-This experiment was created using PsychoPy3 Experiment Builder (v2021.2.3),
-    on Fr 27 Mai 2022 13:10:47 CEST
+This experiment was created using PsychoPy3 Experiment Builder (v2021.1.4),
+    on Juni 01, 2022, at 13:10
 If you publish work using this script the most relevant publication is:
 
     Peirce J, Gray JR, Simpson S, MacAskill M, Höchenberger R, Sogo H, Kastman E, Lindeløv JK. (2019) 
@@ -28,6 +28,21 @@ import sys  # to get file system encoding
 
 from psychopy.hardware import keyboard
 
+import csv
+# function to read in csv files
+def read_csv(filename, delim):
+    questions = []
+    with open(filename) as csv_file:
+        csv_reader = csv.reader(csv_file, delimiter=delim)
+        line_count = 0
+        for row in csv_reader:
+            if line_count == 0:
+                line_count += 1
+            else:
+                questions.append([int(row[0]),str(row[1])])
+                line_count += 1
+    return questions
+
 
 
 # Ensure that relative paths start from the same directory as this script
@@ -35,7 +50,7 @@ _thisDir = os.path.dirname(os.path.abspath(__file__))
 os.chdir(_thisDir)
 
 # Store info about the experiment session
-psychopyVersion = '2021.2.3'
+psychopyVersion = '2021.1.4'
 expName = 'LieDetection'  # from the Builder filename that created this script
 expInfo = {'participant': '', 'session': '001'}
 dlg = gui.DlgFromDict(dictionary=expInfo, sortKeys=False, title=expName)
@@ -51,7 +66,7 @@ filename = _thisDir + os.sep + u'data/%s_%s_%s' % (expInfo['participant'], expNa
 # An ExperimentHandler isn't essential but helps with data saving
 thisExp = data.ExperimentHandler(name=expName, version='',
     extraInfo=expInfo, runtimeInfo=None,
-    originPath='/home/nori/Dokumente/Hiwi/LieDetection/LieDetection_lastrun.py',
+    originPath='Z:\\Dokumente\\Uni\\Hiwi\\HannahBA\\LieDetection\\LieDetection_lastrun.py',
     savePickle=True, saveWideText=True,
     dataFileName=filename)
 # save a log file for detail verbose info
@@ -76,9 +91,6 @@ if expInfo['frameRate'] != None:
     frameDur = 1.0 / round(expInfo['frameRate'])
 else:
     frameDur = 1.0 / 60.0  # could not measure, so guess
-
-# Setup eyetracking
-ioDevice = ioConfig = ioSession = ioServer = eyetracker = None
 
 # create a default keyboard (e.g. to check for escape)
 defaultKeyboard = keyboard.Keyboard()
@@ -145,7 +157,7 @@ question_1 = visual.TextStim(win=win, name='question_1',
 press_key = visual.TextStim(win=win, name='press_key',
     text='"←" No         Yes "→" ',
     font='Open Sans',
-    pos=(0, -0.4), height=0.05, wrapWidth=None, ori=0.0, 
+    pos=(0, -0.3), height=0.05, wrapWidth=None, ori=0.0, 
     color='white', colorSpace='rgb', opacity=None, 
     languageStyle='RTL',
     depth=-1.0);
@@ -160,7 +172,7 @@ import random
 timer_line = visual.Line(
     win=win, name='timer_line',
     start=(-(1,0.02)[0]/2.0, 0), end=(+(1,0.02)[0]/2.0, 0),
-    ori=0.0, pos=(0, -0.45),
+    ori=0.0, pos=(0, -0.35),
     lineWidth=10.0,     colorSpace='rgb',  lineColor='white', fillColor='white',
     opacity=None, depth=-4.0, interpolate=True)
 import time
@@ -178,8 +190,6 @@ instructions_text2 = visual.TextStim(win=win, name='instructions_text2',
     color='white', colorSpace='rgb', opacity=None, 
     languageStyle='LTR',
     depth=-1.0);
-import csv
-
 # here you can change the order in 
 # which they should lie, tell truth or choose
 
@@ -189,6 +199,42 @@ order = [2, 1, 0]
 
 # read in the csv for questions and randomize order of questions
 questions = []
+
+questions_emo = read_csv('Question_emotional.csv', ',')
+questions_neu = read_csv('Question_neutral.csv', ';')
+
+# pick questions for lie and truth
+#pick_emo = pick_quest()
+#pick_neu = pick_quest()
+# shuffle questions and then pick first 10 from each for lie 
+# and last 10 for truth
+random.shuffle(questions_emo)
+random.shuffle(questions_neu)
+
+questions_lie = questions_emo[0:10]
+questions_lie.extend(questions_neu[0:10])
+
+questions_truth = questions_emo[10:20]
+questions_truth.extend(questions_neu[10:20])
+
+questions_choice = questions_emo.copy()
+questions_choice.extend(questions_neu[:])
+
+print('lie')
+print(len(questions_lie))
+print('truth')
+print(len(questions_truth))
+print('chioce')
+print(len(questions_choice))
+"""
+def pick_quest():
+    picks = []
+    while len(picks) < 10:
+        i = random.range(0,19)
+        if i not in picks:
+            picks.append(i)
+     return picks
+
 questions_lie = []
 questions_truth = []
 questions_choice = []
@@ -225,7 +271,7 @@ with open('sample_questions_choice.csv') as csv_file:
 #questions = random.shuffle(questions_lie)
 #print(questions_lie)
 #print(questions_truth)
-#print(questions_choice)
+#print(questions_choice) """
 
 # Initialize components for Routine "Baseline"
 BaselineClock = core.Clock()
@@ -242,7 +288,7 @@ QuestionsTestClock = core.Clock()
 press_key2 = visual.TextStim(win=win, name='press_key2',
     text='"←" No         Yes "→" ',
     font='Open Sans',
-    pos=(0, -0.4), height=0.05, wrapWidth=None, ori=0.0, 
+    pos=(0, -0.3), height=0.05, wrapWidth=None, ori=0.0, 
     color='white', colorSpace='rgb', opacity=None, 
     languageStyle='LTR',
     depth=0.0);
@@ -257,7 +303,7 @@ question_response = keyboard.Keyboard()
 timer_line2 = visual.Line(
     win=win, name='timer_line2',
     start=(-(1,0.02)[0]/2.0, 0), end=(+(1,0.02)[0]/2.0, 0),
-    ori=0.0, pos=(0, -0.45),
+    ori=0.0, pos=(0, -0.35),
     lineWidth=10.0,     colorSpace='rgb',  lineColor='white', fillColor='white',
     opacity=None, depth=-4.0, interpolate=True)
 
@@ -365,7 +411,7 @@ thisExp.nextEntry()
 routineTimer.reset()
 
 # set up handler to look after randomisation of conditions etc
-trials_instruct_num = data.TrialHandler(nReps=3.0, method='sequential', 
+trials_instruct_num = data.TrialHandler(nReps=0.0, method='sequential', 
     extraInfo=expInfo, originPath=-1,
     trialList=[None],
     seed=None, name='trials_instruct_num')
@@ -392,6 +438,7 @@ for thisTrials_instruct_num in trials_instruct_num:
     # depending on the oder decided in the beginning
     # edit the displayed text and write to output file
     numbers_rand =[]
+    trials_limit = 20
     if order[trials_instruct_num.thisN] == 0:
         instructions_text.text  = "In the following, you will be asked if the number in the middle is greater than 10.\n \nPlease always lie! \n \nPress 'space' to start"
         thisExp.addData('numbers.instructions', 'lie')
@@ -405,6 +452,7 @@ for thisTrials_instruct_num in trials_instruct_num:
         thisExp.addData('numbers.instructions', 'choice')
         numbers_rand = gen_rand_list()
         numbers_rand. extend(gen_rand_list())
+        trials_limit = 40
     
     # randomize numbers
     random.shuffle(numbers_rand)
@@ -513,7 +561,7 @@ for thisTrials_instruct_num in trials_instruct_num:
         
         # ------Prepare to start Routine "Baseline"-------
         continueRoutine = True
-        routineTimer.add(2.000000)
+        routineTimer.add(0.020000)
         # update component parameters for each repeat
         # keep track of which components have finished
         BaselineComponents = [fixation_cross]
@@ -549,7 +597,7 @@ for thisTrials_instruct_num in trials_instruct_num:
                 fixation_cross.setAutoDraw(True)
             if fixation_cross.status == STARTED:
                 # is it time to stop? (based on global clock, using actual start)
-                if tThisFlipGlobal > fixation_cross.tStartRefresh + 2.0-frameTolerance:
+                if tThisFlipGlobal > fixation_cross.tStartRefresh + 0.02-frameTolerance:
                     # keep track of stop time/frame for later
                     fixation_cross.tStop = t  # not accounting for scr refresh
                     fixation_cross.frameNStop = frameN  # exact frame index
@@ -777,6 +825,9 @@ for thisTrials_instruct_num in trials_instruct_num:
         for thisComponent in NumberTestComponents:
             if hasattr(thisComponent, "setAutoDraw"):
                 thisComponent.setAutoDraw(False)
+        # if trials max is 20 end early 
+        if trials_num.thisN >= (trials_limit-1):
+            trials_num.finished = True
         # check responses
         if arrow_response.keys in ['', [], None]:  # No response was made
             arrow_response.keys = None
@@ -796,7 +847,7 @@ for thisTrials_instruct_num in trials_instruct_num:
     
     thisExp.nextEntry()
     
-# completed 3.0 repeats of 'trials_instruct_num'
+# completed 0.0 repeats of 'trials_instruct_num'
 
 
 # set up handler to look after randomisation of conditions etc
@@ -826,6 +877,8 @@ for thisTrials_instruct_quest in trials_instruct_quest:
     _key_resp_2_allKeys = []
     # depending on the oder decided in the beginning
     # edit the displayed text and write to output file
+    
+    trials_limit = 20
     if order[trials_instruct_quest.thisN] == 0:
         instructions_text2.text  = "In the following, you will be asked personal questions.\n \nPlease always lie! \n \nPress 'space' to start"
         thisExp.addData('questions.instructions', 'lie')
@@ -838,6 +891,7 @@ for thisTrials_instruct_quest in trials_instruct_quest:
         instructions_text2.text  = "In the following, you will be asked personal questions.\n \nYou can choose to lie or tell the truth! \n \nPress 'space' to start"
         thisExp.addData('questions.instructions', 'choice')
         questions = questions_choice.copy()
+        trials_limit = 40
     
     random.shuffle(questions)
     #print(questions)
@@ -924,7 +978,7 @@ for thisTrials_instruct_quest in trials_instruct_quest:
     routineTimer.reset()
     
     # set up handler to look after randomisation of conditions etc
-    trials_quest = data.TrialHandler(nReps=5.0, method='sequential', 
+    trials_quest = data.TrialHandler(nReps=40.0, method='sequential', 
         extraInfo=expInfo, originPath=-1,
         trialList=[None],
         seed=None, name='trials_quest')
@@ -944,7 +998,7 @@ for thisTrials_instruct_quest in trials_instruct_quest:
         
         # ------Prepare to start Routine "Baseline"-------
         continueRoutine = True
-        routineTimer.add(2.000000)
+        routineTimer.add(0.020000)
         # update component parameters for each repeat
         # keep track of which components have finished
         BaselineComponents = [fixation_cross]
@@ -980,7 +1034,7 @@ for thisTrials_instruct_quest in trials_instruct_quest:
                 fixation_cross.setAutoDraw(True)
             if fixation_cross.status == STARTED:
                 # is it time to stop? (based on global clock, using actual start)
-                if tThisFlipGlobal > fixation_cross.tStartRefresh + 2.0-frameTolerance:
+                if tThisFlipGlobal > fixation_cross.tStartRefresh + 0.02-frameTolerance:
                     # keep track of stop time/frame for later
                     fixation_cross.tStop = t  # not accounting for scr refresh
                     fixation_cross.frameNStop = frameN  # exact frame index
@@ -1011,7 +1065,7 @@ for thisTrials_instruct_quest in trials_instruct_quest:
         
         # ------Prepare to start Routine "QuestionsTest"-------
         continueRoutine = True
-        routineTimer.add(8.000000)
+        routineTimer.add(10.000000)
         # update component parameters for each repeat
         # get question to display on screen
         num_quest = trials_quest.thisN
@@ -1026,7 +1080,7 @@ for thisTrials_instruct_quest in trials_instruct_quest:
         _question_response_allKeys = []
         continueRoutine = True
         # configure visual timer
-        time = 8
+        time = 10
         timer = core.CountdownTimer(time)
         
         # size of line
@@ -1070,7 +1124,7 @@ for thisTrials_instruct_quest in trials_instruct_quest:
                 press_key2.setAutoDraw(True)
             if press_key2.status == STARTED:
                 # is it time to stop? (based on global clock, using actual start)
-                if tThisFlipGlobal > press_key2.tStartRefresh + 8.0-frameTolerance:
+                if tThisFlipGlobal > press_key2.tStartRefresh + 10.0-frameTolerance:
                     # keep track of stop time/frame for later
                     press_key2.tStop = t  # not accounting for scr refresh
                     press_key2.frameNStop = frameN  # exact frame index
@@ -1087,7 +1141,7 @@ for thisTrials_instruct_quest in trials_instruct_quest:
                 question.setAutoDraw(True)
             if question.status == STARTED:
                 # is it time to stop? (based on global clock, using actual start)
-                if tThisFlipGlobal > question.tStartRefresh + 8.0-frameTolerance:
+                if tThisFlipGlobal > question.tStartRefresh + 10.0-frameTolerance:
                     # keep track of stop time/frame for later
                     question.tStop = t  # not accounting for scr refresh
                     question.frameNStop = frameN  # exact frame index
@@ -1106,7 +1160,7 @@ for thisTrials_instruct_quest in trials_instruct_quest:
                 question_response.clock.reset()  # now t=0
             if question_response.status == STARTED:
                 # is it time to stop? (based on local clock)
-                if tThisFlip > 8.0-frameTolerance:
+                if tThisFlip > 10.0-frameTolerance:
                     # keep track of stop time/frame for later
                     question_response.tStop = t  # not accounting for scr refresh
                     question_response.frameNStop = frameN  # exact frame index
@@ -1131,7 +1185,7 @@ for thisTrials_instruct_quest in trials_instruct_quest:
                 timer_line2.setAutoDraw(True)
             if timer_line2.status == STARTED:
                 # is it time to stop? (based on global clock, using actual start)
-                if tThisFlipGlobal > timer_line2.tStartRefresh + 8.0-frameTolerance:
+                if tThisFlipGlobal > timer_line2.tStartRefresh + 10.0-frameTolerance:
                     # keep track of stop time/frame for later
                     timer_line2.tStop = t  # not accounting for scr refresh
                     timer_line2.frameNStop = frameN  # exact frame index
@@ -1181,9 +1235,12 @@ for thisTrials_instruct_quest in trials_instruct_quest:
         trials_quest.addData('question_response.keys',question_response.keys)
         if question_response.keys != None:  # we had a response
             trials_quest.addData('question_response.rt', question_response.rt)
+        # if trials max is 20 end early 
+        if trials_quest.thisN >= (trials_limit-1):
+            trials_quest.finished = True
         thisExp.nextEntry()
         
-    # completed 5.0 repeats of 'trials_quest'
+    # completed 40.0 repeats of 'trials_quest'
     
     thisExp.nextEntry()
     
