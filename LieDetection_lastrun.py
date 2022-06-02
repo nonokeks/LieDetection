@@ -1,8 +1,8 @@
 ﻿#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-This experiment was created using PsychoPy3 Experiment Builder (v2021.1.4),
-    on Juni 01, 2022, at 13:10
+This experiment was created using PsychoPy3 Experiment Builder (v2021.2.3),
+    on June 02, 2022, at 16:44
 If you publish work using this script the most relevant publication is:
 
     Peirce J, Gray JR, Simpson S, MacAskill M, Höchenberger R, Sogo H, Kastman E, Lindeløv JK. (2019) 
@@ -50,7 +50,7 @@ _thisDir = os.path.dirname(os.path.abspath(__file__))
 os.chdir(_thisDir)
 
 # Store info about the experiment session
-psychopyVersion = '2021.1.4'
+psychopyVersion = '2021.2.3'
 expName = 'LieDetection'  # from the Builder filename that created this script
 expInfo = {'participant': '', 'session': '001'}
 dlg = gui.DlgFromDict(dictionary=expInfo, sortKeys=False, title=expName)
@@ -66,7 +66,7 @@ filename = _thisDir + os.sep + u'data/%s_%s_%s' % (expInfo['participant'], expNa
 # An ExperimentHandler isn't essential but helps with data saving
 thisExp = data.ExperimentHandler(name=expName, version='',
     extraInfo=expInfo, runtimeInfo=None,
-    originPath='Z:\\Dokumente\\Uni\\Hiwi\\HannahBA\\LieDetection\\LieDetection_lastrun.py',
+    originPath='E:\\Norina\\LieDetection\\LieDetection_lastrun.py',
     savePickle=True, saveWideText=True,
     dataFileName=filename)
 # save a log file for detail verbose info
@@ -91,6 +91,9 @@ if expInfo['frameRate'] != None:
     frameDur = 1.0 / round(expInfo['frameRate'])
 else:
     frameDur = 1.0 / 60.0  # could not measure, so guess
+
+# Setup eyetracking
+ioDevice = ioConfig = ioSession = ioServer = eyetracker = None
 
 # create a default keyboard (e.g. to check for escape)
 defaultKeyboard = keyboard.Keyboard()
@@ -176,7 +179,7 @@ timer_line = visual.Line(
     lineWidth=10.0,     colorSpace='rgb',  lineColor='white', fillColor='white',
     opacity=None, depth=-4.0, interpolate=True)
 import time
-import sys
+#import sys
 from psychopy import event
 arrow_response = keyboard.Keyboard()
 
@@ -226,52 +229,6 @@ print('truth')
 print(len(questions_truth))
 print('chioce')
 print(len(questions_choice))
-"""
-def pick_quest():
-    picks = []
-    while len(picks) < 10:
-        i = random.range(0,19)
-        if i not in picks:
-            picks.append(i)
-     return picks
-
-questions_lie = []
-questions_truth = []
-questions_choice = []
-with open('sample_questions_lie.csv') as csv_file:
-    csv_reader = csv.reader(csv_file, delimiter=',')
-    line_count = 0
-    for row in csv_reader:
-        if line_count == 0:
-            line_count += 1
-        else:
-            questions_lie.append([int(row[0]),str(row[1])])
-            line_count += 1
-          
-with open('sample_questions_truth.csv') as csv_file:
-    csv_reader = csv.reader(csv_file, delimiter=',')
-    line_count = 0
-    for row in csv_reader:
-        if line_count == 0:
-            line_count += 1
-        else:
-            questions_truth.append([int(row[0]),str(row[1])])
-            line_count += 1
-            
-with open('sample_questions_choice.csv') as csv_file:
-    csv_reader = csv.reader(csv_file, delimiter=',')
-    line_count = 0
-    for row in csv_reader:
-        if line_count == 0:
-            line_count += 1
-        else:
-            questions_choice.append([int(row[0]),str(row[1])])
-            line_count += 1
-            
-#questions = random.shuffle(questions_lie)
-#print(questions_lie)
-#print(questions_truth)
-#print(questions_choice) """
 
 # Initialize components for Routine "Baseline"
 BaselineClock = core.Clock()
@@ -411,7 +368,7 @@ thisExp.nextEntry()
 routineTimer.reset()
 
 # set up handler to look after randomisation of conditions etc
-trials_instruct_num = data.TrialHandler(nReps=0.0, method='sequential', 
+trials_instruct_num = data.TrialHandler(nReps=1.0, method='sequential', 
     extraInfo=expInfo, originPath=-1,
     trialList=[None],
     seed=None, name='trials_instruct_num')
@@ -541,7 +498,7 @@ for thisTrials_instruct_num in trials_instruct_num:
     routineTimer.reset()
     
     # set up handler to look after randomisation of conditions etc
-    trials_num = data.TrialHandler(nReps=2.0, method='sequential', 
+    trials_num = data.TrialHandler(nReps=3.0, method='sequential', 
         extraInfo=expInfo, originPath=-1,
         trialList=[None],
         seed=None, name='trials_num')
@@ -561,7 +518,7 @@ for thisTrials_instruct_num in trials_instruct_num:
         
         # ------Prepare to start Routine "Baseline"-------
         continueRoutine = True
-        routineTimer.add(0.020000)
+        routineTimer.add(2.000000)
         # update component parameters for each repeat
         # keep track of which components have finished
         BaselineComponents = [fixation_cross]
@@ -597,7 +554,7 @@ for thisTrials_instruct_num in trials_instruct_num:
                 fixation_cross.setAutoDraw(True)
             if fixation_cross.status == STARTED:
                 # is it time to stop? (based on global clock, using actual start)
-                if tThisFlipGlobal > fixation_cross.tStartRefresh + 0.02-frameTolerance:
+                if tThisFlipGlobal > fixation_cross.tStartRefresh + 2.0-frameTolerance:
                     # keep track of stop time/frame for later
                     fixation_cross.tStop = t  # not accounting for scr refresh
                     fixation_cross.frameNStop = frameN  # exact frame index
@@ -651,15 +608,19 @@ for thisTrials_instruct_num in trials_instruct_num:
         num_test.text = str(num)
         
         # configure visual timer
-        time = 5
-        timer = core.CountdownTimer(time)
+        t = 5
+        
+        #timer = core.Clock()
+        #timer.add(t)
+        
+        #timer = core.CountdownTimer(t)
         
         # size of line
         timer_line.size = [1,0.02]
         width = timer_line.size[0]
         
         # how much the line shrinks each frame
-        dist = width/(60.5*time)
+        dist = width/(30*t)
         timer_line.autoDraw= False
         arrow_response.keys = []
         arrow_response.rt = []
@@ -755,21 +716,30 @@ for thisTrials_instruct_num in trials_instruct_num:
                     timer_line.frameNStop = frameN  # exact frame index
                     win.timeOnFlip(timer_line, 'tStopRefresh')  # time at next scr refresh
                     timer_line.setAutoDraw(False)
-            while timer.getTime() > 0 and continueRoutine:
-                # adjust line size to visualize time
-                width -= dist
-                timer_line.size = [width,0.02]
-                timer_line.draw()
+            #if timer.getTime() > 0 and continueRoutine:
+            # adjust line size to visualize time
+            width -= dist
+            timer_line.size = [width,0.02]
+            timer_line.draw()
+            win.flip()
                     
-                # check if response was given
+            # check if response was given 
+            """
                 keys = event.getKeys()
                 if keys: 
                     if 'right' in keys: 
+                        rt = arrow_response.rt
+                        print(rt)
                         continueRoutine = False
                     if 'left' in keys: 
+                        rt = arrow_response.rt
+                        print(rt)
                         continueRoutine = False
+            """      
                         
-                win.flip()
+            
+                
+            
             
             
             # *arrow_response* updates
@@ -782,6 +752,7 @@ for thisTrials_instruct_num in trials_instruct_num:
                 arrow_response.status = STARTED
                 # keyboard checking is just starting
                 arrow_response.clock.reset()  # now t=0
+                arrow_response.clearEvents(eventType='keyboard')
             if arrow_response.status == STARTED:
                 # is it time to stop? (based on local clock)
                 if tThisFlip > 5.0-frameTolerance:
@@ -828,6 +799,9 @@ for thisTrials_instruct_num in trials_instruct_num:
         # if trials max is 20 end early 
         if trials_num.thisN >= (trials_limit-1):
             trials_num.finished = True
+        #rt = arrow_response.rt
+        #print(rt)
+        #event.clearEvents()
         # check responses
         if arrow_response.keys in ['', [], None]:  # No response was made
             arrow_response.keys = None
@@ -843,15 +817,15 @@ for thisTrials_instruct_num in trials_instruct_num:
             trials_num.addData('arrow_response.rt', arrow_response.rt)
         thisExp.nextEntry()
         
-    # completed 2.0 repeats of 'trials_num'
+    # completed 3.0 repeats of 'trials_num'
     
     thisExp.nextEntry()
     
-# completed 0.0 repeats of 'trials_instruct_num'
+# completed 1.0 repeats of 'trials_instruct_num'
 
 
 # set up handler to look after randomisation of conditions etc
-trials_instruct_quest = data.TrialHandler(nReps=3.0, method='sequential', 
+trials_instruct_quest = data.TrialHandler(nReps=1.0, method='sequential', 
     extraInfo=expInfo, originPath=-1,
     trialList=[None],
     seed=None, name='trials_instruct_quest')
@@ -929,6 +903,7 @@ for thisTrials_instruct_quest in trials_instruct_quest:
             key_resp_2.status = STARTED
             # keyboard checking is just starting
             key_resp_2.clock.reset()  # now t=0
+            key_resp_2.clearEvents(eventType='keyboard')
         if key_resp_2.status == STARTED:
             theseKeys = key_resp_2.getKeys(keyList=['space'], waitRelease=False)
             _key_resp_2_allKeys.extend(theseKeys)
@@ -978,7 +953,7 @@ for thisTrials_instruct_quest in trials_instruct_quest:
     routineTimer.reset()
     
     # set up handler to look after randomisation of conditions etc
-    trials_quest = data.TrialHandler(nReps=40.0, method='sequential', 
+    trials_quest = data.TrialHandler(nReps=3.0, method='sequential', 
         extraInfo=expInfo, originPath=-1,
         trialList=[None],
         seed=None, name='trials_quest')
@@ -998,7 +973,7 @@ for thisTrials_instruct_quest in trials_instruct_quest:
         
         # ------Prepare to start Routine "Baseline"-------
         continueRoutine = True
-        routineTimer.add(0.020000)
+        routineTimer.add(2.000000)
         # update component parameters for each repeat
         # keep track of which components have finished
         BaselineComponents = [fixation_cross]
@@ -1034,7 +1009,7 @@ for thisTrials_instruct_quest in trials_instruct_quest:
                 fixation_cross.setAutoDraw(True)
             if fixation_cross.status == STARTED:
                 # is it time to stop? (based on global clock, using actual start)
-                if tThisFlipGlobal > fixation_cross.tStartRefresh + 0.02-frameTolerance:
+                if tThisFlipGlobal > fixation_cross.tStartRefresh + 2.0-frameTolerance:
                     # keep track of stop time/frame for later
                     fixation_cross.tStop = t  # not accounting for scr refresh
                     fixation_cross.frameNStop = frameN  # exact frame index
@@ -1081,14 +1056,14 @@ for thisTrials_instruct_quest in trials_instruct_quest:
         continueRoutine = True
         # configure visual timer
         time = 10
-        timer = core.CountdownTimer(time)
+        #timer = core.CountdownTimer(time)
         
         # size of line
         timer_line2.size = [1,0.02]
         width = timer_line2.size[0]
         
         # how much the line shrinks each frame
-        dist = width/(60.5*time)
+        dist = width/(30*time)
         timer_line2.autoDraw= False
         # keep track of which components have finished
         QuestionsTestComponents = [press_key2, question, question_response, timer_line2]
@@ -1158,6 +1133,7 @@ for thisTrials_instruct_quest in trials_instruct_quest:
                 question_response.status = STARTED
                 # keyboard checking is just starting
                 question_response.clock.reset()  # now t=0
+                question_response.clearEvents(eventType='keyboard')
             if question_response.status == STARTED:
                 # is it time to stop? (based on local clock)
                 if tThisFlip > 10.0-frameTolerance:
@@ -1191,21 +1167,22 @@ for thisTrials_instruct_quest in trials_instruct_quest:
                     timer_line2.frameNStop = frameN  # exact frame index
                     win.timeOnFlip(timer_line2, 'tStopRefresh')  # time at next scr refresh
                     timer_line2.setAutoDraw(False)
-            while timer.getTime() > 0 and continueRoutine:
+            #while timer.getTime() > 0 and continueRoutine:
                 # adjust line size to visualize time
-                width -= dist
-                timer_line2.size = [width,0.02]
-                timer_line2.draw()
-                    
-                # check if response was given
-                keys = event.getKeys()
-                if keys: 
-                    if 'right' in keys: 
-                        continueRoutine = False
-                    if 'left' in keys: 
-                        continueRoutine = False
-                        
-                win.flip()
+            width -= dist
+            timer_line2.size = [width,0.02]
+            timer_line2.draw()
+                
+            """
+            # check if response was given
+            keys = event.getKeys()
+            if keys: 
+                if 'right' in keys: 
+                    continueRoutine = False
+                if 'left' in keys: 
+                    continueRoutine = False
+            """        
+            win.flip()
             
             
             # check for quit (typically the Esc key)
@@ -1240,11 +1217,11 @@ for thisTrials_instruct_quest in trials_instruct_quest:
             trials_quest.finished = True
         thisExp.nextEntry()
         
-    # completed 40.0 repeats of 'trials_quest'
+    # completed 3.0 repeats of 'trials_quest'
     
     thisExp.nextEntry()
     
-# completed 3.0 repeats of 'trials_instruct_quest'
+# completed 1.0 repeats of 'trials_instruct_quest'
 
 
 # ------Prepare to start Routine "End"-------
