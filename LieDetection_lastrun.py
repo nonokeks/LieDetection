@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 This experiment was created using PsychoPy3 Experiment Builder (v2021.2.3),
-    on June 02, 2022, at 16:44
+    on June 03, 2022, at 12:42
 If you publish work using this script the most relevant publication is:
 
     Peirce J, Gray JR, Simpson S, MacAskill M, Höchenberger R, Sogo H, Kastman E, Lindeløv JK. (2019) 
@@ -26,8 +26,39 @@ from numpy.random import random, randint, normal, shuffle, choice as randchoice
 import os  # handy system and path functions
 import sys  # to get file system encoding
 
+import psychopy.iohub as io
 from psychopy.hardware import keyboard
 
+import tobii_research as tr
+
+from datetime import datetime as dt
+import xlsxwriter as xl
+
+
+#uniform timestamp for document name
+time_stamp = dt.utcnow()
+exp_time = str(time_stamp)[0:10] + '_' + str(time_stamp)[11:13] + str(time_stamp)[14:16]
+
+# finding the eyetracker
+eye_tracker = tr.find_all_eyetrackers()[0]
+
+global_gaze_data = None
+bs_diameter = 0
+
+def gaze_data_callback(gaze_data):
+    global global_gaze_data
+    global_gaze_data = gaze_data
+    print(global_gaze_data.right_eye.EyeData.pupil.diameter)
+    
+# start eyetracking 
+eye_tracker.subscribe_to(tr.EYETRACKER_GAZE_DATA, gaze_data_callback, as_dictionary=True)
+
+# list for storing data 
+eye_measures = []
+#time_stamps = []
+
+option = ''
+mode = ''
 import csv
 # function to read in csv files
 def read_csv(filename, delim):
@@ -80,7 +111,7 @@ frameTolerance = 0.001  # how close to onset before 'same' frame
 
 # Setup the Window
 win = visual.Window(
-    size=(1024, 768), fullscr=True, screen=0, 
+    size=[1680, 1050], fullscr=True, screen=0, 
     winType='pyglet', allowGUI=False, allowStencil=False,
     monitor='testMonitor', color=[0,0,0], colorSpace='rgb',
     blendMode='avg', useFBO=True, 
@@ -93,7 +124,22 @@ else:
     frameDur = 1.0 / 60.0  # could not measure, so guess
 
 # Setup eyetracking
-ioDevice = ioConfig = ioSession = ioServer = eyetracker = None
+ioDevice = 'eyetracker.hw.tobii.EyeTracker'
+ioConfig = {
+    ioDevice: {
+        'name': 'tracker',
+        'model_name': 'Tobii Pro Nano',
+        'serial_number': 'TPNA1-030241945524',
+        'runtime_settings': {
+            'sampling_rate': 60.0,
+        }
+    }
+}
+ioSession = '1'
+if 'session' in expInfo:
+    ioSession = str(expInfo['session'])
+ioServer = io.launchHubServer(window=win, **ioConfig)
+eyetracker = ioServer.getDevice('tracker')
 
 # create a default keyboard (e.g. to check for escape)
 defaultKeyboard = keyboard.Keyboard()
@@ -108,6 +154,7 @@ text = visual.TextStim(win=win, name='text',
     languageStyle='LTR',
     depth=0.0);
 key_resp = keyboard.Keyboard()
+user = expInfo['participant']
 
 # Initialize components for Routine "Instructions"
 InstructionsClock = core.Clock()
@@ -182,6 +229,9 @@ import time
 #import sys
 from psychopy import event
 arrow_response = keyboard.Keyboard()
+
+# Initialize components for Routine "Save_Data"
+Save_DataClock = core.Clock()
 
 # Initialize components for Routine "Instructions_Quest"
 Instructions_QuestClock = core.Clock()
@@ -263,6 +313,9 @@ timer_line2 = visual.Line(
     ori=0.0, pos=(0, -0.35),
     lineWidth=10.0,     colorSpace='rgb',  lineColor='white', fillColor='white',
     opacity=None, depth=-4.0, interpolate=True)
+
+# Initialize components for Routine "Save_Data"
+Save_DataClock = core.Clock()
 
 # Initialize components for Routine "End"
 EndClock = core.Clock()
@@ -368,7 +421,7 @@ thisExp.nextEntry()
 routineTimer.reset()
 
 # set up handler to look after randomisation of conditions etc
-trials_instruct_num = data.TrialHandler(nReps=1.0, method='sequential', 
+trials_instruct_num = data.TrialHandler(nReps=2.0, method='sequential', 
     extraInfo=expInfo, originPath=-1,
     trialList=[None],
     seed=None, name='trials_instruct_num')
@@ -396,25 +449,36 @@ for thisTrials_instruct_num in trials_instruct_num:
     # edit the displayed text and write to output file
     numbers_rand =[]
     trials_limit = 20
+    option = 'number'
     if order[trials_instruct_num.thisN] == 0:
         instructions_text.text  = "In the following, you will be asked if the number in the middle is greater than 10.\n \nPlease always lie! \n \nPress 'space' to start"
         thisExp.addData('numbers.instructions', 'lie')
+        mode = 'lie'
         numbers_rand = gen_rand_list()
     if order[trials_instruct_num.thisN] == 1:
         instructions_text.text  = "In the following, you will be asked if the number in the middle is greater than 10.\n \nPlease always tell the truth! \n \nPress 'space' to start"
         thisExp.addData('numbers.instructions', 'truth')
         numbers_rand = gen_rand_list()
+        mode = 'truth'
     if order[trials_instruct_num.thisN] == 2:
         instructions_text.text  = "In the following, you will be asked if the number in the middle is greater than 10.\n \nYou can choose to lie or tell the truth! \n \nPress 'space' to start"
         thisExp.addData('numbers.instructions', 'choice')
         numbers_rand = gen_rand_list()
         numbers_rand. extend(gen_rand_list())
         trials_limit = 40
+        mode = 'choice'
     
     # randomize numbers
     random.shuffle(numbers_rand)
     print(numbers_rand)
     
+    # some datastorages
+    
+    baseline_s = []
+    eye_measures = []
+    key_s = []
+    id_s = []
+    correct_s = []
     # keep track of which components have finished
     InstructionsComponents = [instructions_text, instructions_space]
     for thisComponent in InstructionsComponents:
@@ -560,6 +624,16 @@ for thisTrials_instruct_num in trials_instruct_num:
                     fixation_cross.frameNStop = frameN  # exact frame index
                     win.timeOnFlip(fixation_cross, 'tStopRefresh')  # time at next scr refresh
                     fixation_cross.setAutoDraw(False)
+            # eyetracking, append baseline measures with new pupil diameter
+            if(global_gaze_data != None):
+                #print(global_gaze_data.get('left_pupil_diameter'))
+                eye_measures.append(global_gaze_data.get('left_pupil_diameter'))
+                #time_stamps.append(dt.utcnow())
+                #print(global_gaze_data.get('left_pupil_diameter'))
+                baseline_s.append('b')
+                key_s.append('')
+                id_s.append('')
+                correct_s.append('')
             
             # check for quit (typically the Esc key)
             if endExpNow or defaultKeyboard.getKeys(keyList=["escape"]):
@@ -774,6 +848,25 @@ for thisTrials_instruct_num in trials_instruct_num:
                         arrow_response.corr = 0
                     # a response ends the routine
                     continueRoutine = False
+            # eyetracking, append baseline measures with new pupil diameter
+            if(global_gaze_data != None):
+                #print(global_gaze_data.get('left_pupil_diameter'))
+                eye_measures.append(global_gaze_data.get('left_pupil_diameter'))
+                #time_stamps.append(dt.utcnow())
+                #print(global_gaze_data.get('left_pupil_diameter'))
+                baseline_s.append('')
+            
+                
+                if arrow_response.keys:
+                    correct_s.append(arrow_response.corr)
+                    key_s.append(arrow_response.keys)
+                else:
+                    correct_s.append('')
+                    key_s.append('')
+                        
+                id_s.append(num)
+                
+                
             
             # check for quit (typically the Esc key)
             if endExpNow or defaultKeyboard.getKeys(keyList=["escape"]):
@@ -815,17 +908,133 @@ for thisTrials_instruct_num in trials_instruct_num:
         trials_num.addData('arrow_response.corr', arrow_response.corr)
         if arrow_response.keys != None:  # we had a response
             trials_num.addData('arrow_response.rt', arrow_response.rt)
+        #baseline_s = []
+        #eye_measures = []
+        keys = arrow_response.keys
+        print('key')
+        print(keys)
+        """
+        if keys: 
+            if 'right' in keys: 
+                key_s.append('right')
+                correct_s.append(corResp)
+            if 'left' in keys: 
+                key_s.append('left')
+                correct_s.append(corResp)
+        else:
+            key_s.append('k')
+            correct_s.append('k') """
+        #key_s.append(keys)
+        #correct_s.append(corResp)
+            
+        print('K')
+        print(key_s)
+        print('id')
+        print(id_s)
+        print('c')
+        print(correct_s)
         thisExp.nextEntry()
         
     # completed 3.0 repeats of 'trials_num'
     
+    
+    # ------Prepare to start Routine "Save_Data"-------
+    continueRoutine = True
+    # update component parameters for each repeat
+    import math
+    #save pupil data
+    
+    #stimuli_data = [s - bs_diameter if math.isnan(s) == False else s for s in stimuli_measures]
+    
+    workbook = xl.Workbook('data/' + str(user) + '_LieDetection_' + exp_time + '_' + option + '_' + mode  +'.xlsx')
+    ws = workbook.add_worksheet()
+    
+    ws.write('A1', 'pupil_dilation')
+    ws.write('B1', 'baseline')
+    ws.write('C1', 'num/id')
+    ws.write('D1', 'key')
+    ws.write('E1', 'correct')
+    
+    
+    row = 1
+    for sd in eye_measures:
+        i = eye_measures.index(sd)
+        #time = time_stamps[eye_measures.index(sd)]
+        if math.isnan(sd) == True :
+            ws.write(row, 0, 'Nan')
+        else:
+            ws.write(row, 0, sd)
+        ws.write(row, 1, str(baseline_s[i]))
+        ws.write(row, 2, str(id_s[i]))
+        ws.write(row, 3, str(key_s[i]))
+        ws.write(row, 4, str(correct_s[i]))
+        row += 1
+        
+    workbook.close()
+    
+    # reset eye data for next cond
+    eye_measures = []
+    baseline_s = []
+    eye_measures = []
+    key_s= []
+    id_s = []
+    correct_s = []
+    
+    #print(expInfo['arrow_response.keys'])
+    # keep track of which components have finished
+    Save_DataComponents = []
+    for thisComponent in Save_DataComponents:
+        thisComponent.tStart = None
+        thisComponent.tStop = None
+        thisComponent.tStartRefresh = None
+        thisComponent.tStopRefresh = None
+        if hasattr(thisComponent, 'status'):
+            thisComponent.status = NOT_STARTED
+    # reset timers
+    t = 0
+    _timeToFirstFrame = win.getFutureFlipTime(clock="now")
+    Save_DataClock.reset(-_timeToFirstFrame)  # t0 is time of first possible flip
+    frameN = -1
+    
+    # -------Run Routine "Save_Data"-------
+    while continueRoutine:
+        # get current time
+        t = Save_DataClock.getTime()
+        tThisFlip = win.getFutureFlipTime(clock=Save_DataClock)
+        tThisFlipGlobal = win.getFutureFlipTime(clock=None)
+        frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
+        # update/draw components on each frame
+        
+        # check for quit (typically the Esc key)
+        if endExpNow or defaultKeyboard.getKeys(keyList=["escape"]):
+            core.quit()
+        
+        # check if all components have finished
+        if not continueRoutine:  # a component has requested a forced-end of Routine
+            break
+        continueRoutine = False  # will revert to True if at least one component still running
+        for thisComponent in Save_DataComponents:
+            if hasattr(thisComponent, "status") and thisComponent.status != FINISHED:
+                continueRoutine = True
+                break  # at least one component has not yet finished
+        
+        # refresh the screen
+        if continueRoutine:  # don't flip if this routine is over or we'll get a blank screen
+            win.flip()
+    
+    # -------Ending Routine "Save_Data"-------
+    for thisComponent in Save_DataComponents:
+        if hasattr(thisComponent, "setAutoDraw"):
+            thisComponent.setAutoDraw(False)
+    # the Routine "Save_Data" was not non-slip safe, so reset the non-slip timer
+    routineTimer.reset()
     thisExp.nextEntry()
     
-# completed 1.0 repeats of 'trials_instruct_num'
+# completed 2.0 repeats of 'trials_instruct_num'
 
 
 # set up handler to look after randomisation of conditions etc
-trials_instruct_quest = data.TrialHandler(nReps=1.0, method='sequential', 
+trials_instruct_quest = data.TrialHandler(nReps=2.0, method='sequential', 
     extraInfo=expInfo, originPath=-1,
     trialList=[None],
     seed=None, name='trials_instruct_quest')
@@ -852,23 +1061,34 @@ for thisTrials_instruct_quest in trials_instruct_quest:
     # depending on the oder decided in the beginning
     # edit the displayed text and write to output file
     
+    option = 'questions'
     trials_limit = 20
     if order[trials_instruct_quest.thisN] == 0:
         instructions_text2.text  = "In the following, you will be asked personal questions.\n \nPlease always lie! \n \nPress 'space' to start"
         thisExp.addData('questions.instructions', 'lie')
         questions = questions_lie.copy()
+        mode = 'lie'
     if order[trials_instruct_quest.thisN] == 1:
         instructions_text2.text  = "In the following, you will be asked personal questions.\n \nPlease always tell the truth! \n \nPress 'space' to start"
         thisExp.addData('questions.instructions', 'truth')
         questions = questions_truth.copy()
+        mode = 'truth'
     if order[trials_instruct_quest.thisN] == 2:
         instructions_text2.text  = "In the following, you will be asked personal questions.\n \nYou can choose to lie or tell the truth! \n \nPress 'space' to start"
         thisExp.addData('questions.instructions', 'choice')
         questions = questions_choice.copy()
         trials_limit = 40
+        mode = 'choice'
     
     random.shuffle(questions)
     #print(questions)
+    # some datastorages
+    
+    baseline_s = []
+    eye_measures = []
+    key_s = []
+    id_s = []
+    correct_s = []
     # keep track of which components have finished
     Instructions_QuestComponents = [key_resp_2, instructions_text2]
     for thisComponent in Instructions_QuestComponents:
@@ -1015,6 +1235,16 @@ for thisTrials_instruct_quest in trials_instruct_quest:
                     fixation_cross.frameNStop = frameN  # exact frame index
                     win.timeOnFlip(fixation_cross, 'tStopRefresh')  # time at next scr refresh
                     fixation_cross.setAutoDraw(False)
+            # eyetracking, append baseline measures with new pupil diameter
+            if(global_gaze_data != None):
+                #print(global_gaze_data.get('left_pupil_diameter'))
+                eye_measures.append(global_gaze_data.get('left_pupil_diameter'))
+                #time_stamps.append(dt.utcnow())
+                #print(global_gaze_data.get('left_pupil_diameter'))
+                baseline_s.append('b')
+                key_s.append('')
+                id_s.append('')
+                correct_s.append('')
             
             # check for quit (typically the Esc key)
             if endExpNow or defaultKeyboard.getKeys(keyList=["escape"]):
@@ -1184,6 +1414,26 @@ for thisTrials_instruct_quest in trials_instruct_quest:
             """        
             win.flip()
             
+            # eyetracking, append baseline measures with new pupil diameter
+            if(global_gaze_data != None):
+                #print(global_gaze_data.get('left_pupil_diameter'))
+                eye_measures.append(global_gaze_data.get('left_pupil_diameter'))
+                #time_stamps.append(dt.utcnow())
+                #print(global_gaze_data.get('left_pupil_diameter'))
+                baseline_s.append('')
+            
+                
+                if question_response.keys:
+                    #correct_s.append(arrow_response.corr)
+                    correct_s.append('')
+                    key_s.append(question_response.keys)
+                else:
+                    correct_s.append('')
+                    key_s.append('')
+                        
+                id_s.append(questions[num_quest][0])
+                
+                
             
             # check for quit (typically the Esc key)
             if endExpNow or defaultKeyboard.getKeys(keyList=["escape"]):
@@ -1219,9 +1469,100 @@ for thisTrials_instruct_quest in trials_instruct_quest:
         
     # completed 3.0 repeats of 'trials_quest'
     
+    
+    # ------Prepare to start Routine "Save_Data"-------
+    continueRoutine = True
+    # update component parameters for each repeat
+    import math
+    #save pupil data
+    
+    #stimuli_data = [s - bs_diameter if math.isnan(s) == False else s for s in stimuli_measures]
+    
+    workbook = xl.Workbook('data/' + str(user) + '_LieDetection_' + exp_time + '_' + option + '_' + mode  +'.xlsx')
+    ws = workbook.add_worksheet()
+    
+    ws.write('A1', 'pupil_dilation')
+    ws.write('B1', 'baseline')
+    ws.write('C1', 'num/id')
+    ws.write('D1', 'key')
+    ws.write('E1', 'correct')
+    
+    
+    row = 1
+    for sd in eye_measures:
+        i = eye_measures.index(sd)
+        #time = time_stamps[eye_measures.index(sd)]
+        if math.isnan(sd) == True :
+            ws.write(row, 0, 'Nan')
+        else:
+            ws.write(row, 0, sd)
+        ws.write(row, 1, str(baseline_s[i]))
+        ws.write(row, 2, str(id_s[i]))
+        ws.write(row, 3, str(key_s[i]))
+        ws.write(row, 4, str(correct_s[i]))
+        row += 1
+        
+    workbook.close()
+    
+    # reset eye data for next cond
+    eye_measures = []
+    baseline_s = []
+    eye_measures = []
+    key_s= []
+    id_s = []
+    correct_s = []
+    
+    #print(expInfo['arrow_response.keys'])
+    # keep track of which components have finished
+    Save_DataComponents = []
+    for thisComponent in Save_DataComponents:
+        thisComponent.tStart = None
+        thisComponent.tStop = None
+        thisComponent.tStartRefresh = None
+        thisComponent.tStopRefresh = None
+        if hasattr(thisComponent, 'status'):
+            thisComponent.status = NOT_STARTED
+    # reset timers
+    t = 0
+    _timeToFirstFrame = win.getFutureFlipTime(clock="now")
+    Save_DataClock.reset(-_timeToFirstFrame)  # t0 is time of first possible flip
+    frameN = -1
+    
+    # -------Run Routine "Save_Data"-------
+    while continueRoutine:
+        # get current time
+        t = Save_DataClock.getTime()
+        tThisFlip = win.getFutureFlipTime(clock=Save_DataClock)
+        tThisFlipGlobal = win.getFutureFlipTime(clock=None)
+        frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
+        # update/draw components on each frame
+        
+        # check for quit (typically the Esc key)
+        if endExpNow or defaultKeyboard.getKeys(keyList=["escape"]):
+            core.quit()
+        
+        # check if all components have finished
+        if not continueRoutine:  # a component has requested a forced-end of Routine
+            break
+        continueRoutine = False  # will revert to True if at least one component still running
+        for thisComponent in Save_DataComponents:
+            if hasattr(thisComponent, "status") and thisComponent.status != FINISHED:
+                continueRoutine = True
+                break  # at least one component has not yet finished
+        
+        # refresh the screen
+        if continueRoutine:  # don't flip if this routine is over or we'll get a blank screen
+            win.flip()
+    
+    # -------Ending Routine "Save_Data"-------
+    for thisComponent in Save_DataComponents:
+        if hasattr(thisComponent, "setAutoDraw"):
+            thisComponent.setAutoDraw(False)
+    # the Routine "Save_Data" was not non-slip safe, so reset the non-slip timer
+    routineTimer.reset()
     thisExp.nextEntry()
     
-# completed 1.0 repeats of 'trials_instruct_quest'
+# completed 2.0 repeats of 'trials_instruct_quest'
 
 
 # ------Prepare to start Routine "End"-------
@@ -1290,6 +1631,9 @@ while continueRoutine and routineTimer.getTime() > 0:
 for thisComponent in EndComponents:
     if hasattr(thisComponent, "setAutoDraw"):
         thisComponent.setAutoDraw(False)
+# start eyetracking 
+eye_tracker.unsubscribe_to(tr.EYETRACKER_GAZE_DATA, gaze_data_callback, as_dictionary=True)
+
 
 # Flip one final time so any remaining win.callOnFlip() 
 # and win.timeOnFlip() tasks get executed before quitting
