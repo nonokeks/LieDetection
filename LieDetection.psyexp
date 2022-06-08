@@ -101,8 +101,8 @@
       <CodeComponent name="eye_tracking_code">
         <Param name="Before Experiment" updates="constant" val="import tobii_research as tr&amp;#10;&amp;#10;from datetime import datetime as dt&amp;#10;import xlsxwriter as xl&amp;#10;&amp;#10;&amp;#10;#uniform timestamp for document name&amp;#10;time_stamp = dt.utcnow()&amp;#10;exp_time = str(time_stamp)[0:10] + '_' + str(time_stamp)[11:13] + str(time_stamp)[14:16]&amp;#10;&amp;#10;# finding the eyetracker&amp;#10;eye_tracker = tr.find_all_eyetrackers()[0]&amp;#10;&amp;#10;global_gaze_data = None&amp;#10;bs_diameter = 0&amp;#10;&amp;#10;def gaze_data_callback(gaze_data):&amp;#10;    global global_gaze_data&amp;#10;    global_gaze_data = gaze_data&amp;#10;    print(global_gaze_data.right_eye.EyeData.pupil.diameter)&amp;#10;    &amp;#10;# start eyetracking &amp;#10;eye_tracker.subscribe_to(tr.EYETRACKER_GAZE_DATA, gaze_data_callback, as_dictionary=True)&amp;#10;&amp;#10;# list for storing data &amp;#10;eye_measures = []&amp;#10;#time_stamps = []&amp;#10;&amp;#10;option = ''&amp;#10;mode = ''" valType="extendedCode"/>
         <Param name="Before JS Experiment" updates="constant" val="/* Syntax Error: Fix Python code */" valType="extendedCode"/>
-        <Param name="Begin Experiment" updates="constant" val="user = expInfo['participant']" valType="extendedCode"/>
-        <Param name="Begin JS Experiment" updates="constant" val="user = expInfo[&quot;participant&quot;];&amp;#10;" valType="extendedCode"/>
+        <Param name="Begin Experiment" updates="constant" val="user = expInfo['participant']&amp;#10;&amp;#10;#True = number, False = questions&amp;#10;reihenfolge = False" valType="extendedCode"/>
+        <Param name="Begin JS Experiment" updates="constant" val="user = expInfo[&quot;participant&quot;];&amp;#10;reihenfolge = false;&amp;#10;" valType="extendedCode"/>
         <Param name="Begin JS Routine" updates="constant" val="" valType="extendedCode"/>
         <Param name="Begin Routine" updates="constant" val="" valType="extendedCode"/>
         <Param name="Code Type" updates="None" val="Auto-&gt;JS" valType="str"/>
@@ -258,15 +258,15 @@
         <Param name="Before JS Experiment" updates="constant" val="" valType="extendedCode"/>
         <Param name="Begin Experiment" updates="constant" val="import random " valType="extendedCode"/>
         <Param name="Begin JS Experiment" updates="constant" val="import * as random from 'random';&amp;#10;" valType="extendedCode"/>
-        <Param name="Begin JS Routine" updates="constant" val="corResp = &quot;&quot;;&amp;#10;num = numbers_rand[trials_num.thisN];&amp;#10;psychoJS.experiment.addData(&quot;num_test.value&quot;, num);&amp;#10;if ((num &gt; 10)) {&amp;#10;    corResp = &quot;right&quot;;&amp;#10;} else {&amp;#10;    corResp = &quot;left&quot;;&amp;#10;}&amp;#10;num_test.text = num.toString();&amp;#10;" valType="extendedCode"/>
-        <Param name="Begin Routine" updates="constant" val="# generate a random number to be displayed which is not 10&amp;#10;#num = 10&amp;#10;corResp = ''&amp;#10;#while num == 10:&amp;#10;#    num = random.randint(0,20)&amp;#10;   &amp;#10;# select number from list generated in the introduction&amp;#10;num = numbers_rand[trials_num.thisN]&amp;#10;   &amp;#10;# write generated number to data&amp;#10;thisExp.addData('num_test.value', num)&amp;#10;&amp;#10;# generate correct response (always truth)&amp;#10;if num &gt; 10:&amp;#10;    corResp = 'right'&amp;#10;else:&amp;#10;    corResp = 'left'&amp;#10;&amp;#10;num_test.text = str(num)&amp;#10;" valType="extendedCode"/>
+        <Param name="Begin JS Routine" updates="constant" val="corResp = &quot;&quot;;&amp;#10;ind = 0;&amp;#10;if (reihenfolge) {&amp;#10;    ind = trials_num.thisN;&amp;#10;} else {&amp;#10;    ind = trials_num2.thisN;&amp;#10;}&amp;#10;num = numbers_rand[ind];&amp;#10;psychoJS.experiment.addData(&quot;num_test.value&quot;, num);&amp;#10;if ((num &gt; 10)) {&amp;#10;    corResp = &quot;right&quot;;&amp;#10;} else {&amp;#10;    corResp = &quot;left&quot;;&amp;#10;}&amp;#10;num_test.text = num.toString();&amp;#10;" valType="extendedCode"/>
+        <Param name="Begin Routine" updates="constant" val="# generate a random number to be displayed which is not 10&amp;#10;#num = 10&amp;#10;corResp = ''&amp;#10;#while num == 10:&amp;#10;#    num = random.randint(0,20)&amp;#10;   &amp;#10;# select number from list generated in the introduction&amp;#10;ind = 0&amp;#10;if reihenfolge:&amp;#10;    ind = trials_num.thisN&amp;#10;else: &amp;#10;    ind = trials_num2.thisN&amp;#10;num = numbers_rand[ind]&amp;#10;   &amp;#10;# write generated number to data&amp;#10;thisExp.addData('num_test.value', num)&amp;#10;&amp;#10;# generate correct response (always truth)&amp;#10;if num &gt; 10:&amp;#10;    corResp = 'right'&amp;#10;else:&amp;#10;    corResp = 'left'&amp;#10;&amp;#10;num_test.text = str(num)&amp;#10;" valType="extendedCode"/>
         <Param name="Code Type" updates="None" val="Auto-&gt;JS" valType="str"/>
         <Param name="Each Frame" updates="constant" val="" valType="extendedCode"/>
         <Param name="Each JS Frame" updates="constant" val="" valType="extendedCode"/>
         <Param name="End Experiment" updates="constant" val="" valType="extendedCode"/>
         <Param name="End JS Experiment" updates="constant" val="" valType="extendedCode"/>
-        <Param name="End JS Routine" updates="constant" val="if ((trials_num.thisN &gt;= (trials_limit - 1))) {&amp;#10;    trials_num.finished = true;&amp;#10;}&amp;#10;" valType="extendedCode"/>
-        <Param name="End Routine" updates="constant" val="# if trials max is 20 end early &amp;#10;if trials_num.thisN &gt;= (trials_limit-1):&amp;#10;    trials_num.finished = True" valType="extendedCode"/>
+        <Param name="End JS Routine" updates="constant" val="if (reihenfolge) {&amp;#10;    if ((trials_num.thisN &gt;= (trials_limit - 1))) {&amp;#10;        trials_num.finished = true;&amp;#10;    }&amp;#10;} else {&amp;#10;    if ((trials_num2.thisN &gt;= (trials_limit - 1))) {&amp;#10;        trials_num2.finished = true;&amp;#10;    }&amp;#10;}&amp;#10;" valType="extendedCode"/>
+        <Param name="End Routine" updates="constant" val="# if trials max is 20 end early &amp;#10;if reihenfolge:&amp;#10;    if trials_num.thisN &gt;= (trials_limit-1):&amp;#10;        trials_num.finished = True&amp;#10;else: &amp;#10;    if trials_num2.thisN &gt;= (trials_limit-1):&amp;#10;        trials_num2.finished = True&amp;#10;" valType="extendedCode"/>
         <Param name="disabled" updates="None" val="False" valType="bool"/>
         <Param name="name" updates="None" val="number_genertion" valType="code"/>
       </CodeComponent>
@@ -398,8 +398,8 @@
         <Param name="Before JS Experiment" updates="constant" val="" valType="extendedCode"/>
         <Param name="Begin Experiment" updates="constant" val="# here you can change the order in &amp;#10;# which they should lie, tell truth or choose&amp;#10;&amp;#10;# lie = 0, truth = 1, choorse = 2&amp;#10;&amp;#10;order = [2, 1, 0]&amp;#10;&amp;#10;# generates list with len 20, 10 ints &lt; 10, 10 ints &gt; 10&amp;#10;def gen_rand_list():&amp;#10;    # list len 10, random num from 11 to 19&amp;#10;    randomlist_1 = random.sample(range(11, 19), 5)&amp;#10;    randomlist_1.extend(random.sample(range(11, 19), 5))&amp;#10;    #list len 10, random num from 1 to 9&amp;#10;    randomlist_2 = random.sample(range(1, 9), 5)&amp;#10;    randomlist_2.extend(random.sample(range(1, 9), 5))&amp;#10;    &amp;#10;    randomlist_1.extend(randomlist_2)&amp;#10;    return randomlist_1" valType="extendedCode"/>
         <Param name="Begin JS Experiment" updates="constant" val="order = [2, 1, 0];&amp;#10;function gen_rand_list() {&amp;#10;    var randomlist_1, randomlist_2;&amp;#10;    randomlist_1 = random.sample(util.range(11, 19), 5);&amp;#10;    randomlist_1.extend(random.sample(util.range(11, 19), 5));&amp;#10;    randomlist_2 = random.sample(util.range(1, 9), 5);&amp;#10;    randomlist_2.extend(random.sample(util.range(1, 9), 5));&amp;#10;    randomlist_1.extend(randomlist_2);&amp;#10;    return randomlist_1;&amp;#10;}&amp;#10;" valType="extendedCode"/>
-        <Param name="Begin JS Routine" updates="constant" val="numbers_rand = [];&amp;#10;trials_limit = 20;&amp;#10;option = &quot;number&quot;;&amp;#10;if ((order[trials_instruct_num.thisN] === 0)) {&amp;#10;    instructions_text.text = &quot;In the following, you will be asked if the number in the middle is greater than 10.\n \nPlease always lie! \n \nPress 'space' to start&quot;;&amp;#10;    psychoJS.experiment.addData(&quot;numbers.instructions&quot;, &quot;lie&quot;);&amp;#10;    mode = &quot;lie&quot;;&amp;#10;    numbers_rand = gen_rand_list();&amp;#10;}&amp;#10;if ((order[trials_instruct_num.thisN] === 1)) {&amp;#10;    instructions_text.text = &quot;In the following, you will be asked if the number in the middle is greater than 10.\n \nPlease always tell the truth! \n \nPress 'space' to start&quot;;&amp;#10;    psychoJS.experiment.addData(&quot;numbers.instructions&quot;, &quot;truth&quot;);&amp;#10;    numbers_rand = gen_rand_list();&amp;#10;    mode = &quot;truth&quot;;&amp;#10;}&amp;#10;if ((order[trials_instruct_num.thisN] === 2)) {&amp;#10;    instructions_text.text = &quot;In the following, you will be asked if the number in the middle is greater than 10.\n \nYou can choose to lie or tell the truth! \n \nPress 'space' to start&quot;;&amp;#10;    psychoJS.experiment.addData(&quot;numbers.instructions&quot;, &quot;choice&quot;);&amp;#10;    numbers_rand = gen_rand_list();&amp;#10;    numbers_rand.extend(gen_rand_list());&amp;#10;    trials_limit = 40;&amp;#10;    mode = &quot;choice&quot;;&amp;#10;}&amp;#10;random.shuffle(numbers_rand);&amp;#10;console.log(numbers_rand);&amp;#10;" valType="extendedCode"/>
-        <Param name="Begin Routine" updates="constant" val="# depending on the oder decided in the beginning&amp;#10;# edit the displayed text and write to output file&amp;#10;numbers_rand =[]&amp;#10;trials_limit = 20&amp;#10;option = 'number'&amp;#10;if order[trials_instruct_num.thisN] == 0:&amp;#10;    instructions_text.text  = &quot;In the following, you will be asked if the number in the middle is greater than 10.\n \nPlease always lie! \n \nPress 'space' to start&quot;&amp;#10;    thisExp.addData('numbers.instructions', 'lie')&amp;#10;    mode = 'lie'&amp;#10;    numbers_rand = gen_rand_list()&amp;#10;if order[trials_instruct_num.thisN] == 1:&amp;#10;    instructions_text.text  = &quot;In the following, you will be asked if the number in the middle is greater than 10.\n \nPlease always tell the truth! \n \nPress 'space' to start&quot;&amp;#10;    thisExp.addData('numbers.instructions', 'truth')&amp;#10;    numbers_rand = gen_rand_list()&amp;#10;    mode = 'truth'&amp;#10;if order[trials_instruct_num.thisN] == 2:&amp;#10;    instructions_text.text  = &quot;In the following, you will be asked if the number in the middle is greater than 10.\n \nYou can choose to lie or tell the truth! \n \nPress 'space' to start&quot;&amp;#10;    thisExp.addData('numbers.instructions', 'choice')&amp;#10;    numbers_rand = gen_rand_list()&amp;#10;    numbers_rand. extend(gen_rand_list())&amp;#10;    trials_limit = 40&amp;#10;    mode = 'choice'&amp;#10;&amp;#10;# randomize numbers&amp;#10;random.shuffle(numbers_rand)&amp;#10;print(numbers_rand)&amp;#10;" valType="extendedCode"/>
+        <Param name="Begin JS Routine" updates="constant" val="numbers_rand = [];&amp;#10;trials_limit = 20;&amp;#10;option = &quot;number&quot;;&amp;#10;number_r = 0;&amp;#10;if (reihenfolge) {&amp;#10;    number_r = trials_instruct_num.thisN;&amp;#10;} else {&amp;#10;    number_r = trials_instruct_num2.thisN;&amp;#10;}&amp;#10;if ((order[number_r] === 0)) {&amp;#10;    instructions_text.text = &quot;In the following, you will be asked if the number in the middle is greater than 10.\n \nPlease always lie! \n \nPress 'space' to start&quot;;&amp;#10;    psychoJS.experiment.addData(&quot;numbers.instructions&quot;, &quot;lie&quot;);&amp;#10;    mode = &quot;lie&quot;;&amp;#10;    numbers_rand = gen_rand_list();&amp;#10;}&amp;#10;if ((order[number_r] === 1)) {&amp;#10;    instructions_text.text = &quot;In the following, you will be asked if the number in the middle is greater than 10.\n \nPlease always tell the truth! \n \nPress 'space' to start&quot;;&amp;#10;    psychoJS.experiment.addData(&quot;numbers.instructions&quot;, &quot;truth&quot;);&amp;#10;    numbers_rand = gen_rand_list();&amp;#10;    mode = &quot;truth&quot;;&amp;#10;}&amp;#10;if ((order[number_r] === 2)) {&amp;#10;    instructions_text.text = &quot;In the following, you will be asked if the number in the middle is greater than 10.\n \nYou can choose to lie or tell the truth! \n \nPress 'space' to start&quot;;&amp;#10;    psychoJS.experiment.addData(&quot;numbers.instructions&quot;, &quot;choice&quot;);&amp;#10;    numbers_rand = gen_rand_list();&amp;#10;    numbers_rand.extend(gen_rand_list());&amp;#10;    trials_limit = 40;&amp;#10;    mode = &quot;choice&quot;;&amp;#10;}&amp;#10;random.shuffle(numbers_rand);&amp;#10;console.log(numbers_rand);&amp;#10;" valType="extendedCode"/>
+        <Param name="Begin Routine" updates="constant" val="# depending on the oder decided in the beginning&amp;#10;# edit the displayed text and write to output file&amp;#10;numbers_rand =[]&amp;#10;trials_limit = 20&amp;#10;option = 'number'&amp;#10;number_r = 0&amp;#10;if reihenfolge:&amp;#10;    number_r = trials_instruct_num.thisN&amp;#10;else:&amp;#10;    number_r = trials_instruct_num2.thisN&amp;#10;&amp;#10;if order[number_r] == 0:&amp;#10;    instructions_text.text  = &quot;In the following, you will be asked if the number in the middle is greater than 10.\n \nPlease always lie! \n \nPress 'space' to start&quot;&amp;#10;    thisExp.addData('numbers.instructions', 'lie')&amp;#10;    mode = 'lie'&amp;#10;    numbers_rand = gen_rand_list()&amp;#10;if order[number_r] == 1:&amp;#10;    instructions_text.text  = &quot;In the following, you will be asked if the number in the middle is greater than 10.\n \nPlease always tell the truth! \n \nPress 'space' to start&quot;&amp;#10;    thisExp.addData('numbers.instructions', 'truth')&amp;#10;    numbers_rand = gen_rand_list()&amp;#10;    mode = 'truth'&amp;#10;if order[number_r] == 2:&amp;#10;    instructions_text.text  = &quot;In the following, you will be asked if the number in the middle is greater than 10.\n \nYou can choose to lie or tell the truth! \n \nPress 'space' to start&quot;&amp;#10;    thisExp.addData('numbers.instructions', 'choice')&amp;#10;    numbers_rand = gen_rand_list()&amp;#10;    numbers_rand. extend(gen_rand_list())&amp;#10;    trials_limit = 40&amp;#10;    mode = 'choice'&amp;#10;&amp;#10;# randomize numbers&amp;#10;random.shuffle(numbers_rand)&amp;#10;print(numbers_rand)&amp;#10;" valType="extendedCode"/>
         <Param name="Code Type" updates="None" val="Auto-&gt;JS" valType="str"/>
         <Param name="Each Frame" updates="constant" val="" valType="extendedCode"/>
         <Param name="Each JS Frame" updates="constant" val="" valType="extendedCode"/>
@@ -632,7 +632,7 @@
         <Param name="End Experiment" updates="constant" val="" valType="extendedCode"/>
         <Param name="End JS Experiment" updates="constant" val="" valType="extendedCode"/>
         <Param name="End JS Routine" updates="constant" val="if ((trials_quest.thisN &gt;= (trials_limit - 1))) {&amp;#10;    trials_quest.finished = true;&amp;#10;}&amp;#10;" valType="extendedCode"/>
-        <Param name="End Routine" updates="constant" val="# if trials max is 20 end early &amp;#10;if trials_quest.thisN &gt;= (trials_limit-1):&amp;#10;    trials_quest.finished = True" valType="extendedCode"/>
+        <Param name="End Routine" updates="constant" val="# check if question limit is reached&amp;#10;if trials_quest.thisN &gt;= (trials_limit-1):&amp;#10;    trials_quest.finished = True" valType="extendedCode"/>
         <Param name="disabled" updates="None" val="False" valType="bool"/>
         <Param name="name" updates="None" val="timer_2" valType="code"/>
       </CodeComponent>
@@ -692,8 +692,8 @@
         <Param name="Each JS Frame" updates="constant" val="" valType="extendedCode"/>
         <Param name="End Experiment" updates="constant" val="" valType="extendedCode"/>
         <Param name="End JS Experiment" updates="constant" val="" valType="extendedCode"/>
-        <Param name="End JS Routine" updates="constant" val="eye_tracker.unsubscribe_to(tr.EYETRACKER_GAZE_DATA, gaze_data_callback, {&quot;as_dictionary&quot;: true});&amp;#10;" valType="extendedCode"/>
-        <Param name="End Routine" updates="constant" val="# start eyetracking &amp;#10;eye_tracker.unsubscribe_to(tr.EYETRACKER_GAZE_DATA, gaze_data_callback, as_dictionary=True)&amp;#10;" valType="extendedCode"/>
+        <Param name="End JS Routine" updates="constant" val="eye_tracker.unsubscribe_from(tr.EYETRACKER_GAZE_DATA, gaze_data_callback, {&quot;as_dictionary&quot;: true});&amp;#10;" valType="extendedCode"/>
+        <Param name="End Routine" updates="constant" val="# start eyetracking &amp;#10;eye_tracker.unsubscribe_from(tr.EYETRACKER_GAZE_DATA, gaze_data_callback, as_dictionary=True)&amp;#10;" valType="extendedCode"/>
         <Param name="disabled" updates="None" val="False" valType="bool"/>
         <Param name="name" updates="None" val="end_tracking_code" valType="code"/>
       </CodeComponent>
@@ -727,7 +727,7 @@
       <Param name="endPoints" updates="None" val="[0, 1]" valType="num"/>
       <Param name="isTrials" updates="None" val="True" valType="bool"/>
       <Param name="loopType" updates="None" val="sequential" valType="str"/>
-      <Param name="nReps" updates="None" val="2" valType="num"/>
+      <Param name="nReps" updates="None" val="0" valType="num"/>
       <Param name="name" updates="None" val="trials_instruct_num" valType="code"/>
       <Param name="random seed" updates="None" val="" valType="code"/>
     </LoopInitiator>
@@ -755,7 +755,7 @@
       <Param name="endPoints" updates="None" val="[0, 1]" valType="num"/>
       <Param name="isTrials" updates="None" val="True" valType="bool"/>
       <Param name="loopType" updates="None" val="sequential" valType="str"/>
-      <Param name="nReps" updates="None" val="2" valType="num"/>
+      <Param name="nReps" updates="None" val="3" valType="num"/>
       <Param name="name" updates="None" val="trials_instruct_quest" valType="code"/>
       <Param name="random seed" updates="None" val="" valType="code"/>
     </LoopInitiator>
@@ -776,6 +776,34 @@
     <LoopTerminator name="trials_quest"/>
     <Routine name="Save_Data"/>
     <LoopTerminator name="trials_instruct_quest"/>
+    <LoopInitiator loopType="TrialHandler" name="trials_instruct_num2">
+      <Param name="Selected rows" updates="None" val="" valType="str"/>
+      <Param name="conditions" updates="None" val="None" valType="str"/>
+      <Param name="conditionsFile" updates="None" val="" valType="file"/>
+      <Param name="endPoints" updates="None" val="[0, 1]" valType="num"/>
+      <Param name="isTrials" updates="None" val="True" valType="bool"/>
+      <Param name="loopType" updates="None" val="sequential" valType="str"/>
+      <Param name="nReps" updates="None" val="3" valType="num"/>
+      <Param name="name" updates="None" val="trials_instruct_num2" valType="code"/>
+      <Param name="random seed" updates="None" val="" valType="code"/>
+    </LoopInitiator>
+    <Routine name="Instructions"/>
+    <LoopInitiator loopType="TrialHandler" name="trials_num2">
+      <Param name="Selected rows" updates="None" val="" valType="str"/>
+      <Param name="conditions" updates="None" val="None" valType="str"/>
+      <Param name="conditionsFile" updates="None" val="" valType="file"/>
+      <Param name="endPoints" updates="None" val="[0, 1]" valType="num"/>
+      <Param name="isTrials" updates="None" val="True" valType="bool"/>
+      <Param name="loopType" updates="None" val="sequential" valType="str"/>
+      <Param name="nReps" updates="None" val="5" valType="num"/>
+      <Param name="name" updates="None" val="trials_num2" valType="code"/>
+      <Param name="random seed" updates="None" val="" valType="code"/>
+    </LoopInitiator>
+    <Routine name="Baseline"/>
+    <Routine name="NumberTest"/>
+    <LoopTerminator name="trials_num2"/>
+    <Routine name="Save_Data"/>
+    <LoopTerminator name="trials_instruct_num2"/>
     <Routine name="End"/>
   </Flow>
 </PsychoPy2experiment>
