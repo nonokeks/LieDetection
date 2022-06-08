@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 This experiment was created using PsychoPy3 Experiment Builder (v2021.2.3),
-    on June 08, 2022, at 16:51
+    on June 08, 2022, at 16:59
 If you publish work using this script the most relevant publication is:
 
     Peirce J, Gray JR, Simpson S, MacAskill M, Höchenberger R, Sogo H, Kastman E, Lindeløv JK. (2019) 
@@ -249,7 +249,7 @@ instructions_text2 = visual.TextStim(win=win, name='instructions_text2',
 # here you can change the order in 
 # which they should lie, tell truth or choose
 
-# lie = 0, truth = 1, choorse = 2
+# lie = 0, truth = 1, choice = 2
 
 order = [2, 1, 0]
 
@@ -1109,7 +1109,7 @@ for thisTrials_instruct_num in trials_instruct_num:
 
 
 # set up handler to look after randomisation of conditions etc
-trials_instruct_quest = data.TrialHandler(nReps=2.0, method='sequential', 
+trials_instruct_quest = data.TrialHandler(nReps=3.0, method='sequential', 
     extraInfo=expInfo, originPath=-1,
     trialList=[None],
     seed=None, name='trials_instruct_quest')
@@ -1248,7 +1248,7 @@ for thisTrials_instruct_quest in trials_instruct_quest:
     routineTimer.reset()
     
     # set up handler to look after randomisation of conditions etc
-    trials_quest = data.TrialHandler(nReps=3.0, method='sequential', 
+    trials_quest = data.TrialHandler(nReps=40.0, method='sequential', 
         extraInfo=expInfo, originPath=-1,
         trialList=[None],
         seed=None, name='trials_quest')
@@ -1546,7 +1546,7 @@ for thisTrials_instruct_quest in trials_instruct_quest:
             trials_quest.finished = True
         thisExp.nextEntry()
         
-    # completed 3.0 repeats of 'trials_quest'
+    # completed 40.0 repeats of 'trials_quest'
     
     
     # ------Prepare to start Routine "Save_Data"-------
@@ -1641,11 +1641,11 @@ for thisTrials_instruct_quest in trials_instruct_quest:
     routineTimer.reset()
     thisExp.nextEntry()
     
-# completed 2.0 repeats of 'trials_instruct_quest'
+# completed 3.0 repeats of 'trials_instruct_quest'
 
 
 # set up handler to look after randomisation of conditions etc
-trials_instruct_num2 = data.TrialHandler(nReps=5.0, method='sequential', 
+trials_instruct_num2 = data.TrialHandler(nReps=3.0, method='sequential', 
     extraInfo=expInfo, originPath=-1,
     trialList=[None],
     seed=None, name='trials_instruct_num2')
@@ -1792,7 +1792,7 @@ for thisTrials_instruct_num2 in trials_instruct_num2:
     routineTimer.reset()
     
     # set up handler to look after randomisation of conditions etc
-    trials_num2 = data.TrialHandler(nReps=5.0, method='sequential', 
+    trials_num2 = data.TrialHandler(nReps=40.0, method='sequential', 
         extraInfo=expInfo, originPath=-1,
         trialList=[None],
         seed=None, name='trials_num2')
@@ -2154,7 +2154,7 @@ for thisTrials_instruct_num2 in trials_instruct_num2:
             trials_num2.addData('arrow_response.rt', arrow_response.rt)
         thisExp.nextEntry()
         
-    # completed 5.0 repeats of 'trials_num2'
+    # completed 40.0 repeats of 'trials_num2'
     
     
     # ------Prepare to start Routine "Save_Data"-------
@@ -2249,7 +2249,7 @@ for thisTrials_instruct_num2 in trials_instruct_num2:
     routineTimer.reset()
     thisExp.nextEntry()
     
-# completed 5.0 repeats of 'trials_instruct_num2'
+# completed 3.0 repeats of 'trials_instruct_num2'
 
 
 # ------Prepare to start Routine "End"-------
