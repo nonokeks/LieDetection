@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 This experiment was created using PsychoPy3 Experiment Builder (v2021.2.3),
-    on June 03, 2022, at 12:42
+    on June 08, 2022, at 16:30
 If you publish work using this script the most relevant publication is:
 
     Peirce J, Gray JR, Simpson S, MacAskill M, Höchenberger R, Sogo H, Kastman E, Lindeløv JK. (2019) 
@@ -147,7 +147,7 @@ defaultKeyboard = keyboard.Keyboard()
 # Initialize components for Routine "Start"
 StartClock = core.Clock()
 text = visual.TextStim(win=win, name='text',
-    text="Wellcome!\n\nThis is an experiement about lie detection.\n\nPress 'space' to continue",
+    text="Welcome!\n\nThis is an experiment about lie detection.\n\nPress 'space' to continue",
     font='Open Sans',
     pos=(0, 0), height=0.08, wrapWidth=None, ori=0.0, 
     color='white', colorSpace='rgb', opacity=None, 
@@ -200,7 +200,7 @@ NumberTestClock = core.Clock()
 question_1 = visual.TextStim(win=win, name='question_1',
     text='Is the displayed number greater than 10?',
     font='Open Sans',
-    pos=(0, 0.4), height=0.05, wrapWidth=None, ori=0.0, 
+    pos=(0, 0.3), height=0.05, wrapWidth=None, ori=0.0, 
     color='white', colorSpace='rgb', opacity=None, 
     languageStyle='LTR',
     depth=0.0);
@@ -582,8 +582,12 @@ for thisTrials_instruct_num in trials_instruct_num:
         
         # ------Prepare to start Routine "Baseline"-------
         continueRoutine = True
-        routineTimer.add(2.000000)
         # update component parameters for each repeat
+        # timer to randomise time of routine
+        loopClock = core.Clock()
+        routine_time = randint(2,5)
+        loopClock.add(routine_time)
+        
         # keep track of which components have finished
         BaselineComponents = [fixation_cross]
         for thisComponent in BaselineComponents:
@@ -600,7 +604,7 @@ for thisTrials_instruct_num in trials_instruct_num:
         frameN = -1
         
         # -------Run Routine "Baseline"-------
-        while continueRoutine and routineTimer.getTime() > 0:
+        while continueRoutine:
             # get current time
             t = BaselineClock.getTime()
             tThisFlip = win.getFutureFlipTime(clock=BaselineClock)
@@ -616,14 +620,6 @@ for thisTrials_instruct_num in trials_instruct_num:
                 fixation_cross.tStartRefresh = tThisFlipGlobal  # on global time
                 win.timeOnFlip(fixation_cross, 'tStartRefresh')  # time at next scr refresh
                 fixation_cross.setAutoDraw(True)
-            if fixation_cross.status == STARTED:
-                # is it time to stop? (based on global clock, using actual start)
-                if tThisFlipGlobal > fixation_cross.tStartRefresh + 2.0-frameTolerance:
-                    # keep track of stop time/frame for later
-                    fixation_cross.tStop = t  # not accounting for scr refresh
-                    fixation_cross.frameNStop = frameN  # exact frame index
-                    win.timeOnFlip(fixation_cross, 'tStopRefresh')  # time at next scr refresh
-                    fixation_cross.setAutoDraw(False)
             # eyetracking, append baseline measures with new pupil diameter
             if(global_gaze_data != None):
                 #print(global_gaze_data.get('left_pupil_diameter'))
@@ -634,6 +630,9 @@ for thisTrials_instruct_num in trials_instruct_num:
                 key_s.append('')
                 id_s.append('')
                 correct_s.append('')
+            # check if timer is over
+            if (loopClock.getTime() >0):
+                continueRoutine = False 
             
             # check for quit (typically the Esc key)
             if endExpNow or defaultKeyboard.getKeys(keyList=["escape"]):
@@ -656,6 +655,11 @@ for thisTrials_instruct_num in trials_instruct_num:
         for thisComponent in BaselineComponents:
             if hasattr(thisComponent, "setAutoDraw"):
                 thisComponent.setAutoDraw(False)
+        # reset Clock
+        loopClock.reset()
+        thisExp.addData('basline.time', routine_time)
+        # the Routine "Baseline" was not non-slip safe, so reset the non-slip timer
+        routineTimer.reset()
         
         # ------Prepare to start Routine "NumberTest"-------
         continueRoutine = True
@@ -908,31 +912,6 @@ for thisTrials_instruct_num in trials_instruct_num:
         trials_num.addData('arrow_response.corr', arrow_response.corr)
         if arrow_response.keys != None:  # we had a response
             trials_num.addData('arrow_response.rt', arrow_response.rt)
-        #baseline_s = []
-        #eye_measures = []
-        keys = arrow_response.keys
-        print('key')
-        print(keys)
-        """
-        if keys: 
-            if 'right' in keys: 
-                key_s.append('right')
-                correct_s.append(corResp)
-            if 'left' in keys: 
-                key_s.append('left')
-                correct_s.append(corResp)
-        else:
-            key_s.append('k')
-            correct_s.append('k') """
-        #key_s.append(keys)
-        #correct_s.append(corResp)
-            
-        print('K')
-        print(key_s)
-        print('id')
-        print(id_s)
-        print('c')
-        print(correct_s)
         thisExp.nextEntry()
         
     # completed 3.0 repeats of 'trials_num'
@@ -1193,8 +1172,12 @@ for thisTrials_instruct_quest in trials_instruct_quest:
         
         # ------Prepare to start Routine "Baseline"-------
         continueRoutine = True
-        routineTimer.add(2.000000)
         # update component parameters for each repeat
+        # timer to randomise time of routine
+        loopClock = core.Clock()
+        routine_time = randint(2,5)
+        loopClock.add(routine_time)
+        
         # keep track of which components have finished
         BaselineComponents = [fixation_cross]
         for thisComponent in BaselineComponents:
@@ -1211,7 +1194,7 @@ for thisTrials_instruct_quest in trials_instruct_quest:
         frameN = -1
         
         # -------Run Routine "Baseline"-------
-        while continueRoutine and routineTimer.getTime() > 0:
+        while continueRoutine:
             # get current time
             t = BaselineClock.getTime()
             tThisFlip = win.getFutureFlipTime(clock=BaselineClock)
@@ -1227,14 +1210,6 @@ for thisTrials_instruct_quest in trials_instruct_quest:
                 fixation_cross.tStartRefresh = tThisFlipGlobal  # on global time
                 win.timeOnFlip(fixation_cross, 'tStartRefresh')  # time at next scr refresh
                 fixation_cross.setAutoDraw(True)
-            if fixation_cross.status == STARTED:
-                # is it time to stop? (based on global clock, using actual start)
-                if tThisFlipGlobal > fixation_cross.tStartRefresh + 2.0-frameTolerance:
-                    # keep track of stop time/frame for later
-                    fixation_cross.tStop = t  # not accounting for scr refresh
-                    fixation_cross.frameNStop = frameN  # exact frame index
-                    win.timeOnFlip(fixation_cross, 'tStopRefresh')  # time at next scr refresh
-                    fixation_cross.setAutoDraw(False)
             # eyetracking, append baseline measures with new pupil diameter
             if(global_gaze_data != None):
                 #print(global_gaze_data.get('left_pupil_diameter'))
@@ -1245,6 +1220,9 @@ for thisTrials_instruct_quest in trials_instruct_quest:
                 key_s.append('')
                 id_s.append('')
                 correct_s.append('')
+            # check if timer is over
+            if (loopClock.getTime() >0):
+                continueRoutine = False 
             
             # check for quit (typically the Esc key)
             if endExpNow or defaultKeyboard.getKeys(keyList=["escape"]):
@@ -1267,6 +1245,11 @@ for thisTrials_instruct_quest in trials_instruct_quest:
         for thisComponent in BaselineComponents:
             if hasattr(thisComponent, "setAutoDraw"):
                 thisComponent.setAutoDraw(False)
+        # reset Clock
+        loopClock.reset()
+        thisExp.addData('basline.time', routine_time)
+        # the Routine "Baseline" was not non-slip safe, so reset the non-slip timer
+        routineTimer.reset()
         
         # ------Prepare to start Routine "QuestionsTest"-------
         continueRoutine = True
