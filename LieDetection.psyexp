@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" ?>
-<PsychoPy2experiment encoding="utf-8" version="2021.2.3">
+<PsychoPy2experiment encoding="utf-8" version="2021.1.4">
   <Settings>
     <Param name="Audio latency priority" updates="None" val="use prefs" valType="str"/>
     <Param name="Audio lib" updates="None" val="use prefs" valType="str"/>
@@ -101,8 +101,8 @@
       <CodeComponent name="eye_tracking_code">
         <Param name="Before Experiment" updates="constant" val="import tobii_research as tr&amp;#10;&amp;#10;from datetime import datetime as dt&amp;#10;import xlsxwriter as xl&amp;#10;&amp;#10;&amp;#10;#uniform timestamp for document name&amp;#10;time_stamp = dt.utcnow()&amp;#10;exp_time = str(time_stamp)[0:10] + '_' + str(time_stamp)[11:13] + str(time_stamp)[14:16]&amp;#10;&amp;#10;# finding the eyetracker&amp;#10;eye_tracker = tr.find_all_eyetrackers()[0]&amp;#10;&amp;#10;global_gaze_data = None&amp;#10;bs_diameter = 0&amp;#10;&amp;#10;def gaze_data_callback(gaze_data):&amp;#10;    global global_gaze_data&amp;#10;    global_gaze_data = gaze_data&amp;#10;    print(global_gaze_data.right_eye.EyeData.pupil.diameter)&amp;#10;    &amp;#10;# start eyetracking &amp;#10;eye_tracker.subscribe_to(tr.EYETRACKER_GAZE_DATA, gaze_data_callback, as_dictionary=True)&amp;#10;&amp;#10;# list for storing data &amp;#10;eye_measures = []&amp;#10;#time_stamps = []&amp;#10;&amp;#10;option = ''&amp;#10;mode = ''" valType="extendedCode"/>
         <Param name="Before JS Experiment" updates="constant" val="/* Syntax Error: Fix Python code */" valType="extendedCode"/>
-        <Param name="Begin Experiment" updates="constant" val="user = expInfo['participant']&amp;#10;&amp;#10;#True = number, False = questions&amp;#10;reihenfolge = False" valType="extendedCode"/>
-        <Param name="Begin JS Experiment" updates="constant" val="user = expInfo[&quot;participant&quot;];&amp;#10;reihenfolge = false;&amp;#10;" valType="extendedCode"/>
+        <Param name="Begin Experiment" updates="constant" val="user = expInfo['participant']&amp;#10;&amp;#10;#True = number, False = questions&amp;#10;reihenfolge = True" valType="extendedCode"/>
+        <Param name="Begin JS Experiment" updates="constant" val="user = expInfo[&quot;participant&quot;];&amp;#10;reihenfolge = true;&amp;#10;" valType="extendedCode"/>
         <Param name="Begin JS Routine" updates="constant" val="" valType="extendedCode"/>
         <Param name="Begin Routine" updates="constant" val="" valType="extendedCode"/>
         <Param name="Code Type" updates="None" val="Auto-&gt;JS" valType="str"/>
@@ -114,6 +114,23 @@
         <Param name="End Routine" updates="constant" val="" valType="extendedCode"/>
         <Param name="disabled" updates="None" val="False" valType="bool"/>
         <Param name="name" updates="None" val="eye_tracking_code" valType="code"/>
+      </CodeComponent>
+      <CodeComponent name="code">
+        <Param name="Before Experiment" updates="constant" val="" valType="extendedCode"/>
+        <Param name="Before JS Experiment" updates="constant" val="" valType="extendedCode"/>
+        <Param name="Begin Experiment" updates="constant" val="#True = number, False = questions&amp;#10;reihenfolge = False" valType="extendedCode"/>
+        <Param name="Begin JS Experiment" updates="constant" val="reihenfolge = false;&amp;#10;" valType="extendedCode"/>
+        <Param name="Begin JS Routine" updates="constant" val="" valType="extendedCode"/>
+        <Param name="Begin Routine" updates="constant" val="" valType="extendedCode"/>
+        <Param name="Code Type" updates="None" val="Auto-&gt;JS" valType="str"/>
+        <Param name="Each Frame" updates="constant" val="" valType="extendedCode"/>
+        <Param name="Each JS Frame" updates="constant" val="" valType="extendedCode"/>
+        <Param name="End Experiment" updates="constant" val="" valType="extendedCode"/>
+        <Param name="End JS Experiment" updates="constant" val="" valType="extendedCode"/>
+        <Param name="End JS Routine" updates="constant" val="" valType="extendedCode"/>
+        <Param name="End Routine" updates="constant" val="" valType="extendedCode"/>
+        <Param name="disabled" updates="None" val="True" valType="bool"/>
+        <Param name="name" updates="None" val="code" valType="code"/>
       </CodeComponent>
     </Routine>
     <Routine name="Baseline">
@@ -203,7 +220,32 @@
         <Param name="units" updates="None" val="from exp settings" valType="str"/>
         <Param name="wrapWidth" updates="constant" val="" valType="num"/>
       </TextComponent>
-      <TextComponent name="press_key">
+      <TextComponent name="press_key_r">
+        <Param name="color" updates="constant" val="white" valType="color"/>
+        <Param name="colorSpace" updates="constant" val="rgb" valType="str"/>
+        <Param name="contrast" updates="constant" val="1" valType="num"/>
+        <Param name="disabled" updates="None" val="False" valType="bool"/>
+        <Param name="durationEstim" updates="None" val="" valType="num"/>
+        <Param name="flip" updates="constant" val="None" valType="str"/>
+        <Param name="font" updates="constant" val="Open Sans" valType="str"/>
+        <Param name="languageStyle" updates="None" val="LTR" valType="str"/>
+        <Param name="letterHeight" updates="constant" val="0.05" valType="num"/>
+        <Param name="name" updates="None" val="press_key_r" valType="code"/>
+        <Param name="opacity" updates="constant" val="" valType="num"/>
+        <Param name="ori" updates="constant" val="0" valType="num"/>
+        <Param name="pos" updates="constant" val="(0, -0.3)" valType="list"/>
+        <Param name="saveStartStop" updates="None" val="True" valType="bool"/>
+        <Param name="startEstim" updates="None" val="" valType="num"/>
+        <Param name="startType" updates="None" val="time (s)" valType="str"/>
+        <Param name="startVal" updates="None" val="0.0" valType="num"/>
+        <Param name="stopType" updates="None" val="duration (s)" valType="str"/>
+        <Param name="stopVal" updates="constant" val="5.0" valType="num"/>
+        <Param name="syncScreenRefresh" updates="None" val="True" valType="bool"/>
+        <Param name="text" updates="constant" val="                    Yes &quot;→&quot; " valType="str"/>
+        <Param name="units" updates="None" val="from exp settings" valType="str"/>
+        <Param name="wrapWidth" updates="constant" val="" valType="num"/>
+      </TextComponent>
+      <TextComponent name="press_key_l">
         <Param name="color" updates="constant" val="white" valType="color"/>
         <Param name="colorSpace" updates="constant" val="rgb" valType="str"/>
         <Param name="contrast" updates="constant" val="1" valType="num"/>
@@ -213,10 +255,10 @@
         <Param name="font" updates="constant" val="Open Sans" valType="str"/>
         <Param name="languageStyle" updates="None" val="RTL" valType="str"/>
         <Param name="letterHeight" updates="constant" val="0.05" valType="num"/>
-        <Param name="name" updates="None" val="press_key" valType="code"/>
+        <Param name="name" updates="None" val="press_key_l" valType="code"/>
         <Param name="opacity" updates="constant" val="" valType="num"/>
         <Param name="ori" updates="constant" val="0" valType="num"/>
-        <Param name="pos" updates="constant" val="(0, -0.3)" valType="list"/>
+        <Param name="pos" updates="constant" val="(-0.12, -0.3)" valType="list"/>
         <Param name="saveStartStop" updates="None" val="False" valType="bool"/>
         <Param name="startEstim" updates="None" val="" valType="num"/>
         <Param name="startType" updates="None" val="time (s)" valType="str"/>
@@ -224,7 +266,7 @@
         <Param name="stopType" updates="None" val="duration (s)" valType="str"/>
         <Param name="stopVal" updates="constant" val="5.0" valType="num"/>
         <Param name="syncScreenRefresh" updates="None" val="True" valType="bool"/>
-        <Param name="text" updates="constant" val="&quot;←&quot; No         Yes &quot;→&quot; " valType="str"/>
+        <Param name="text" updates="constant" val="&quot;←&quot; No" valType="str"/>
         <Param name="units" updates="None" val="from exp settings" valType="str"/>
         <Param name="wrapWidth" updates="constant" val="" valType="num"/>
       </TextComponent>
@@ -258,15 +300,15 @@
         <Param name="Before JS Experiment" updates="constant" val="" valType="extendedCode"/>
         <Param name="Begin Experiment" updates="constant" val="import random " valType="extendedCode"/>
         <Param name="Begin JS Experiment" updates="constant" val="import * as random from 'random';&amp;#10;" valType="extendedCode"/>
-        <Param name="Begin JS Routine" updates="constant" val="corResp = &quot;&quot;;&amp;#10;ind = 0;&amp;#10;if (reihenfolge) {&amp;#10;    ind = trials_num.thisN;&amp;#10;} else {&amp;#10;    ind = trials_num2.thisN;&amp;#10;}&amp;#10;num = numbers_rand[ind];&amp;#10;psychoJS.experiment.addData(&quot;num_test.value&quot;, num);&amp;#10;if ((num &gt; 10)) {&amp;#10;    corResp = &quot;right&quot;;&amp;#10;} else {&amp;#10;    corResp = &quot;left&quot;;&amp;#10;}&amp;#10;num_test.text = num.toString();&amp;#10;" valType="extendedCode"/>
-        <Param name="Begin Routine" updates="constant" val="# generate a random number to be displayed which is not 10&amp;#10;#num = 10&amp;#10;corResp = ''&amp;#10;#while num == 10:&amp;#10;#    num = random.randint(0,20)&amp;#10;   &amp;#10;# select number from list generated in the introduction&amp;#10;ind = 0&amp;#10;if reihenfolge:&amp;#10;    ind = trials_num.thisN&amp;#10;else: &amp;#10;    ind = trials_num2.thisN&amp;#10;num = numbers_rand[ind]&amp;#10;   &amp;#10;# write generated number to data&amp;#10;thisExp.addData('num_test.value', num)&amp;#10;&amp;#10;# generate correct response (always truth)&amp;#10;if num &gt; 10:&amp;#10;    corResp = 'right'&amp;#10;else:&amp;#10;    corResp = 'left'&amp;#10;&amp;#10;num_test.text = str(num)&amp;#10;" valType="extendedCode"/>
+        <Param name="Begin JS Routine" updates="constant" val="corResp = &quot;&quot;;&amp;#10;press_key_l.height = 0.05;&amp;#10;press_key_l.pos = [(- 0.12), (- 0.3)];&amp;#10;press_key_r.height = 0.05;&amp;#10;press_key_r.pos = [0, (- 0.3)];&amp;#10;ind = 0;&amp;#10;if (reihenfolge) {&amp;#10;    ind = trials_num.thisN;&amp;#10;} else {&amp;#10;    ind = trials_num2.thisN;&amp;#10;}&amp;#10;num = numbers_rand[ind];&amp;#10;thisExp.addData(&quot;num_test.value&quot;, num);&amp;#10;if ((num &gt; 10)) {&amp;#10;    corResp = &quot;right&quot;;&amp;#10;} else {&amp;#10;    corResp = &quot;left&quot;;&amp;#10;}&amp;#10;num_test.text = num.toString();&amp;#10;timer_set = false;&amp;#10;" valType="extendedCode"/>
+        <Param name="Begin Routine" updates="constant" val="corResp = ''&amp;#10;press_key_l.height = 0.05&amp;#10;press_key_l.pos = (-0.12, -0.3)&amp;#10;press_key_r.height = 0.05&amp;#10;press_key_r.pos = (0, -0.3)&amp;#10;&amp;#10;# select number from list generated in the introduction&amp;#10;ind = 0&amp;#10;if reihenfolge:&amp;#10;    ind = trials_num.thisN&amp;#10;else: &amp;#10;    ind = trials_num2.thisN&amp;#10;num = numbers_rand[ind]&amp;#10;   &amp;#10;# write generated number to data&amp;#10;thisExp.addData('num_test.value', num)&amp;#10;&amp;#10;# generate correct response (always truth)&amp;#10;if num &gt; 10:&amp;#10;    corResp = 'right'&amp;#10;else:&amp;#10;    corResp = 'left'&amp;#10;&amp;#10;num_test.text = str(num)&amp;#10;&amp;#10;# set arrow timer&amp;#10;timer_set = False" valType="extendedCode"/>
         <Param name="Code Type" updates="None" val="Auto-&gt;JS" valType="str"/>
-        <Param name="Each Frame" updates="constant" val="" valType="extendedCode"/>
-        <Param name="Each JS Frame" updates="constant" val="" valType="extendedCode"/>
+        <Param name="Each Frame" updates="constant" val="if arrow_response.keys and not timer_set:&amp;#10;    # right key&amp;#10;    if 'right' in arrow_response.keys:&amp;#10;        press_key_r.height = 0.08&amp;#10;        press_key_r.pos = (0, -0.29)&amp;#10;    # left key&amp;#10;    if 'left' in arrow_response.keys:&amp;#10;        press_key_l.height = 0.08&amp;#10;        press_key_l.pos = (-0.12, -0.29)&amp;#10;    # set timer&amp;#10;    text_clock = core.Clock()&amp;#10;    text_clock.add(1)&amp;#10;    timer_set = True&amp;#10;    &amp;#10;if timer_set:&amp;#10;    if text_clock.getTime()&lt;0:&amp;#10;        pass&amp;#10;    else:&amp;#10;        continueRoutine = False" valType="extendedCode"/>
+        <Param name="Each JS Frame" updates="constant" val="var _pj;&amp;#10;function _pj_snippets(container) {&amp;#10;    function in_es6(left, right) {&amp;#10;        if (((right instanceof Array) || ((typeof right) === &quot;string&quot;))) {&amp;#10;            return (right.indexOf(left) &gt; (- 1));&amp;#10;        } else {&amp;#10;            if (((right instanceof Map) || (right instanceof Set) || (right instanceof WeakMap) || (right instanceof WeakSet))) {&amp;#10;                return right.has(left);&amp;#10;            } else {&amp;#10;                return (left in right);&amp;#10;            }&amp;#10;        }&amp;#10;    }&amp;#10;    container[&quot;in_es6&quot;] = in_es6;&amp;#10;    return container;&amp;#10;}&amp;#10;_pj = {};&amp;#10;_pj_snippets(_pj);&amp;#10;if ((arrow_response.keys &amp;&amp; (! timer_set))) {&amp;#10;    if (_pj.in_es6(&quot;right&quot;, arrow_response.keys)) {&amp;#10;        press_key_r.height = 0.08;&amp;#10;        press_key_r.pos = [0, (- 0.29)];&amp;#10;    }&amp;#10;    if (_pj.in_es6(&quot;left&quot;, arrow_response.keys)) {&amp;#10;        press_key_l.height = 0.08;&amp;#10;        press_key_l.pos = [(- 0.12), (- 0.29)];&amp;#10;    }&amp;#10;    text_clock = new core.Clock();&amp;#10;    text_clock.add(1);&amp;#10;    timer_set = true;&amp;#10;}&amp;#10;if (timer_set) {&amp;#10;    if ((text_clock.getTime() &lt; 0)) {&amp;#10;    } else {&amp;#10;        continueRoutine = false;&amp;#10;    }&amp;#10;}&amp;#10;" valType="extendedCode"/>
         <Param name="End Experiment" updates="constant" val="" valType="extendedCode"/>
         <Param name="End JS Experiment" updates="constant" val="" valType="extendedCode"/>
-        <Param name="End JS Routine" updates="constant" val="if (reihenfolge) {&amp;#10;    if ((trials_num.thisN &gt;= (trials_limit - 1))) {&amp;#10;        trials_num.finished = true;&amp;#10;    }&amp;#10;} else {&amp;#10;    if ((trials_num2.thisN &gt;= (trials_limit - 1))) {&amp;#10;        trials_num2.finished = true;&amp;#10;    }&amp;#10;}&amp;#10;" valType="extendedCode"/>
-        <Param name="End Routine" updates="constant" val="# if trials max is 20 end early &amp;#10;if reihenfolge:&amp;#10;    if trials_num.thisN &gt;= (trials_limit-1):&amp;#10;        trials_num.finished = True&amp;#10;else: &amp;#10;    if trials_num2.thisN &gt;= (trials_limit-1):&amp;#10;        trials_num2.finished = True&amp;#10;" valType="extendedCode"/>
+        <Param name="End JS Routine" updates="constant" val="text_clock.reset();&amp;#10;if (reihenfolge) {&amp;#10;    if ((trials_num.thisN &gt;= (trials_limit - 1))) {&amp;#10;        trials_num.finished = true;&amp;#10;    }&amp;#10;} else {&amp;#10;    if ((trials_num2.thisN &gt;= (trials_limit - 1))) {&amp;#10;        trials_num2.finished = true;&amp;#10;    }&amp;#10;}&amp;#10;" valType="extendedCode"/>
+        <Param name="End Routine" updates="constant" val="text_clock.reset()&amp;#10;#if trials max is 20 end early &amp;#10;if reihenfolge:&amp;#10;    if trials_num.thisN &gt;= (trials_limit-1):&amp;#10;        trials_num.finished = True&amp;#10;else: &amp;#10;    if trials_num2.thisN &gt;= (trials_limit-1):&amp;#10;        trials_num2.finished = True&amp;#10;&amp;#10;" valType="extendedCode"/>
         <Param name="disabled" updates="None" val="False" valType="bool"/>
         <Param name="name" updates="None" val="number_genertion" valType="code"/>
       </CodeComponent>
@@ -305,7 +347,7 @@
         <Param name="Begin Routine" updates="constant" val="# configure visual timer&amp;#10;t = 5&amp;#10;&amp;#10;#timer = core.Clock()&amp;#10;#timer.add(t)&amp;#10;&amp;#10;#timer = core.CountdownTimer(t)&amp;#10;&amp;#10;# size of line&amp;#10;timer_line.size = [1,0.02]&amp;#10;width = timer_line.size[0]&amp;#10;&amp;#10;# how much the line shrinks each frame&amp;#10;dist = width/(30*t)&amp;#10;timer_line.autoDraw= False" valType="extendedCode"/>
         <Param name="Code Type" updates="None" val="Auto-&gt;JS" valType="str"/>
         <Param name="Each Frame" updates="constant" val="#if timer.getTime() &gt; 0 and continueRoutine:&amp;#10;# adjust line size to visualize time&amp;#10;width -= dist&amp;#10;timer_line.size = [width,0.02]&amp;#10;timer_line.draw()&amp;#10;win.flip()&amp;#10;        &amp;#10;# check if response was given &amp;#10;&quot;&quot;&quot;&amp;#10;    keys = event.getKeys()&amp;#10;    if keys: &amp;#10;        if 'right' in keys: &amp;#10;            rt = arrow_response.rt&amp;#10;            print(rt)&amp;#10;            continueRoutine = False&amp;#10;        if 'left' in keys: &amp;#10;            rt = arrow_response.rt&amp;#10;            print(rt)&amp;#10;            continueRoutine = False&amp;#10;&quot;&quot;&quot;      &amp;#10;            &amp;#10;&amp;#10;    &amp;#10;&amp;#10;" valType="extendedCode"/>
-        <Param name="Each JS Frame" updates="constant" val="width -= dist;&amp;#10;timer_line.size = [width, 0.02];&amp;#10;timer_line.draw();&amp;#10;psychoJS.window.flip();&amp;#10;/*&amp;#10;keys = event.getKeys()&amp;#10;if keys:&amp;#10;if 'right' in keys:&amp;#10;rt = arrow_response.rt&amp;#10;print(rt)&amp;#10;continueRoutine = False&amp;#10;if 'left' in keys:&amp;#10;rt = arrow_response.rt&amp;#10;print(rt)&amp;#10;continueRoutine = False*/&amp;#10;" valType="extendedCode"/>
+        <Param name="Each JS Frame" updates="constant" val="width -= dist;&amp;#10;timer_line.size = [width, 0.02];&amp;#10;timer_line.draw();&amp;#10;win.flip();&amp;#10;/*&amp;#10;keys = event.getKeys()&amp;#10;if keys:&amp;#10;if 'right' in keys:&amp;#10;rt = arrow_response.rt&amp;#10;print(rt)&amp;#10;continueRoutine = False&amp;#10;if 'left' in keys:&amp;#10;rt = arrow_response.rt&amp;#10;print(rt)&amp;#10;continueRoutine = False*/&amp;#10;" valType="extendedCode"/>
         <Param name="End Experiment" updates="constant" val="" valType="extendedCode"/>
         <Param name="End JS Experiment" updates="constant" val="" valType="extendedCode"/>
         <Param name="End JS Routine" updates="constant" val="/* Syntax Error: Fix Python code */" valType="extendedCode"/>
@@ -319,7 +361,7 @@
         <Param name="disabled" updates="None" val="False" valType="bool"/>
         <Param name="discard previous" updates="constant" val="True" valType="bool"/>
         <Param name="durationEstim" updates="None" val="" valType="num"/>
-        <Param name="forceEndRoutine" updates="constant" val="True" valType="bool"/>
+        <Param name="forceEndRoutine" updates="constant" val="False" valType="bool"/>
         <Param name="name" updates="None" val="arrow_response" valType="code"/>
         <Param name="saveStartStop" updates="None" val="False" valType="bool"/>
         <Param name="startEstim" updates="None" val="" valType="num"/>
@@ -340,7 +382,7 @@
         <Param name="Begin Routine" updates="constant" val="" valType="extendedCode"/>
         <Param name="Code Type" updates="None" val="Auto-&gt;JS" valType="str"/>
         <Param name="Each Frame" updates="constant" val="# eyetracking, append baseline measures with new pupil diameter&amp;#10;if(global_gaze_data != None):&amp;#10;    #print(global_gaze_data.get('left_pupil_diameter'))&amp;#10;    eye_measures.append(global_gaze_data.get('left_pupil_diameter'))&amp;#10;    #time_stamps.append(dt.utcnow())&amp;#10;    #print(global_gaze_data.get('left_pupil_diameter'))&amp;#10;    baseline_s.append('')&amp;#10;&amp;#10;    &amp;#10;    if arrow_response.keys:&amp;#10;        correct_s.append(arrow_response.corr)&amp;#10;        key_s.append(arrow_response.keys)&amp;#10;    else:&amp;#10;        correct_s.append('')&amp;#10;        key_s.append('')&amp;#10;            &amp;#10;    id_s.append(num)&amp;#10;    &amp;#10;    " valType="extendedCode"/>
-        <Param name="Each JS Frame" updates="constant" val="if ((global_gaze_data !== null)) {&amp;#10;    eye_measures.push(global_gaze_data.get(&quot;left_pupil_diameter&quot;));&amp;#10;    baseline_s.push(&quot;&quot;);&amp;#10;    if (arrow_response.keys) {&amp;#10;        correct_s.push(arrow_response.corr);&amp;#10;        key_s.push(arrow_response.keys);&amp;#10;    } else {&amp;#10;        correct_s.push(&quot;&quot;);&amp;#10;        key_s.push(&quot;&quot;);&amp;#10;    }&amp;#10;    id_s.push(num);&amp;#10;}&amp;#10;" valType="extendedCode"/>
+        <Param name="Each JS Frame" updates="constant" val="if ((global_gaze_data !== null)) {&amp;#10;    eye_measures.append(global_gaze_data.get(&quot;left_pupil_diameter&quot;));&amp;#10;    baseline_s.append(&quot;&quot;);&amp;#10;    if (arrow_response.keys) {&amp;#10;        correct_s.append(arrow_response.corr);&amp;#10;        key_s.append(arrow_response.keys);&amp;#10;    } else {&amp;#10;        correct_s.append(&quot;&quot;);&amp;#10;        key_s.append(&quot;&quot;);&amp;#10;    }&amp;#10;    id_s.append(num);&amp;#10;}&amp;#10;" valType="extendedCode"/>
         <Param name="End Experiment" updates="constant" val="" valType="extendedCode"/>
         <Param name="End JS Experiment" updates="constant" val="" valType="extendedCode"/>
         <Param name="End JS Routine" updates="constant" val="" valType="extendedCode"/>
@@ -508,7 +550,7 @@
       </CodeComponent>
     </Routine>
     <Routine name="QuestionsTest">
-      <TextComponent name="press_key2">
+      <TextComponent name="press_key_l2">
         <Param name="color" updates="constant" val="white" valType="color"/>
         <Param name="colorSpace" updates="constant" val="rgb" valType="str"/>
         <Param name="contrast" updates="constant" val="1" valType="num"/>
@@ -518,7 +560,32 @@
         <Param name="font" updates="constant" val="Open Sans" valType="str"/>
         <Param name="languageStyle" updates="None" val="LTR" valType="str"/>
         <Param name="letterHeight" updates="constant" val="0.05" valType="num"/>
-        <Param name="name" updates="None" val="press_key2" valType="code"/>
+        <Param name="name" updates="None" val="press_key_l2" valType="code"/>
+        <Param name="opacity" updates="constant" val="" valType="num"/>
+        <Param name="ori" updates="constant" val="0" valType="num"/>
+        <Param name="pos" updates="constant" val="(-0.12, -0.3)" valType="list"/>
+        <Param name="saveStartStop" updates="None" val="True" valType="bool"/>
+        <Param name="startEstim" updates="None" val="" valType="num"/>
+        <Param name="startType" updates="None" val="time (s)" valType="str"/>
+        <Param name="startVal" updates="None" val="0.0" valType="num"/>
+        <Param name="stopType" updates="None" val="duration (s)" valType="str"/>
+        <Param name="stopVal" updates="constant" val="10.0" valType="num"/>
+        <Param name="syncScreenRefresh" updates="None" val="True" valType="bool"/>
+        <Param name="text" updates="constant" val="&quot;←&quot; No" valType="str"/>
+        <Param name="units" updates="None" val="from exp settings" valType="str"/>
+        <Param name="wrapWidth" updates="constant" val="" valType="num"/>
+      </TextComponent>
+      <TextComponent name="press_key_r2">
+        <Param name="color" updates="constant" val="white" valType="color"/>
+        <Param name="colorSpace" updates="constant" val="rgb" valType="str"/>
+        <Param name="contrast" updates="constant" val="1" valType="num"/>
+        <Param name="disabled" updates="None" val="False" valType="bool"/>
+        <Param name="durationEstim" updates="None" val="" valType="num"/>
+        <Param name="flip" updates="constant" val="None" valType="str"/>
+        <Param name="font" updates="constant" val="Open Sans" valType="str"/>
+        <Param name="languageStyle" updates="None" val="LTR" valType="str"/>
+        <Param name="letterHeight" updates="constant" val="0.05" valType="num"/>
+        <Param name="name" updates="None" val="press_key_r2" valType="code"/>
         <Param name="opacity" updates="constant" val="" valType="num"/>
         <Param name="ori" updates="constant" val="0" valType="num"/>
         <Param name="pos" updates="constant" val="(0, -0.3)" valType="list"/>
@@ -529,7 +596,7 @@
         <Param name="stopType" updates="None" val="duration (s)" valType="str"/>
         <Param name="stopVal" updates="constant" val="10.0" valType="num"/>
         <Param name="syncScreenRefresh" updates="None" val="True" valType="bool"/>
-        <Param name="text" updates="constant" val="&quot;←&quot; No         Yes &quot;→&quot; " valType="str"/>
+        <Param name="text" updates="constant" val="                    Yes &quot;→&quot; " valType="str"/>
         <Param name="units" updates="None" val="from exp settings" valType="str"/>
         <Param name="wrapWidth" updates="constant" val="" valType="num"/>
       </TextComponent>
@@ -563,15 +630,15 @@
         <Param name="Before JS Experiment" updates="constant" val="" valType="extendedCode"/>
         <Param name="Begin Experiment" updates="constant" val="" valType="extendedCode"/>
         <Param name="Begin JS Experiment" updates="constant" val="" valType="extendedCode"/>
-        <Param name="Begin JS Routine" updates="constant" val="num_quest = trials_quest.thisN;&amp;#10;question.text = questions[num_quest][1].toString();&amp;#10;psychoJS.experiment.addData(&quot;question.id&quot;, questions[num_quest][0]);&amp;#10;" valType="extendedCode"/>
-        <Param name="Begin Routine" updates="constant" val="# get question to display on screen&amp;#10;num_quest = trials_quest.thisN&amp;#10;question.text = str(questions[num_quest][1])&amp;#10;&amp;#10;# write selected question to data&amp;#10;thisExp.addData('question.id', questions[num_quest][0])&amp;#10;&amp;#10;" valType="extendedCode"/>
+        <Param name="Begin JS Routine" updates="constant" val="num_quest = trials_quest.thisN;&amp;#10;question.text = questions[num_quest][1].toString();&amp;#10;thisExp.addData(&quot;question.id&quot;, questions[num_quest][0]);&amp;#10;press_key_l2.height = 0.05;&amp;#10;press_key_l2.pos = [(- 0.12), (- 0.3)];&amp;#10;press_key_r2.height = 0.05;&amp;#10;press_key_r2.pos = [0, (- 0.3)];&amp;#10;timer_set = false;&amp;#10;" valType="extendedCode"/>
+        <Param name="Begin Routine" updates="constant" val="# get question to display on screen&amp;#10;num_quest = trials_quest.thisN&amp;#10;question.text = str(questions[num_quest][1])&amp;#10;&amp;#10;# write selected question to data&amp;#10;thisExp.addData('question.id', questions[num_quest][0])&amp;#10;&amp;#10;press_key_l2.height = 0.05&amp;#10;press_key_l2.pos = (-0.12, -0.3)&amp;#10;press_key_r2.height = 0.05&amp;#10;press_key_r2.pos = (0, -0.3)&amp;#10;&amp;#10;timer_set = False" valType="extendedCode"/>
         <Param name="Code Type" updates="None" val="Auto-&gt;JS" valType="str"/>
-        <Param name="Each Frame" updates="constant" val="" valType="extendedCode"/>
-        <Param name="Each JS Frame" updates="constant" val="" valType="extendedCode"/>
+        <Param name="Each Frame" updates="constant" val="if question_response.keys and not timer_set:&amp;#10;    # right key&amp;#10;    if 'right' in question_response.keys:&amp;#10;        press_key_r2.height = 0.08&amp;#10;        press_key_r2.pos = (0, -0.29)&amp;#10;    # left key&amp;#10;    if 'left' in question_response.keys:&amp;#10;        press_key_l2.height = 0.08&amp;#10;        press_key_l2.pos = (-0.12, -0.29)&amp;#10;    # set timer&amp;#10;    text_clock = core.Clock()&amp;#10;    text_clock.add(1)&amp;#10;    timer_set = True&amp;#10;    &amp;#10;if timer_set:&amp;#10;    if text_clock.getTime()&lt;0:&amp;#10;        pass&amp;#10;    else:&amp;#10;        continueRoutine = False" valType="extendedCode"/>
+        <Param name="Each JS Frame" updates="constant" val="var _pj;&amp;#10;function _pj_snippets(container) {&amp;#10;    function in_es6(left, right) {&amp;#10;        if (((right instanceof Array) || ((typeof right) === &quot;string&quot;))) {&amp;#10;            return (right.indexOf(left) &gt; (- 1));&amp;#10;        } else {&amp;#10;            if (((right instanceof Map) || (right instanceof Set) || (right instanceof WeakMap) || (right instanceof WeakSet))) {&amp;#10;                return right.has(left);&amp;#10;            } else {&amp;#10;                return (left in right);&amp;#10;            }&amp;#10;        }&amp;#10;    }&amp;#10;    container[&quot;in_es6&quot;] = in_es6;&amp;#10;    return container;&amp;#10;}&amp;#10;_pj = {};&amp;#10;_pj_snippets(_pj);&amp;#10;if ((question_response.keys &amp;&amp; (! timer_set))) {&amp;#10;    if (_pj.in_es6(&quot;right&quot;, question_response.keys)) {&amp;#10;        press_key_r2.height = 0.08;&amp;#10;        press_key_r2.pos = [0, (- 0.29)];&amp;#10;    }&amp;#10;    if (_pj.in_es6(&quot;left&quot;, question_response.keys)) {&amp;#10;        press_key_l2.height = 0.08;&amp;#10;        press_key_l2.pos = [(- 0.12), (- 0.29)];&amp;#10;    }&amp;#10;    text_clock = new core.Clock();&amp;#10;    text_clock.add(1);&amp;#10;    timer_set = true;&amp;#10;}&amp;#10;if (timer_set) {&amp;#10;    if ((text_clock.getTime() &lt; 0)) {&amp;#10;    } else {&amp;#10;        continueRoutine = false;&amp;#10;    }&amp;#10;}&amp;#10;" valType="extendedCode"/>
         <Param name="End Experiment" updates="constant" val="" valType="extendedCode"/>
         <Param name="End JS Experiment" updates="constant" val="" valType="extendedCode"/>
-        <Param name="End JS Routine" updates="constant" val="" valType="extendedCode"/>
-        <Param name="End Routine" updates="constant" val="" valType="extendedCode"/>
+        <Param name="End JS Routine" updates="constant" val="text_clock.reset();&amp;#10;" valType="extendedCode"/>
+        <Param name="End Routine" updates="constant" val="text_clock.reset()" valType="extendedCode"/>
         <Param name="disabled" updates="None" val="False" valType="bool"/>
         <Param name="name" updates="None" val="select_question" valType="code"/>
       </CodeComponent>
@@ -581,7 +648,7 @@
         <Param name="disabled" updates="None" val="False" valType="bool"/>
         <Param name="discard previous" updates="constant" val="True" valType="bool"/>
         <Param name="durationEstim" updates="None" val="" valType="num"/>
-        <Param name="forceEndRoutine" updates="constant" val="True" valType="bool"/>
+        <Param name="forceEndRoutine" updates="constant" val="False" valType="bool"/>
         <Param name="name" updates="None" val="question_response" valType="code"/>
         <Param name="saveStartStop" updates="None" val="False" valType="bool"/>
         <Param name="startEstim" updates="None" val="" valType="num"/>
@@ -767,7 +834,7 @@
       <Param name="endPoints" updates="None" val="[0, 1]" valType="num"/>
       <Param name="isTrials" updates="None" val="True" valType="bool"/>
       <Param name="loopType" updates="None" val="sequential" valType="str"/>
-      <Param name="nReps" updates="None" val="40" valType="num"/>
+      <Param name="nReps" updates="None" val="4" valType="num"/>
       <Param name="name" updates="None" val="trials_quest" valType="code"/>
       <Param name="random seed" updates="None" val="" valType="code"/>
     </LoopInitiator>
@@ -783,7 +850,7 @@
       <Param name="endPoints" updates="None" val="[0, 1]" valType="num"/>
       <Param name="isTrials" updates="None" val="True" valType="bool"/>
       <Param name="loopType" updates="None" val="sequential" valType="str"/>
-      <Param name="nReps" updates="None" val="3" valType="num"/>
+      <Param name="nReps" updates="None" val="1" valType="num"/>
       <Param name="name" updates="None" val="trials_instruct_num2" valType="code"/>
       <Param name="random seed" updates="None" val="" valType="code"/>
     </LoopInitiator>
@@ -795,7 +862,7 @@
       <Param name="endPoints" updates="None" val="[0, 1]" valType="num"/>
       <Param name="isTrials" updates="None" val="True" valType="bool"/>
       <Param name="loopType" updates="None" val="sequential" valType="str"/>
-      <Param name="nReps" updates="None" val="40" valType="num"/>
+      <Param name="nReps" updates="None" val="4" valType="num"/>
       <Param name="name" updates="None" val="trials_num2" valType="code"/>
       <Param name="random seed" updates="None" val="" valType="code"/>
     </LoopInitiator>

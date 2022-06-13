@@ -45,6 +45,10 @@ const trials_instruct_questLoopScheduler = new Scheduler(psychoJS);
 flowScheduler.add(trials_instruct_questLoopBegin, trials_instruct_questLoopScheduler);
 flowScheduler.add(trials_instruct_questLoopScheduler);
 flowScheduler.add(trials_instruct_questLoopEnd);
+const trials_instruct_num2LoopScheduler = new Scheduler(psychoJS);
+flowScheduler.add(trials_instruct_num2LoopBegin, trials_instruct_num2LoopScheduler);
+flowScheduler.add(trials_instruct_num2LoopScheduler);
+flowScheduler.add(trials_instruct_num2LoopEnd);
 flowScheduler.add(EndRoutineBegin());
 flowScheduler.add(EndRoutineEachFrame());
 flowScheduler.add(EndRoutineEnd());
@@ -87,7 +91,7 @@ function experimentInit() {
   text = new visual.TextStim({
     win: psychoJS.window,
     name: 'text',
-    text: "Wellcome!\n\nThis is an experiement about lie detection.\n\nPress 'space' to continue",
+    text: "Welcome!\n\nThis is an experiment about lie detection.\n\nPress 'space' to continue",
     font: 'Open Sans',
     units: undefined, 
     pos: [0, 0], height: 0.08,  wrapWidth: undefined, ori: 0.0,
@@ -96,6 +100,8 @@ function experimentInit() {
   });
   
   key_resp = new core.Keyboard({psychoJS: psychoJS, clock: new util.Clock(), waitForStart: true});
+  
+  reihenfolge = false;
   
   // Initialize components for Routine "Instructions"
   InstructionsClock = new util.Clock();
@@ -144,20 +150,31 @@ function experimentInit() {
     text: 'Is the displayed number greater than 10?',
     font: 'Open Sans',
     units: undefined, 
-    pos: [0, 0.4], height: 0.05,  wrapWidth: undefined, ori: 0.0,
+    pos: [0, 0.3], height: 0.05,  wrapWidth: undefined, ori: 0.0,
     color: new util.Color('white'),  opacity: undefined,
     depth: 0.0 
   });
   
-  press_key = new visual.TextStim({
+  press_key_r = new visual.TextStim({
     win: psychoJS.window,
-    name: 'press_key',
-    text: '"←" No         Yes "→" ',
+    name: 'press_key_r',
+    text: '                    Yes "→" ',
     font: 'Open Sans',
     units: undefined, 
     pos: [0, (- 0.3)], height: 0.05,  wrapWidth: undefined, ori: 0.0,
     color: new util.Color('white'),  opacity: undefined,
     depth: -1.0 
+  });
+  
+  press_key_l = new visual.TextStim({
+    win: psychoJS.window,
+    name: 'press_key_l',
+    text: '"←" No',
+    font: 'Open Sans',
+    units: undefined, 
+    pos: [(- 0.12), (- 0.3)], height: 0.05,  wrapWidth: undefined, ori: 0.0,
+    color: new util.Color('white'),  opacity: undefined,
+    depth: -2.0 
   });
   
   num_test = new visual.TextStim({
@@ -168,7 +185,7 @@ function experimentInit() {
     units: undefined, 
     pos: [0, 0], height: 0.1,  wrapWidth: undefined, ori: 0.0,
     color: new util.Color('white'),  opacity: undefined,
-    depth: -2.0 
+    depth: -3.0 
   });
   
   import * as random from 'random';
@@ -179,15 +196,16 @@ function experimentInit() {
     ori: 0.0, pos: [0, (- 0.35)],
     lineWidth: 10.0, lineColor: new util.Color('white'),
     fillColor: new util.Color('white'),
-    opacity: undefined, depth: -4, interpolate: true,
+    opacity: undefined, depth: -5, interpolate: true,
   });
   
   import * as time from 'time';
-  import * as sys from 'sys';
   import {event} from 'psychopy';
   
   arrow_response = new core.Keyboard({psychoJS: psychoJS, clock: new util.Clock(), waitForStart: true});
   
+  // Initialize components for Routine "Save_Data"
+  Save_DataClock = new util.Clock();
   // Initialize components for Routine "Instructions_Quest"
   Instructions_QuestClock = new util.Clock();
   key_resp_2 = new core.Keyboard({psychoJS: psychoJS, clock: new util.Clock(), waitForStart: true});
@@ -221,52 +239,6 @@ function experimentInit() {
   console.log(questions_truth.length);
   console.log("chioce");
   console.log(questions_choice.length);
-  /*
-  def pick_quest():
-  picks = []
-  while len(picks) < 10:
-  i = random.range(0,19)
-  if i not in picks:
-  picks.append(i)
-  return picks
-  
-  questions_lie = []
-  questions_truth = []
-  questions_choice = []
-  with open('sample_questions_lie.csv') as csv_file:
-  csv_reader = csv.reader(csv_file, delimiter=',')
-  line_count = 0
-  for row in csv_reader:
-  if line_count == 0:
-  line_count += 1
-  else:
-  questions_lie.append([int(row[0]),str(row[1])])
-  line_count += 1
-  
-  with open('sample_questions_truth.csv') as csv_file:
-  csv_reader = csv.reader(csv_file, delimiter=',')
-  line_count = 0
-  for row in csv_reader:
-  if line_count == 0:
-  line_count += 1
-  else:
-  questions_truth.append([int(row[0]),str(row[1])])
-  line_count += 1
-  
-  with open('sample_questions_choice.csv') as csv_file:
-  csv_reader = csv.reader(csv_file, delimiter=',')
-  line_count = 0
-  for row in csv_reader:
-  if line_count == 0:
-  line_count += 1
-  else:
-  questions_choice.append([int(row[0]),str(row[1])])
-  line_count += 1
-  
-  #questions = random.shuffle(questions_lie)
-  #print(questions_lie)
-  #print(questions_truth)
-  #print(questions_choice)*/
   
   // Initialize components for Routine "Baseline"
   BaselineClock = new util.Clock();
@@ -283,15 +255,26 @@ function experimentInit() {
   
   // Initialize components for Routine "QuestionsTest"
   QuestionsTestClock = new util.Clock();
-  press_key2 = new visual.TextStim({
+  press_key_l2 = new visual.TextStim({
     win: psychoJS.window,
-    name: 'press_key2',
-    text: '"←" No         Yes "→" ',
+    name: 'press_key_l2',
+    text: '"←" No',
+    font: 'Open Sans',
+    units: undefined, 
+    pos: [(- 0.12), (- 0.3)], height: 0.05,  wrapWidth: undefined, ori: 0.0,
+    color: new util.Color('white'),  opacity: undefined,
+    depth: 0.0 
+  });
+  
+  press_key_r2 = new visual.TextStim({
+    win: psychoJS.window,
+    name: 'press_key_r2',
+    text: '                    Yes "→" ',
     font: 'Open Sans',
     units: undefined, 
     pos: [0, (- 0.3)], height: 0.05,  wrapWidth: undefined, ori: 0.0,
     color: new util.Color('white'),  opacity: undefined,
-    depth: 0.0 
+    depth: -1.0 
   });
   
   question = new visual.TextStim({
@@ -302,7 +285,7 @@ function experimentInit() {
     units: undefined, 
     pos: [0, 0], height: 0.06,  wrapWidth: undefined, ori: 0.0,
     color: new util.Color('white'),  opacity: undefined,
-    depth: -1.0 
+    depth: -2.0 
   });
   
   question_response = new core.Keyboard({psychoJS: psychoJS, clock: new util.Clock(), waitForStart: true});
@@ -313,9 +296,114 @@ function experimentInit() {
     ori: 0.0, pos: [0, (- 0.35)],
     lineWidth: 10.0, lineColor: new util.Color('white'),
     fillColor: new util.Color('white'),
-    opacity: undefined, depth: -4, interpolate: true,
+    opacity: undefined, depth: -5, interpolate: true,
   });
   
+  // Initialize components for Routine "Save_Data"
+  Save_DataClock = new util.Clock();
+  // Initialize components for Routine "Instructions"
+  InstructionsClock = new util.Clock();
+  instructions_text = new visual.TextStim({
+    win: psychoJS.window,
+    name: 'instructions_text',
+    text: "In the following, you will be asked if the number in the middle is greater than 10.\n\nPlease always lie!\n\nPress 'space' to start",
+    font: 'Open Sans',
+    units: undefined, 
+    pos: [0, 0], height: 0.06,  wrapWidth: undefined, ori: 0.0,
+    color: new util.Color('white'),  opacity: undefined,
+    depth: 0.0 
+  });
+  
+  instructions_space = new core.Keyboard({psychoJS: psychoJS, clock: new util.Clock(), waitForStart: true});
+  
+  order = [2, 1, 0];
+  function gen_rand_list() {
+      var randomlist_1, randomlist_2;
+      randomlist_1 = random.sample(util.range(11, 19), 5);
+      randomlist_1.extend(random.sample(util.range(11, 19), 5));
+      randomlist_2 = random.sample(util.range(1, 9), 5);
+      randomlist_2.extend(random.sample(util.range(1, 9), 5));
+      randomlist_1.extend(randomlist_2);
+      return randomlist_1;
+  }
+  
+  // Initialize components for Routine "Baseline"
+  BaselineClock = new util.Clock();
+  fixation_cross = new visual.TextStim({
+    win: psychoJS.window,
+    name: 'fixation_cross',
+    text: '+',
+    font: 'Arial',
+    units: undefined, 
+    pos: [0, 0], height: 0.1,  wrapWidth: undefined, ori: 0.0,
+    color: new util.Color('black'),  opacity: undefined,
+    depth: 0.0 
+  });
+  
+  // Initialize components for Routine "NumberTest"
+  NumberTestClock = new util.Clock();
+  question_1 = new visual.TextStim({
+    win: psychoJS.window,
+    name: 'question_1',
+    text: 'Is the displayed number greater than 10?',
+    font: 'Open Sans',
+    units: undefined, 
+    pos: [0, 0.3], height: 0.05,  wrapWidth: undefined, ori: 0.0,
+    color: new util.Color('white'),  opacity: undefined,
+    depth: 0.0 
+  });
+  
+  press_key_r = new visual.TextStim({
+    win: psychoJS.window,
+    name: 'press_key_r',
+    text: '                    Yes "→" ',
+    font: 'Open Sans',
+    units: undefined, 
+    pos: [0, (- 0.3)], height: 0.05,  wrapWidth: undefined, ori: 0.0,
+    color: new util.Color('white'),  opacity: undefined,
+    depth: -1.0 
+  });
+  
+  press_key_l = new visual.TextStim({
+    win: psychoJS.window,
+    name: 'press_key_l',
+    text: '"←" No',
+    font: 'Open Sans',
+    units: undefined, 
+    pos: [(- 0.12), (- 0.3)], height: 0.05,  wrapWidth: undefined, ori: 0.0,
+    color: new util.Color('white'),  opacity: undefined,
+    depth: -2.0 
+  });
+  
+  num_test = new visual.TextStim({
+    win: psychoJS.window,
+    name: 'num_test',
+    text: '',
+    font: 'Open Sans',
+    units: undefined, 
+    pos: [0, 0], height: 0.1,  wrapWidth: undefined, ori: 0.0,
+    color: new util.Color('white'),  opacity: undefined,
+    depth: -3.0 
+  });
+  
+  import * as random from 'random';
+  
+  timer_line = new visual.ShapeStim ({
+    win: psychoJS.window, name: 'timer_line', 
+    vertices: [[-[1, 0.02][0]/2.0, 0], [+[1, 0.02][0]/2.0, 0]],
+    ori: 0.0, pos: [0, (- 0.35)],
+    lineWidth: 10.0, lineColor: new util.Color('white'),
+    fillColor: new util.Color('white'),
+    opacity: undefined, depth: -5, interpolate: true,
+  });
+  
+  import * as time from 'time';
+  import {event} from 'psychopy';
+  
+  arrow_response = new core.Keyboard({psychoJS: psychoJS, clock: new util.Clock(), waitForStart: true});
+  
+  // Initialize components for Routine "Save_Data"
+  Save_DataClock = new util.Clock();
   // Initialize components for Routine "End"
   EndClock = new util.Clock();
   end = new visual.TextStim({
@@ -472,6 +560,9 @@ function trials_instruct_numLoopBegin(trials_instruct_numLoopScheduler) {
     trials_instruct_numLoopScheduler.add(trials_numLoopBegin, trials_numLoopScheduler);
     trials_instruct_numLoopScheduler.add(trials_numLoopScheduler);
     trials_instruct_numLoopScheduler.add(trials_numLoopEnd);
+    trials_instruct_numLoopScheduler.add(Save_DataRoutineBegin(snapshot));
+    trials_instruct_numLoopScheduler.add(Save_DataRoutineEachFrame(snapshot));
+    trials_instruct_numLoopScheduler.add(Save_DataRoutineEnd(snapshot));
     trials_instruct_numLoopScheduler.add(endLoopIteration(trials_instruct_numLoopScheduler, snapshot));
   });
 
@@ -482,7 +573,7 @@ function trials_numLoopBegin(trials_numLoopScheduler) {
   // set up handler to look after randomisation of conditions etc
   trials_num = new TrialHandler({
     psychoJS: psychoJS,
-    nReps: 2, method: TrialHandler.Method.SEQUENTIAL,
+    nReps: 3, method: TrialHandler.Method.SEQUENTIAL,
     extraInfo: expInfo, originPath: undefined,
     trialList: undefined,
     seed: undefined, name: 'trials_num'
@@ -543,6 +634,9 @@ function trials_instruct_questLoopBegin(trials_instruct_questLoopScheduler) {
     trials_instruct_questLoopScheduler.add(trials_questLoopBegin, trials_questLoopScheduler);
     trials_instruct_questLoopScheduler.add(trials_questLoopScheduler);
     trials_instruct_questLoopScheduler.add(trials_questLoopEnd);
+    trials_instruct_questLoopScheduler.add(Save_DataRoutineBegin(snapshot));
+    trials_instruct_questLoopScheduler.add(Save_DataRoutineEachFrame(snapshot));
+    trials_instruct_questLoopScheduler.add(Save_DataRoutineEnd(snapshot));
     trials_instruct_questLoopScheduler.add(endLoopIteration(trials_instruct_questLoopScheduler, snapshot));
   });
 
@@ -553,7 +647,7 @@ function trials_questLoopBegin(trials_questLoopScheduler) {
   // set up handler to look after randomisation of conditions etc
   trials_quest = new TrialHandler({
     psychoJS: psychoJS,
-    nReps: 40, method: TrialHandler.Method.SEQUENTIAL,
+    nReps: 4, method: TrialHandler.Method.SEQUENTIAL,
     extraInfo: expInfo, originPath: undefined,
     trialList: undefined,
     seed: undefined, name: 'trials_quest'
@@ -590,6 +684,80 @@ function trials_instruct_questLoopEnd() {
   return Scheduler.Event.NEXT;
 }
 
+function trials_instruct_num2LoopBegin(trials_instruct_num2LoopScheduler) {
+  // set up handler to look after randomisation of conditions etc
+  trials_instruct_num2 = new TrialHandler({
+    psychoJS: psychoJS,
+    nReps: 1, method: TrialHandler.Method.SEQUENTIAL,
+    extraInfo: expInfo, originPath: undefined,
+    trialList: undefined,
+    seed: undefined, name: 'trials_instruct_num2'
+  });
+  psychoJS.experiment.addLoop(trials_instruct_num2); // add the loop to the experiment
+  currentLoop = trials_instruct_num2;  // we're now the current loop
+
+  // Schedule all the trials in the trialList:
+  trials_instruct_num2.forEach(function() {
+    const snapshot = trials_instruct_num2.getSnapshot();
+
+    trials_instruct_num2LoopScheduler.add(importConditions(snapshot));
+    trials_instruct_num2LoopScheduler.add(InstructionsRoutineBegin(snapshot));
+    trials_instruct_num2LoopScheduler.add(InstructionsRoutineEachFrame(snapshot));
+    trials_instruct_num2LoopScheduler.add(InstructionsRoutineEnd(snapshot));
+    const trials_num2LoopScheduler = new Scheduler(psychoJS);
+    trials_instruct_num2LoopScheduler.add(trials_num2LoopBegin, trials_num2LoopScheduler);
+    trials_instruct_num2LoopScheduler.add(trials_num2LoopScheduler);
+    trials_instruct_num2LoopScheduler.add(trials_num2LoopEnd);
+    trials_instruct_num2LoopScheduler.add(Save_DataRoutineBegin(snapshot));
+    trials_instruct_num2LoopScheduler.add(Save_DataRoutineEachFrame(snapshot));
+    trials_instruct_num2LoopScheduler.add(Save_DataRoutineEnd(snapshot));
+    trials_instruct_num2LoopScheduler.add(endLoopIteration(trials_instruct_num2LoopScheduler, snapshot));
+  });
+
+  return Scheduler.Event.NEXT;
+}
+
+function trials_num2LoopBegin(trials_num2LoopScheduler) {
+  // set up handler to look after randomisation of conditions etc
+  trials_num2 = new TrialHandler({
+    psychoJS: psychoJS,
+    nReps: 4, method: TrialHandler.Method.SEQUENTIAL,
+    extraInfo: expInfo, originPath: undefined,
+    trialList: undefined,
+    seed: undefined, name: 'trials_num2'
+  });
+  psychoJS.experiment.addLoop(trials_num2); // add the loop to the experiment
+  currentLoop = trials_num2;  // we're now the current loop
+
+  // Schedule all the trials in the trialList:
+  trials_num2.forEach(function() {
+    const snapshot = trials_num2.getSnapshot();
+
+    trials_num2LoopScheduler.add(importConditions(snapshot));
+    trials_num2LoopScheduler.add(BaselineRoutineBegin(snapshot));
+    trials_num2LoopScheduler.add(BaselineRoutineEachFrame(snapshot));
+    trials_num2LoopScheduler.add(BaselineRoutineEnd(snapshot));
+    trials_num2LoopScheduler.add(NumberTestRoutineBegin(snapshot));
+    trials_num2LoopScheduler.add(NumberTestRoutineEachFrame(snapshot));
+    trials_num2LoopScheduler.add(NumberTestRoutineEnd(snapshot));
+    trials_num2LoopScheduler.add(endLoopIteration(trials_num2LoopScheduler, snapshot));
+  });
+
+  return Scheduler.Event.NEXT;
+}
+
+function trials_num2LoopEnd() {
+  psychoJS.experiment.removeLoop(trials_num2);
+
+  return Scheduler.Event.NEXT;
+}
+
+function trials_instruct_num2LoopEnd() {
+  psychoJS.experiment.removeLoop(trials_instruct_num2);
+
+  return Scheduler.Event.NEXT;
+}
+
 function InstructionsRoutineBegin(snapshot) {
   return function () {
     //------Prepare to start Routine 'Instructions'-------
@@ -603,22 +771,32 @@ function InstructionsRoutineBegin(snapshot) {
     _instructions_space_allKeys = [];
     numbers_rand = [];
     trials_limit = 20;
-    if ((order[trials_instruct_num.thisN] === 0)) {
+    option = "number";
+    number_r = 0;
+    if (reihenfolge) {
+        number_r = trials_instruct_num.thisN;
+    } else {
+        number_r = trials_instruct_num2.thisN;
+    }
+    if ((order[number_r] === 0)) {
         instructions_text.text = "In the following, you will be asked if the number in the middle is greater than 10.\n \nPlease always lie! \n \nPress 'space' to start";
-        thisExp.addData("numbers.instructions", "lie");
+        psychoJS.experiment.addData("numbers.instructions", "lie");
+        mode = "lie";
         numbers_rand = gen_rand_list();
     }
-    if ((order[trials_instruct_num.thisN] === 1)) {
+    if ((order[number_r] === 1)) {
         instructions_text.text = "In the following, you will be asked if the number in the middle is greater than 10.\n \nPlease always tell the truth! \n \nPress 'space' to start";
-        thisExp.addData("numbers.instructions", "truth");
+        psychoJS.experiment.addData("numbers.instructions", "truth");
         numbers_rand = gen_rand_list();
+        mode = "truth";
     }
-    if ((order[trials_instruct_num.thisN] === 2)) {
+    if ((order[number_r] === 2)) {
         instructions_text.text = "In the following, you will be asked if the number in the middle is greater than 10.\n \nYou can choose to lie or tell the truth! \n \nPress 'space' to start";
-        thisExp.addData("numbers.instructions", "choice");
+        psychoJS.experiment.addData("numbers.instructions", "choice");
         numbers_rand = gen_rand_list();
         numbers_rand.extend(gen_rand_list());
         trials_limit = 40;
+        mode = "choice";
     }
     random.shuffle(numbers_rand);
     console.log(numbers_rand);
@@ -731,8 +909,11 @@ function BaselineRoutineBegin(snapshot) {
     BaselineClock.reset(); // clock
     frameN = -1;
     continueRoutine = true; // until we're told otherwise
-    routineTimer.add(0.020000);
     // update component parameters for each repeat
+    loopClock = new core.Clock();
+    routine_time = util.randint(2, 5);
+    loopClock.add(routine_time);
+    
     // keep track of which components have finished
     BaselineComponents = [];
     BaselineComponents.push(fixation_cross);
@@ -762,10 +943,10 @@ function BaselineRoutineEachFrame(snapshot) {
       fixation_cross.setAutoDraw(true);
     }
 
-    frameRemains = 0.0 + 0.02 - psychoJS.window.monitorFramePeriod * 0.75;  // most of one frame period left
-    if (fixation_cross.status === PsychoJS.Status.STARTED && t >= frameRemains) {
-      fixation_cross.setAutoDraw(false);
+    if ((loopClock.getTime() > 0)) {
+        continueRoutine = false;
     }
+    
     // check for quit (typically the Esc key)
     if (psychoJS.experiment.experimentEnded || psychoJS.eventManager.getKeys({keyList:['escape']}).length > 0) {
       return quitPsychoJS('The [Escape] key was pressed. Goodbye!', false);
@@ -784,7 +965,7 @@ function BaselineRoutineEachFrame(snapshot) {
     });
     
     // refresh the screen if continuing
-    if (continueRoutine && routineTimer.getTime() > 0) {
+    if (continueRoutine) {
       return Scheduler.Event.FLIP_REPEAT;
     } else {
       return Scheduler.Event.NEXT;
@@ -800,6 +981,12 @@ function BaselineRoutineEnd(snapshot) {
         thisComponent.setAutoDraw(false);
       }
     });
+    loopClock.reset();
+    psychoJS.experiment.addData("basline.time", routine_time);
+    
+    // the Routine "Baseline" was not non-slip safe, so reset the non-slip timer
+    routineTimer.reset();
+    
     return Scheduler.Event.NEXT;
   };
 }
@@ -814,20 +1001,30 @@ function NumberTestRoutineBegin(snapshot) {
     routineTimer.add(5.000000);
     // update component parameters for each repeat
     corResp = "";
-    num = numbers_rand[trials_num.thisN];
-    psychoJS.experiment.addData("num_test.value", num);
+    press_key_l.height = 0.05;
+    press_key_l.pos = [(- 0.12), (- 0.3)];
+    press_key_r.height = 0.05;
+    press_key_r.pos = [0, (- 0.3)];
+    ind = 0;
+    if (reihenfolge) {
+        ind = trials_num.thisN;
+    } else {
+        ind = trials_num2.thisN;
+    }
+    num = numbers_rand[ind];
+    thisExp.addData("num_test.value", num);
     if ((num > 10)) {
         corResp = "right";
     } else {
         corResp = "left";
     }
     num_test.text = num.toString();
+    timer_set = false;
     
-    time = 5;
-    timer = new core.CountdownTimer(time);
+    t = 5;
     timer_line.size = [1, 0.02];
     width = timer_line.size[0];
-    dist = (width / (60.5 * time));
+    dist = (width / (30 * t));
     timer_line.autoDraw = false;
     
     arrow_response.keys = undefined;
@@ -836,7 +1033,8 @@ function NumberTestRoutineBegin(snapshot) {
     // keep track of which components have finished
     NumberTestComponents = [];
     NumberTestComponents.push(question_1);
-    NumberTestComponents.push(press_key);
+    NumberTestComponents.push(press_key_r);
+    NumberTestComponents.push(press_key_l);
     NumberTestComponents.push(num_test);
     NumberTestComponents.push(timer_line);
     NumberTestComponents.push(arrow_response);
@@ -871,18 +1069,32 @@ function NumberTestRoutineEachFrame(snapshot) {
       question_1.setAutoDraw(false);
     }
     
-    // *press_key* updates
-    if (t >= 0.0 && press_key.status === PsychoJS.Status.NOT_STARTED) {
+    // *press_key_r* updates
+    if (t >= 0.0 && press_key_r.status === PsychoJS.Status.NOT_STARTED) {
       // keep track of start time/frame for later
-      press_key.tStart = t;  // (not accounting for frame time here)
-      press_key.frameNStart = frameN;  // exact frame index
+      press_key_r.tStart = t;  // (not accounting for frame time here)
+      press_key_r.frameNStart = frameN;  // exact frame index
       
-      press_key.setAutoDraw(true);
+      press_key_r.setAutoDraw(true);
     }
 
     frameRemains = 0.0 + 5.0 - psychoJS.window.monitorFramePeriod * 0.75;  // most of one frame period left
-    if (press_key.status === PsychoJS.Status.STARTED && t >= frameRemains) {
-      press_key.setAutoDraw(false);
+    if (press_key_r.status === PsychoJS.Status.STARTED && t >= frameRemains) {
+      press_key_r.setAutoDraw(false);
+    }
+    
+    // *press_key_l* updates
+    if (t >= 0.0 && press_key_l.status === PsychoJS.Status.NOT_STARTED) {
+      // keep track of start time/frame for later
+      press_key_l.tStart = t;  // (not accounting for frame time here)
+      press_key_l.frameNStart = frameN;  // exact frame index
+      
+      press_key_l.setAutoDraw(true);
+    }
+
+    frameRemains = 0.0 + 5.0 - psychoJS.window.monitorFramePeriod * 0.75;  // most of one frame period left
+    if (press_key_l.status === PsychoJS.Status.STARTED && t >= frameRemains) {
+      press_key_l.setAutoDraw(false);
     }
     
     // *num_test* updates
@@ -897,20 +1109,6 @@ function NumberTestRoutineEachFrame(snapshot) {
     frameRemains = 0.0 + 5.0 - psychoJS.window.monitorFramePeriod * 0.75;  // most of one frame period left
     if (num_test.status === PsychoJS.Status.STARTED && t >= frameRemains) {
       num_test.setAutoDraw(false);
-    }
-    
-    // *timer_line* updates
-    if (t >= 0.0 && timer_line.status === PsychoJS.Status.NOT_STARTED) {
-      // keep track of start time/frame for later
-      timer_line.tStart = t;  // (not accounting for frame time here)
-      timer_line.frameNStart = frameN;  // exact frame index
-      
-      timer_line.setAutoDraw(true);
-    }
-
-    frameRemains = 0.0 + 5.0 - psychoJS.window.monitorFramePeriod * 0.75;  // most of one frame period left
-    if (timer_line.status === PsychoJS.Status.STARTED && t >= frameRemains) {
-      timer_line.setAutoDraw(false);
     }
     var _pj;
     function _pj_snippets(container) {
@@ -930,21 +1128,55 @@ function NumberTestRoutineEachFrame(snapshot) {
     }
     _pj = {};
     _pj_snippets(_pj);
-    while (((timer.getTime() > 0) && continueRoutine)) {
-        width -= dist;
-        timer_line.size = [width, 0.02];
-        timer_line.draw();
-        keys = event.getKeys();
-        if (keys) {
-            if (_pj.in_es6("right", keys)) {
-                continueRoutine = false;
-            }
-            if (_pj.in_es6("left", keys)) {
-                continueRoutine = false;
-            }
+    if ((arrow_response.keys && (! timer_set))) {
+        if (_pj.in_es6("right", arrow_response.keys)) {
+            press_key_r.height = 0.08;
+            press_key_r.pos = [0, (- 0.29)];
         }
-        win.flip();
+        if (_pj.in_es6("left", arrow_response.keys)) {
+            press_key_l.height = 0.08;
+            press_key_l.pos = [(- 0.12), (- 0.29)];
+        }
+        text_clock = new core.Clock();
+        text_clock.add(1);
+        timer_set = true;
     }
+    if (timer_set) {
+        if ((text_clock.getTime() < 0)) {
+        } else {
+            continueRoutine = false;
+        }
+    }
+    
+    
+    // *timer_line* updates
+    if (t >= 0.0 && timer_line.status === PsychoJS.Status.NOT_STARTED) {
+      // keep track of start time/frame for later
+      timer_line.tStart = t;  // (not accounting for frame time here)
+      timer_line.frameNStart = frameN;  // exact frame index
+      
+      timer_line.setAutoDraw(true);
+    }
+
+    frameRemains = 0.0 + 5.0 - psychoJS.window.monitorFramePeriod * 0.75;  // most of one frame period left
+    if (timer_line.status === PsychoJS.Status.STARTED && t >= frameRemains) {
+      timer_line.setAutoDraw(false);
+    }
+    width -= dist;
+    timer_line.size = [width, 0.02];
+    timer_line.draw();
+    win.flip();
+    /*
+    keys = event.getKeys()
+    if keys:
+    if 'right' in keys:
+    rt = arrow_response.rt
+    print(rt)
+    continueRoutine = False
+    if 'left' in keys:
+    rt = arrow_response.rt
+    print(rt)
+    continueRoutine = False*/
     
     
     // *arrow_response* updates
@@ -956,6 +1188,7 @@ function NumberTestRoutineEachFrame(snapshot) {
       // keyboard checking is just starting
       arrow_response.clock.reset();
       arrow_response.start();
+      arrow_response.clearEvents();
     }
 
     frameRemains = 5.0  - psychoJS.window.monitorFramePeriod * 0.75;  // most of one frame period left
@@ -975,8 +1208,6 @@ function NumberTestRoutineEachFrame(snapshot) {
         } else {
             arrow_response.corr = 0;
         }
-        // a response ends the routine
-        continueRoutine = false;
       }
     }
     
@@ -1014,10 +1245,18 @@ function NumberTestRoutineEnd(snapshot) {
         thisComponent.setAutoDraw(false);
       }
     });
-    if ((trials_num.thisN >= (trials_limit - 1))) {
-        trials_num.finished = true;
+    text_clock.reset();
+    if (reihenfolge) {
+        if ((trials_num.thisN >= (trials_limit - 1))) {
+            trials_num.finished = true;
+        }
+    } else {
+        if ((trials_num2.thisN >= (trials_limit - 1))) {
+            trials_num2.finished = true;
+        }
     }
     
+    /* Syntax Error: Fix Python code */
     // was no response the correct answer?!
     if (arrow_response.keys === undefined) {
       if (['None','none',undefined].includes(corResp)) {
@@ -1031,10 +1270,76 @@ function NumberTestRoutineEnd(snapshot) {
     psychoJS.experiment.addData('arrow_response.corr', arrow_response.corr);
     if (typeof arrow_response.keys !== 'undefined') {  // we had a response
         psychoJS.experiment.addData('arrow_response.rt', arrow_response.rt);
-        routineTimer.reset();
         }
     
     arrow_response.stop();
+    return Scheduler.Event.NEXT;
+  };
+}
+
+function Save_DataRoutineBegin(snapshot) {
+  return function () {
+    //------Prepare to start Routine 'Save_Data'-------
+    t = 0;
+    Save_DataClock.reset(); // clock
+    frameN = -1;
+    continueRoutine = true; // until we're told otherwise
+    // update component parameters for each repeat
+    // keep track of which components have finished
+    Save_DataComponents = [];
+    
+    Save_DataComponents.forEach( function(thisComponent) {
+      if ('status' in thisComponent)
+        thisComponent.status = PsychoJS.Status.NOT_STARTED;
+       });
+    return Scheduler.Event.NEXT;
+  }
+}
+
+function Save_DataRoutineEachFrame(snapshot) {
+  return function () {
+    //------Loop for each frame of Routine 'Save_Data'-------
+    // get current time
+    t = Save_DataClock.getTime();
+    frameN = frameN + 1;// number of completed frames (so 0 is the first frame)
+    // update/draw components on each frame
+    // check for quit (typically the Esc key)
+    if (psychoJS.experiment.experimentEnded || psychoJS.eventManager.getKeys({keyList:['escape']}).length > 0) {
+      return quitPsychoJS('The [Escape] key was pressed. Goodbye!', false);
+    }
+    
+    // check if the Routine should terminate
+    if (!continueRoutine) {  // a component has requested a forced-end of Routine
+      return Scheduler.Event.NEXT;
+    }
+    
+    continueRoutine = false;  // reverts to True if at least one component still running
+    Save_DataComponents.forEach( function(thisComponent) {
+      if ('status' in thisComponent && thisComponent.status !== PsychoJS.Status.FINISHED) {
+        continueRoutine = true;
+      }
+    });
+    
+    // refresh the screen if continuing
+    if (continueRoutine) {
+      return Scheduler.Event.FLIP_REPEAT;
+    } else {
+      return Scheduler.Event.NEXT;
+    }
+  };
+}
+
+function Save_DataRoutineEnd(snapshot) {
+  return function () {
+    //------Ending Routine 'Save_Data'-------
+    Save_DataComponents.forEach( function(thisComponent) {
+      if (typeof thisComponent.setAutoDraw === 'function') {
+        thisComponent.setAutoDraw(false);
+      }
+    });
+    // the Routine "Save_Data" was not non-slip safe, so reset the non-slip timer
+    routineTimer.reset();
+    
     return Scheduler.Event.NEXT;
   };
 }
@@ -1050,22 +1355,26 @@ function Instructions_QuestRoutineBegin(snapshot) {
     key_resp_2.keys = undefined;
     key_resp_2.rt = undefined;
     _key_resp_2_allKeys = [];
+    option = "questions";
     trials_limit = 20;
     if ((order[trials_instruct_quest.thisN] === 0)) {
         instructions_text2.text = "In the following, you will be asked personal questions.\n \nPlease always lie! \n \nPress 'space' to start";
-        thisExp.addData("questions.instructions", "lie");
+        psychoJS.experiment.addData("questions.instructions", "lie");
         questions = questions_lie.copy();
+        mode = "lie";
     }
     if ((order[trials_instruct_quest.thisN] === 1)) {
         instructions_text2.text = "In the following, you will be asked personal questions.\n \nPlease always tell the truth! \n \nPress 'space' to start";
-        thisExp.addData("questions.instructions", "truth");
+        psychoJS.experiment.addData("questions.instructions", "truth");
         questions = questions_truth.copy();
+        mode = "truth";
     }
     if ((order[trials_instruct_quest.thisN] === 2)) {
         instructions_text2.text = "In the following, you will be asked personal questions.\n \nYou can choose to lie or tell the truth! \n \nPress 'space' to start";
-        thisExp.addData("questions.instructions", "choice");
+        psychoJS.experiment.addData("questions.instructions", "choice");
         questions = questions_choice.copy();
         trials_limit = 40;
+        mode = "choice";
     }
     random.shuffle(questions);
     
@@ -1099,6 +1408,7 @@ function Instructions_QuestRoutineEachFrame(snapshot) {
       // keyboard checking is just starting
       key_resp_2.clock.reset();
       key_resp_2.start();
+      key_resp_2.clearEvents();
     }
 
     if (key_resp_2.status === PsychoJS.Status.STARTED) {
@@ -1182,21 +1492,26 @@ function QuestionsTestRoutineBegin(snapshot) {
     num_quest = trials_quest.thisN;
     question.text = questions[num_quest][1].toString();
     thisExp.addData("question.id", questions[num_quest][0]);
+    press_key_l2.height = 0.05;
+    press_key_l2.pos = [(- 0.12), (- 0.3)];
+    press_key_r2.height = 0.05;
+    press_key_r2.pos = [0, (- 0.3)];
+    timer_set = false;
     
     question_response.keys = undefined;
     question_response.rt = undefined;
     _question_response_allKeys = [];
     continueRoutine = true;
     time = 10;
-    timer = new core.CountdownTimer(time);
     timer_line2.size = [1, 0.02];
     width = timer_line2.size[0];
-    dist = (width / (60.5 * time));
+    dist = (width / (30 * time));
     timer_line2.autoDraw = false;
     
     // keep track of which components have finished
     QuestionsTestComponents = [];
-    QuestionsTestComponents.push(press_key2);
+    QuestionsTestComponents.push(press_key_l2);
+    QuestionsTestComponents.push(press_key_r2);
     QuestionsTestComponents.push(question);
     QuestionsTestComponents.push(question_response);
     QuestionsTestComponents.push(timer_line2);
@@ -1217,18 +1532,32 @@ function QuestionsTestRoutineEachFrame(snapshot) {
     frameN = frameN + 1;// number of completed frames (so 0 is the first frame)
     // update/draw components on each frame
     
-    // *press_key2* updates
-    if (t >= 0.0 && press_key2.status === PsychoJS.Status.NOT_STARTED) {
+    // *press_key_l2* updates
+    if (t >= 0.0 && press_key_l2.status === PsychoJS.Status.NOT_STARTED) {
       // keep track of start time/frame for later
-      press_key2.tStart = t;  // (not accounting for frame time here)
-      press_key2.frameNStart = frameN;  // exact frame index
+      press_key_l2.tStart = t;  // (not accounting for frame time here)
+      press_key_l2.frameNStart = frameN;  // exact frame index
       
-      press_key2.setAutoDraw(true);
+      press_key_l2.setAutoDraw(true);
     }
 
     frameRemains = 0.0 + 10.0 - psychoJS.window.monitorFramePeriod * 0.75;  // most of one frame period left
-    if (press_key2.status === PsychoJS.Status.STARTED && t >= frameRemains) {
-      press_key2.setAutoDraw(false);
+    if (press_key_l2.status === PsychoJS.Status.STARTED && t >= frameRemains) {
+      press_key_l2.setAutoDraw(false);
+    }
+    
+    // *press_key_r2* updates
+    if (t >= 0.0 && press_key_r2.status === PsychoJS.Status.NOT_STARTED) {
+      // keep track of start time/frame for later
+      press_key_r2.tStart = t;  // (not accounting for frame time here)
+      press_key_r2.frameNStart = frameN;  // exact frame index
+      
+      press_key_r2.setAutoDraw(true);
+    }
+
+    frameRemains = 0.0 + 10.0 - psychoJS.window.monitorFramePeriod * 0.75;  // most of one frame period left
+    if (press_key_r2.status === PsychoJS.Status.STARTED && t >= frameRemains) {
+      press_key_r2.setAutoDraw(false);
     }
     
     // *question* updates
@@ -1243,48 +1572,6 @@ function QuestionsTestRoutineEachFrame(snapshot) {
     frameRemains = 0.0 + 10.0 - psychoJS.window.monitorFramePeriod * 0.75;  // most of one frame period left
     if (question.status === PsychoJS.Status.STARTED && t >= frameRemains) {
       question.setAutoDraw(false);
-    }
-    
-    // *question_response* updates
-    if (t >= 0.0 && question_response.status === PsychoJS.Status.NOT_STARTED) {
-      // keep track of start time/frame for later
-      question_response.tStart = t;  // (not accounting for frame time here)
-      question_response.frameNStart = frameN;  // exact frame index
-      
-      // keyboard checking is just starting
-      question_response.clock.reset();
-      question_response.start();
-    }
-
-    frameRemains = 10.0  - psychoJS.window.monitorFramePeriod * 0.75;  // most of one frame period left
-    if ((question_response.status === PsychoJS.Status.STARTED || question_response.status === PsychoJS.Status.FINISHED) && t >= frameRemains) {
-      question_response.status = PsychoJS.Status.FINISHED;
-  }
-
-    if (question_response.status === PsychoJS.Status.STARTED) {
-      let theseKeys = question_response.getKeys({keyList: ['left', 'right'], waitRelease: false});
-      _question_response_allKeys = _question_response_allKeys.concat(theseKeys);
-      if (_question_response_allKeys.length > 0) {
-        question_response.keys = _question_response_allKeys[_question_response_allKeys.length - 1].name;  // just the last key pressed
-        question_response.rt = _question_response_allKeys[_question_response_allKeys.length - 1].rt;
-        // a response ends the routine
-        continueRoutine = false;
-      }
-    }
-    
-    
-    // *timer_line2* updates
-    if (t >= 0.0 && timer_line2.status === PsychoJS.Status.NOT_STARTED) {
-      // keep track of start time/frame for later
-      timer_line2.tStart = t;  // (not accounting for frame time here)
-      timer_line2.frameNStart = frameN;  // exact frame index
-      
-      timer_line2.setAutoDraw(true);
-    }
-
-    frameRemains = 0.0 + 10.0 - psychoJS.window.monitorFramePeriod * 0.75;  // most of one frame period left
-    if (timer_line2.status === PsychoJS.Status.STARTED && t >= frameRemains) {
-      timer_line2.setAutoDraw(false);
     }
     var _pj;
     function _pj_snippets(container) {
@@ -1304,21 +1591,79 @@ function QuestionsTestRoutineEachFrame(snapshot) {
     }
     _pj = {};
     _pj_snippets(_pj);
-    while (((timer.getTime() > 0) && continueRoutine)) {
-        width -= dist;
-        timer_line2.size = [width, 0.02];
-        timer_line2.draw();
-        keys = event.getKeys();
-        if (keys) {
-            if (_pj.in_es6("right", keys)) {
-                continueRoutine = false;
-            }
-            if (_pj.in_es6("left", keys)) {
-                continueRoutine = false;
-            }
+    if ((quest_response.keys && (! timer_set))) {
+        if (_pj.in_es6("right", quest_response.keys)) {
+            press_key_r2.height = 0.08;
+            press_key_r2.pos = [0, (- 0.29)];
         }
-        win.flip();
+        if (_pj.in_es6("left", quest_response.keys)) {
+            press_key_l2.height = 0.08;
+            press_key_l2.pos = [(- 0.12), (- 0.29)];
+        }
+        text_clock = new core.Clock();
+        text_clock.add(1);
+        timer_set = true;
     }
+    if (timer_set) {
+        if ((text_clock.getTime() < 0)) {
+        } else {
+            continueRoutine = false;
+        }
+    }
+    
+    
+    // *question_response* updates
+    if (t >= 0.0 && question_response.status === PsychoJS.Status.NOT_STARTED) {
+      // keep track of start time/frame for later
+      question_response.tStart = t;  // (not accounting for frame time here)
+      question_response.frameNStart = frameN;  // exact frame index
+      
+      // keyboard checking is just starting
+      question_response.clock.reset();
+      question_response.start();
+      question_response.clearEvents();
+    }
+
+    frameRemains = 10.0  - psychoJS.window.monitorFramePeriod * 0.75;  // most of one frame period left
+    if ((question_response.status === PsychoJS.Status.STARTED || question_response.status === PsychoJS.Status.FINISHED) && t >= frameRemains) {
+      question_response.status = PsychoJS.Status.FINISHED;
+  }
+
+    if (question_response.status === PsychoJS.Status.STARTED) {
+      let theseKeys = question_response.getKeys({keyList: ['left', 'right'], waitRelease: false});
+      _question_response_allKeys = _question_response_allKeys.concat(theseKeys);
+      if (_question_response_allKeys.length > 0) {
+        question_response.keys = _question_response_allKeys[_question_response_allKeys.length - 1].name;  // just the last key pressed
+        question_response.rt = _question_response_allKeys[_question_response_allKeys.length - 1].rt;
+      }
+    }
+    
+    
+    // *timer_line2* updates
+    if (t >= 0.0 && timer_line2.status === PsychoJS.Status.NOT_STARTED) {
+      // keep track of start time/frame for later
+      timer_line2.tStart = t;  // (not accounting for frame time here)
+      timer_line2.frameNStart = frameN;  // exact frame index
+      
+      timer_line2.setAutoDraw(true);
+    }
+
+    frameRemains = 0.0 + 10.0 - psychoJS.window.monitorFramePeriod * 0.75;  // most of one frame period left
+    if (timer_line2.status === PsychoJS.Status.STARTED && t >= frameRemains) {
+      timer_line2.setAutoDraw(false);
+    }
+    width -= dist;
+    timer_line2.size = [width, 0.02];
+    timer_line2.draw();
+    /*
+    # check if response was given
+    keys = event.getKeys()
+    if keys:
+    if 'right' in keys:
+    continueRoutine = False
+    if 'left' in keys:
+    continueRoutine = False*/
+    psychoJS.window.flip();
     
     // check for quit (typically the Esc key)
     if (psychoJS.experiment.experimentEnded || psychoJS.eventManager.getKeys({keyList:['escape']}).length > 0) {
@@ -1354,10 +1699,11 @@ function QuestionsTestRoutineEnd(snapshot) {
         thisComponent.setAutoDraw(false);
       }
     });
+    text_clock.reset();
+    
     psychoJS.experiment.addData('question_response.keys', question_response.keys);
     if (typeof question_response.keys !== 'undefined') {  // we had a response
         psychoJS.experiment.addData('question_response.rt', question_response.rt);
-        routineTimer.reset();
         }
     
     question_response.stop();
@@ -1445,6 +1791,8 @@ function EndRoutineEnd(snapshot) {
         thisComponent.setAutoDraw(false);
       }
     });
+    eye_tracker.unsubscribe_from(tr.EYETRACKER_GAZE_DATA, gaze_data_callback, {"as_dictionary": true});
+    
     return Scheduler.Event.NEXT;
   };
 }
@@ -1483,6 +1831,12 @@ function quitPsychoJS(message, isCompleted) {
   if (psychoJS.experiment.isEntryEmpty()) {
     psychoJS.experiment.nextEntry();
   }
+  
+  
+  
+  
+  
+  
   
   
   

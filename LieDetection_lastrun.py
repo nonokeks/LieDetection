@@ -1,8 +1,8 @@
 ﻿#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-This experiment was created using PsychoPy3 Experiment Builder (v2021.2.3),
-    on June 08, 2022, at 16:59
+This experiment was created using PsychoPy3 Experiment Builder (v2021.1.4),
+    on Juni 13, 2022, at 16:29
 If you publish work using this script the most relevant publication is:
 
     Peirce J, Gray JR, Simpson S, MacAskill M, Höchenberger R, Sogo H, Kastman E, Lindeløv JK. (2019) 
@@ -26,39 +26,8 @@ from numpy.random import random, randint, normal, shuffle, choice as randchoice
 import os  # handy system and path functions
 import sys  # to get file system encoding
 
-import psychopy.iohub as io
 from psychopy.hardware import keyboard
 
-import tobii_research as tr
-
-from datetime import datetime as dt
-import xlsxwriter as xl
-
-
-#uniform timestamp for document name
-time_stamp = dt.utcnow()
-exp_time = str(time_stamp)[0:10] + '_' + str(time_stamp)[11:13] + str(time_stamp)[14:16]
-
-# finding the eyetracker
-eye_tracker = tr.find_all_eyetrackers()[0]
-
-global_gaze_data = None
-bs_diameter = 0
-
-def gaze_data_callback(gaze_data):
-    global global_gaze_data
-    global_gaze_data = gaze_data
-    print(global_gaze_data.right_eye.EyeData.pupil.diameter)
-    
-# start eyetracking 
-eye_tracker.subscribe_to(tr.EYETRACKER_GAZE_DATA, gaze_data_callback, as_dictionary=True)
-
-# list for storing data 
-eye_measures = []
-#time_stamps = []
-
-option = ''
-mode = ''
 import csv
 # function to read in csv files
 def read_csv(filename, delim):
@@ -81,7 +50,7 @@ _thisDir = os.path.dirname(os.path.abspath(__file__))
 os.chdir(_thisDir)
 
 # Store info about the experiment session
-psychopyVersion = '2021.2.3'
+psychopyVersion = '2021.1.4'
 expName = 'LieDetection'  # from the Builder filename that created this script
 expInfo = {'participant': '', 'session': '001'}
 dlg = gui.DlgFromDict(dictionary=expInfo, sortKeys=False, title=expName)
@@ -97,7 +66,7 @@ filename = _thisDir + os.sep + u'data/%s_%s_%s' % (expInfo['participant'], expNa
 # An ExperimentHandler isn't essential but helps with data saving
 thisExp = data.ExperimentHandler(name=expName, version='',
     extraInfo=expInfo, runtimeInfo=None,
-    originPath='E:\\Norina\\LieDetection\\LieDetection_lastrun.py',
+    originPath='Z:\\Dokumente\\Uni\\Hiwi\\HannahBA\\LieDetection\\LieDetection_lastrun.py',
     savePickle=True, saveWideText=True,
     dataFileName=filename)
 # save a log file for detail verbose info
@@ -123,24 +92,6 @@ if expInfo['frameRate'] != None:
 else:
     frameDur = 1.0 / 60.0  # could not measure, so guess
 
-# Setup eyetracking
-ioDevice = 'eyetracker.hw.tobii.EyeTracker'
-ioConfig = {
-    ioDevice: {
-        'name': 'tracker',
-        'model_name': 'Tobii Pro Nano',
-        'serial_number': 'TPNA1-030241945524',
-        'runtime_settings': {
-            'sampling_rate': 60.0,
-        }
-    }
-}
-ioSession = '1'
-if 'session' in expInfo:
-    ioSession = str(expInfo['session'])
-ioServer = io.launchHubServer(window=win, **ioConfig)
-eyetracker = ioServer.getDevice('tracker')
-
 # create a default keyboard (e.g. to check for escape)
 defaultKeyboard = keyboard.Keyboard()
 
@@ -154,8 +105,6 @@ text = visual.TextStim(win=win, name='text',
     languageStyle='LTR',
     depth=0.0);
 key_resp = keyboard.Keyboard()
-user = expInfo['participant']
-
 #True = number, False = questions
 reihenfolge = False
 
@@ -207,27 +156,34 @@ question_1 = visual.TextStim(win=win, name='question_1',
     color='white', colorSpace='rgb', opacity=None, 
     languageStyle='LTR',
     depth=0.0);
-press_key = visual.TextStim(win=win, name='press_key',
-    text='"←" No         Yes "→" ',
+press_key_r = visual.TextStim(win=win, name='press_key_r',
+    text='                    Yes "→" ',
     font='Open Sans',
     pos=(0, -0.3), height=0.05, wrapWidth=None, ori=0.0, 
     color='white', colorSpace='rgb', opacity=None, 
-    languageStyle='RTL',
+    languageStyle='LTR',
     depth=-1.0);
+press_key_l = visual.TextStim(win=win, name='press_key_l',
+    text='"←" No',
+    font='Open Sans',
+    pos=(-0.12, -0.3), height=0.05, wrapWidth=None, ori=0.0, 
+    color='white', colorSpace='rgb', opacity=None, 
+    languageStyle='RTL',
+    depth=-2.0);
 num_test = visual.TextStim(win=win, name='num_test',
     text=None,
     font='Open Sans',
     pos=(0, 0), height=0.1, wrapWidth=None, ori=0.0, 
     color='white', colorSpace='rgb', opacity=None, 
     languageStyle='LTR',
-    depth=-2.0);
+    depth=-3.0);
 import random 
 timer_line = visual.Line(
     win=win, name='timer_line',
     start=(-(1,0.02)[0]/2.0, 0), end=(+(1,0.02)[0]/2.0, 0),
     ori=0.0, pos=(0, -0.35),
     lineWidth=10.0,     colorSpace='rgb',  lineColor='white', fillColor='white',
-    opacity=None, depth=-4.0, interpolate=True)
+    opacity=None, depth=-5.0, interpolate=True)
 import time
 #import sys
 from psychopy import event
@@ -295,27 +251,34 @@ fixation_cross = visual.TextStim(win=win, name='fixation_cross',
 
 # Initialize components for Routine "QuestionsTest"
 QuestionsTestClock = core.Clock()
-press_key2 = visual.TextStim(win=win, name='press_key2',
-    text='"←" No         Yes "→" ',
+press_key_l2 = visual.TextStim(win=win, name='press_key_l2',
+    text='"←" No',
+    font='Open Sans',
+    pos=(-0.12, -0.3), height=0.05, wrapWidth=None, ori=0.0, 
+    color='white', colorSpace='rgb', opacity=None, 
+    languageStyle='LTR',
+    depth=0.0);
+press_key_r2 = visual.TextStim(win=win, name='press_key_r2',
+    text='                    Yes "→" ',
     font='Open Sans',
     pos=(0, -0.3), height=0.05, wrapWidth=None, ori=0.0, 
     color='white', colorSpace='rgb', opacity=None, 
     languageStyle='LTR',
-    depth=0.0);
+    depth=-1.0);
 question = visual.TextStim(win=win, name='question',
     text=None,
     font='Open Sans',
     pos=(0, 0), height=0.06, wrapWidth=None, ori=0.0, 
     color='white', colorSpace='rgb', opacity=None, 
     languageStyle='LTR',
-    depth=-1.0);
+    depth=-2.0);
 question_response = keyboard.Keyboard()
 timer_line2 = visual.Line(
     win=win, name='timer_line2',
     start=(-(1,0.02)[0]/2.0, 0), end=(+(1,0.02)[0]/2.0, 0),
     ori=0.0, pos=(0, -0.35),
     lineWidth=10.0,     colorSpace='rgb',  lineColor='white', fillColor='white',
-    opacity=None, depth=-4.0, interpolate=True)
+    opacity=None, depth=-5.0, interpolate=True)
 
 # Initialize components for Routine "Save_Data"
 Save_DataClock = core.Clock()
@@ -368,27 +331,34 @@ question_1 = visual.TextStim(win=win, name='question_1',
     color='white', colorSpace='rgb', opacity=None, 
     languageStyle='LTR',
     depth=0.0);
-press_key = visual.TextStim(win=win, name='press_key',
-    text='"←" No         Yes "→" ',
+press_key_r = visual.TextStim(win=win, name='press_key_r',
+    text='                    Yes "→" ',
     font='Open Sans',
     pos=(0, -0.3), height=0.05, wrapWidth=None, ori=0.0, 
     color='white', colorSpace='rgb', opacity=None, 
-    languageStyle='RTL',
+    languageStyle='LTR',
     depth=-1.0);
+press_key_l = visual.TextStim(win=win, name='press_key_l',
+    text='"←" No',
+    font='Open Sans',
+    pos=(-0.12, -0.3), height=0.05, wrapWidth=None, ori=0.0, 
+    color='white', colorSpace='rgb', opacity=None, 
+    languageStyle='RTL',
+    depth=-2.0);
 num_test = visual.TextStim(win=win, name='num_test',
     text=None,
     font='Open Sans',
     pos=(0, 0), height=0.1, wrapWidth=None, ori=0.0, 
     color='white', colorSpace='rgb', opacity=None, 
     languageStyle='LTR',
-    depth=-2.0);
+    depth=-3.0);
 import random 
 timer_line = visual.Line(
     win=win, name='timer_line',
     start=(-(1,0.02)[0]/2.0, 0), end=(+(1,0.02)[0]/2.0, 0),
     ori=0.0, pos=(0, -0.35),
     lineWidth=10.0,     colorSpace='rgb',  lineColor='white', fillColor='white',
-    opacity=None, depth=-4.0, interpolate=True)
+    opacity=None, depth=-5.0, interpolate=True)
 import time
 #import sys
 from psychopy import event
@@ -558,13 +528,6 @@ for thisTrials_instruct_num in trials_instruct_num:
     random.shuffle(numbers_rand)
     print(numbers_rand)
     
-    # some datastorages
-    
-    baseline_s = []
-    eye_measures = []
-    key_s = []
-    id_s = []
-    correct_s = []
     # keep track of which components have finished
     InstructionsComponents = [instructions_text, instructions_space]
     for thisComponent in InstructionsComponents:
@@ -706,16 +669,6 @@ for thisTrials_instruct_num in trials_instruct_num:
                 fixation_cross.tStartRefresh = tThisFlipGlobal  # on global time
                 win.timeOnFlip(fixation_cross, 'tStartRefresh')  # time at next scr refresh
                 fixation_cross.setAutoDraw(True)
-            # eyetracking, append baseline measures with new pupil diameter
-            if(global_gaze_data != None):
-                #print(global_gaze_data.get('left_pupil_diameter'))
-                eye_measures.append(global_gaze_data.get('left_pupil_diameter'))
-                #time_stamps.append(dt.utcnow())
-                #print(global_gaze_data.get('left_pupil_diameter'))
-                baseline_s.append('b')
-                key_s.append('')
-                id_s.append('')
-                correct_s.append('')
             # check if timer is over
             if (loopClock.getTime() >0):
                 continueRoutine = False 
@@ -751,12 +704,12 @@ for thisTrials_instruct_num in trials_instruct_num:
         continueRoutine = True
         routineTimer.add(5.000000)
         # update component parameters for each repeat
-        # generate a random number to be displayed which is not 10
-        #num = 10
         corResp = ''
-        #while num == 10:
-        #    num = random.randint(0,20)
-           
+        press_key_l.height = 0.05
+        press_key_l.pos = (-0.12, -0.3)
+        press_key_r.height = 0.05
+        press_key_r.pos = (0, -0.3)
+        
         # select number from list generated in the introduction
         ind = 0
         if reihenfolge:
@@ -776,6 +729,8 @@ for thisTrials_instruct_num in trials_instruct_num:
         
         num_test.text = str(num)
         
+        # set arrow timer
+        timer_set = False
         # configure visual timer
         t = 5
         
@@ -795,7 +750,7 @@ for thisTrials_instruct_num in trials_instruct_num:
         arrow_response.rt = []
         _arrow_response_allKeys = []
         # keep track of which components have finished
-        NumberTestComponents = [question_1, press_key, num_test, timer_line, arrow_response]
+        NumberTestComponents = [question_1, press_key_r, press_key_l, num_test, timer_line, arrow_response]
         for thisComponent in NumberTestComponents:
             thisComponent.tStart = None
             thisComponent.tStop = None
@@ -835,22 +790,39 @@ for thisTrials_instruct_num in trials_instruct_num:
                     win.timeOnFlip(question_1, 'tStopRefresh')  # time at next scr refresh
                     question_1.setAutoDraw(False)
             
-            # *press_key* updates
-            if press_key.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
+            # *press_key_r* updates
+            if press_key_r.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
                 # keep track of start time/frame for later
-                press_key.frameNStart = frameN  # exact frame index
-                press_key.tStart = t  # local t and not account for scr refresh
-                press_key.tStartRefresh = tThisFlipGlobal  # on global time
-                win.timeOnFlip(press_key, 'tStartRefresh')  # time at next scr refresh
-                press_key.setAutoDraw(True)
-            if press_key.status == STARTED:
+                press_key_r.frameNStart = frameN  # exact frame index
+                press_key_r.tStart = t  # local t and not account for scr refresh
+                press_key_r.tStartRefresh = tThisFlipGlobal  # on global time
+                win.timeOnFlip(press_key_r, 'tStartRefresh')  # time at next scr refresh
+                press_key_r.setAutoDraw(True)
+            if press_key_r.status == STARTED:
                 # is it time to stop? (based on global clock, using actual start)
-                if tThisFlipGlobal > press_key.tStartRefresh + 5.0-frameTolerance:
+                if tThisFlipGlobal > press_key_r.tStartRefresh + 5.0-frameTolerance:
                     # keep track of stop time/frame for later
-                    press_key.tStop = t  # not accounting for scr refresh
-                    press_key.frameNStop = frameN  # exact frame index
-                    win.timeOnFlip(press_key, 'tStopRefresh')  # time at next scr refresh
-                    press_key.setAutoDraw(False)
+                    press_key_r.tStop = t  # not accounting for scr refresh
+                    press_key_r.frameNStop = frameN  # exact frame index
+                    win.timeOnFlip(press_key_r, 'tStopRefresh')  # time at next scr refresh
+                    press_key_r.setAutoDraw(False)
+            
+            # *press_key_l* updates
+            if press_key_l.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
+                # keep track of start time/frame for later
+                press_key_l.frameNStart = frameN  # exact frame index
+                press_key_l.tStart = t  # local t and not account for scr refresh
+                press_key_l.tStartRefresh = tThisFlipGlobal  # on global time
+                win.timeOnFlip(press_key_l, 'tStartRefresh')  # time at next scr refresh
+                press_key_l.setAutoDraw(True)
+            if press_key_l.status == STARTED:
+                # is it time to stop? (based on global clock, using actual start)
+                if tThisFlipGlobal > press_key_l.tStartRefresh + 5.0-frameTolerance:
+                    # keep track of stop time/frame for later
+                    press_key_l.tStop = t  # not accounting for scr refresh
+                    press_key_l.frameNStop = frameN  # exact frame index
+                    win.timeOnFlip(press_key_l, 'tStopRefresh')  # time at next scr refresh
+                    press_key_l.setAutoDraw(False)
             
             # *num_test* updates
             if num_test.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
@@ -868,6 +840,25 @@ for thisTrials_instruct_num in trials_instruct_num:
                     num_test.frameNStop = frameN  # exact frame index
                     win.timeOnFlip(num_test, 'tStopRefresh')  # time at next scr refresh
                     num_test.setAutoDraw(False)
+            if arrow_response.keys and not timer_set:
+                # right key
+                if 'right' in arrow_response.keys:
+                    press_key_r.height = 0.08
+                    press_key_r.pos = (0, -0.29)
+                # left key
+                if 'left' in arrow_response.keys:
+                    press_key_l.height = 0.08
+                    press_key_l.pos = (-0.12, -0.29)
+                # set timer
+                text_clock = core.Clock()
+                text_clock.add(1)
+                timer_set = True
+                
+            if timer_set:
+                if text_clock.getTime()<0:
+                    pass
+                else:
+                    continueRoutine = False
             
             # *timer_line* updates
             if timer_line.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
@@ -941,27 +932,6 @@ for thisTrials_instruct_num in trials_instruct_num:
                         arrow_response.corr = 1
                     else:
                         arrow_response.corr = 0
-                    # a response ends the routine
-                    continueRoutine = False
-            # eyetracking, append baseline measures with new pupil diameter
-            if(global_gaze_data != None):
-                #print(global_gaze_data.get('left_pupil_diameter'))
-                eye_measures.append(global_gaze_data.get('left_pupil_diameter'))
-                #time_stamps.append(dt.utcnow())
-                #print(global_gaze_data.get('left_pupil_diameter'))
-                baseline_s.append('')
-            
-                
-                if arrow_response.keys:
-                    correct_s.append(arrow_response.corr)
-                    key_s.append(arrow_response.keys)
-                else:
-                    correct_s.append('')
-                    key_s.append('')
-                        
-                id_s.append(num)
-                
-                
             
             # check for quit (typically the Esc key)
             if endExpNow or defaultKeyboard.getKeys(keyList=["escape"]):
@@ -984,13 +954,17 @@ for thisTrials_instruct_num in trials_instruct_num:
         for thisComponent in NumberTestComponents:
             if hasattr(thisComponent, "setAutoDraw"):
                 thisComponent.setAutoDraw(False)
-        # if trials max is 20 end early 
+        trials_num.addData('press_key_r.started', press_key_r.tStartRefresh)
+        trials_num.addData('press_key_r.stopped', press_key_r.tStopRefresh)
+        text_clock.reset()
+        #if trials max is 20 end early 
         if reihenfolge:
             if trials_num.thisN >= (trials_limit-1):
                 trials_num.finished = True
         else: 
             if trials_num2.thisN >= (trials_limit-1):
                 trials_num2.finished = True
+        
         
         #rt = arrow_response.rt
         #print(rt)
@@ -1016,46 +990,6 @@ for thisTrials_instruct_num in trials_instruct_num:
     # ------Prepare to start Routine "Save_Data"-------
     continueRoutine = True
     # update component parameters for each repeat
-    import math
-    #save pupil data
-    
-    #stimuli_data = [s - bs_diameter if math.isnan(s) == False else s for s in stimuli_measures]
-    
-    workbook = xl.Workbook('data/' + str(user) + '_LieDetection_' + exp_time + '_' + option + '_' + mode  +'.xlsx')
-    ws = workbook.add_worksheet()
-    
-    ws.write('A1', 'pupil_dilation')
-    ws.write('B1', 'baseline')
-    ws.write('C1', 'num/id')
-    ws.write('D1', 'key')
-    ws.write('E1', 'correct')
-    
-    
-    row = 1
-    for sd in eye_measures:
-        i = eye_measures.index(sd)
-        #time = time_stamps[eye_measures.index(sd)]
-        if math.isnan(sd) == True :
-            ws.write(row, 0, 'Nan')
-        else:
-            ws.write(row, 0, sd)
-        ws.write(row, 1, str(baseline_s[i]))
-        ws.write(row, 2, str(id_s[i]))
-        ws.write(row, 3, str(key_s[i]))
-        ws.write(row, 4, str(correct_s[i]))
-        row += 1
-        
-    workbook.close()
-    
-    # reset eye data for next cond
-    eye_measures = []
-    baseline_s = []
-    eye_measures = []
-    key_s= []
-    id_s = []
-    correct_s = []
-    
-    #print(expInfo['arrow_response.keys'])
     # keep track of which components have finished
     Save_DataComponents = []
     for thisComponent in Save_DataComponents:
@@ -1157,13 +1091,6 @@ for thisTrials_instruct_quest in trials_instruct_quest:
     
     random.shuffle(questions)
     #print(questions)
-    # some datastorages
-    
-    baseline_s = []
-    eye_measures = []
-    key_s = []
-    id_s = []
-    correct_s = []
     # keep track of which components have finished
     Instructions_QuestComponents = [key_resp_2, instructions_text2]
     for thisComponent in Instructions_QuestComponents:
@@ -1248,7 +1175,7 @@ for thisTrials_instruct_quest in trials_instruct_quest:
     routineTimer.reset()
     
     # set up handler to look after randomisation of conditions etc
-    trials_quest = data.TrialHandler(nReps=40.0, method='sequential', 
+    trials_quest = data.TrialHandler(nReps=4.0, method='sequential', 
         extraInfo=expInfo, originPath=-1,
         trialList=[None],
         seed=None, name='trials_quest')
@@ -1306,16 +1233,6 @@ for thisTrials_instruct_quest in trials_instruct_quest:
                 fixation_cross.tStartRefresh = tThisFlipGlobal  # on global time
                 win.timeOnFlip(fixation_cross, 'tStartRefresh')  # time at next scr refresh
                 fixation_cross.setAutoDraw(True)
-            # eyetracking, append baseline measures with new pupil diameter
-            if(global_gaze_data != None):
-                #print(global_gaze_data.get('left_pupil_diameter'))
-                eye_measures.append(global_gaze_data.get('left_pupil_diameter'))
-                #time_stamps.append(dt.utcnow())
-                #print(global_gaze_data.get('left_pupil_diameter'))
-                baseline_s.append('b')
-                key_s.append('')
-                id_s.append('')
-                correct_s.append('')
             # check if timer is over
             if (loopClock.getTime() >0):
                 continueRoutine = False 
@@ -1358,7 +1275,12 @@ for thisTrials_instruct_quest in trials_instruct_quest:
         # write selected question to data
         thisExp.addData('question.id', questions[num_quest][0])
         
+        press_key_l2.height = 0.05
+        press_key_l2.pos = (-0.12, -0.3)
+        press_key_r2.height = 0.05
+        press_key_r2.pos = (0, -0.3)
         
+        timer_set = False
         question_response.keys = []
         question_response.rt = []
         _question_response_allKeys = []
@@ -1375,7 +1297,7 @@ for thisTrials_instruct_quest in trials_instruct_quest:
         dist = width/(30*time)
         timer_line2.autoDraw= False
         # keep track of which components have finished
-        QuestionsTestComponents = [press_key2, question, question_response, timer_line2]
+        QuestionsTestComponents = [press_key_l2, press_key_r2, question, question_response, timer_line2]
         for thisComponent in QuestionsTestComponents:
             thisComponent.tStart = None
             thisComponent.tStop = None
@@ -1398,22 +1320,39 @@ for thisTrials_instruct_quest in trials_instruct_quest:
             frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
             # update/draw components on each frame
             
-            # *press_key2* updates
-            if press_key2.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
+            # *press_key_l2* updates
+            if press_key_l2.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
                 # keep track of start time/frame for later
-                press_key2.frameNStart = frameN  # exact frame index
-                press_key2.tStart = t  # local t and not account for scr refresh
-                press_key2.tStartRefresh = tThisFlipGlobal  # on global time
-                win.timeOnFlip(press_key2, 'tStartRefresh')  # time at next scr refresh
-                press_key2.setAutoDraw(True)
-            if press_key2.status == STARTED:
+                press_key_l2.frameNStart = frameN  # exact frame index
+                press_key_l2.tStart = t  # local t and not account for scr refresh
+                press_key_l2.tStartRefresh = tThisFlipGlobal  # on global time
+                win.timeOnFlip(press_key_l2, 'tStartRefresh')  # time at next scr refresh
+                press_key_l2.setAutoDraw(True)
+            if press_key_l2.status == STARTED:
                 # is it time to stop? (based on global clock, using actual start)
-                if tThisFlipGlobal > press_key2.tStartRefresh + 10.0-frameTolerance:
+                if tThisFlipGlobal > press_key_l2.tStartRefresh + 10.0-frameTolerance:
                     # keep track of stop time/frame for later
-                    press_key2.tStop = t  # not accounting for scr refresh
-                    press_key2.frameNStop = frameN  # exact frame index
-                    win.timeOnFlip(press_key2, 'tStopRefresh')  # time at next scr refresh
-                    press_key2.setAutoDraw(False)
+                    press_key_l2.tStop = t  # not accounting for scr refresh
+                    press_key_l2.frameNStop = frameN  # exact frame index
+                    win.timeOnFlip(press_key_l2, 'tStopRefresh')  # time at next scr refresh
+                    press_key_l2.setAutoDraw(False)
+            
+            # *press_key_r2* updates
+            if press_key_r2.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
+                # keep track of start time/frame for later
+                press_key_r2.frameNStart = frameN  # exact frame index
+                press_key_r2.tStart = t  # local t and not account for scr refresh
+                press_key_r2.tStartRefresh = tThisFlipGlobal  # on global time
+                win.timeOnFlip(press_key_r2, 'tStartRefresh')  # time at next scr refresh
+                press_key_r2.setAutoDraw(True)
+            if press_key_r2.status == STARTED:
+                # is it time to stop? (based on global clock, using actual start)
+                if tThisFlipGlobal > press_key_r2.tStartRefresh + 10.0-frameTolerance:
+                    # keep track of stop time/frame for later
+                    press_key_r2.tStop = t  # not accounting for scr refresh
+                    press_key_r2.frameNStop = frameN  # exact frame index
+                    win.timeOnFlip(press_key_r2, 'tStopRefresh')  # time at next scr refresh
+                    press_key_r2.setAutoDraw(False)
             
             # *question* updates
             if question.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
@@ -1431,6 +1370,25 @@ for thisTrials_instruct_quest in trials_instruct_quest:
                     question.frameNStop = frameN  # exact frame index
                     win.timeOnFlip(question, 'tStopRefresh')  # time at next scr refresh
                     question.setAutoDraw(False)
+            if question_response.keys and not timer_set:
+                # right key
+                if 'right' in question_response.keys:
+                    press_key_r2.height = 0.08
+                    press_key_r2.pos = (0, -0.29)
+                # left key
+                if 'left' in question_response.keys:
+                    press_key_l2.height = 0.08
+                    press_key_l2.pos = (-0.12, -0.29)
+                # set timer
+                text_clock = core.Clock()
+                text_clock.add(1)
+                timer_set = True
+                
+            if timer_set:
+                if text_clock.getTime()<0:
+                    pass
+                else:
+                    continueRoutine = False
             
             # *question_response* updates
             if question_response.status == NOT_STARTED and t >= 0.0-frameTolerance:
@@ -1457,8 +1415,6 @@ for thisTrials_instruct_quest in trials_instruct_quest:
                 if len(_question_response_allKeys):
                     question_response.keys = _question_response_allKeys[-1].name  # just the last key pressed
                     question_response.rt = _question_response_allKeys[-1].rt
-                    # a response ends the routine
-                    continueRoutine = False
             
             # *timer_line2* updates
             if timer_line2.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
@@ -1493,26 +1449,6 @@ for thisTrials_instruct_quest in trials_instruct_quest:
             """        
             win.flip()
             
-            # eyetracking, append baseline measures with new pupil diameter
-            if(global_gaze_data != None):
-                #print(global_gaze_data.get('left_pupil_diameter'))
-                eye_measures.append(global_gaze_data.get('left_pupil_diameter'))
-                #time_stamps.append(dt.utcnow())
-                #print(global_gaze_data.get('left_pupil_diameter'))
-                baseline_s.append('')
-            
-                
-                if question_response.keys:
-                    #correct_s.append(arrow_response.corr)
-                    correct_s.append('')
-                    key_s.append(question_response.keys)
-                else:
-                    correct_s.append('')
-                    key_s.append('')
-                        
-                id_s.append(questions[num_quest][0])
-                
-                
             
             # check for quit (typically the Esc key)
             if endExpNow or defaultKeyboard.getKeys(keyList=["escape"]):
@@ -1535,6 +1471,9 @@ for thisTrials_instruct_quest in trials_instruct_quest:
         for thisComponent in QuestionsTestComponents:
             if hasattr(thisComponent, "setAutoDraw"):
                 thisComponent.setAutoDraw(False)
+        trials_quest.addData('press_key_l2.started', press_key_l2.tStartRefresh)
+        trials_quest.addData('press_key_l2.stopped', press_key_l2.tStopRefresh)
+        text_clock.reset()
         # check responses
         if question_response.keys in ['', [], None]:  # No response was made
             question_response.keys = None
@@ -1546,52 +1485,12 @@ for thisTrials_instruct_quest in trials_instruct_quest:
             trials_quest.finished = True
         thisExp.nextEntry()
         
-    # completed 40.0 repeats of 'trials_quest'
+    # completed 4.0 repeats of 'trials_quest'
     
     
     # ------Prepare to start Routine "Save_Data"-------
     continueRoutine = True
     # update component parameters for each repeat
-    import math
-    #save pupil data
-    
-    #stimuli_data = [s - bs_diameter if math.isnan(s) == False else s for s in stimuli_measures]
-    
-    workbook = xl.Workbook('data/' + str(user) + '_LieDetection_' + exp_time + '_' + option + '_' + mode  +'.xlsx')
-    ws = workbook.add_worksheet()
-    
-    ws.write('A1', 'pupil_dilation')
-    ws.write('B1', 'baseline')
-    ws.write('C1', 'num/id')
-    ws.write('D1', 'key')
-    ws.write('E1', 'correct')
-    
-    
-    row = 1
-    for sd in eye_measures:
-        i = eye_measures.index(sd)
-        #time = time_stamps[eye_measures.index(sd)]
-        if math.isnan(sd) == True :
-            ws.write(row, 0, 'Nan')
-        else:
-            ws.write(row, 0, sd)
-        ws.write(row, 1, str(baseline_s[i]))
-        ws.write(row, 2, str(id_s[i]))
-        ws.write(row, 3, str(key_s[i]))
-        ws.write(row, 4, str(correct_s[i]))
-        row += 1
-        
-    workbook.close()
-    
-    # reset eye data for next cond
-    eye_measures = []
-    baseline_s = []
-    eye_measures = []
-    key_s= []
-    id_s = []
-    correct_s = []
-    
-    #print(expInfo['arrow_response.keys'])
     # keep track of which components have finished
     Save_DataComponents = []
     for thisComponent in Save_DataComponents:
@@ -1645,7 +1544,7 @@ for thisTrials_instruct_quest in trials_instruct_quest:
 
 
 # set up handler to look after randomisation of conditions etc
-trials_instruct_num2 = data.TrialHandler(nReps=3.0, method='sequential', 
+trials_instruct_num2 = data.TrialHandler(nReps=1.0, method='sequential', 
     extraInfo=expInfo, originPath=-1,
     trialList=[None],
     seed=None, name='trials_instruct_num2')
@@ -1702,13 +1601,6 @@ for thisTrials_instruct_num2 in trials_instruct_num2:
     random.shuffle(numbers_rand)
     print(numbers_rand)
     
-    # some datastorages
-    
-    baseline_s = []
-    eye_measures = []
-    key_s = []
-    id_s = []
-    correct_s = []
     # keep track of which components have finished
     InstructionsComponents = [instructions_text, instructions_space]
     for thisComponent in InstructionsComponents:
@@ -1792,7 +1684,7 @@ for thisTrials_instruct_num2 in trials_instruct_num2:
     routineTimer.reset()
     
     # set up handler to look after randomisation of conditions etc
-    trials_num2 = data.TrialHandler(nReps=40.0, method='sequential', 
+    trials_num2 = data.TrialHandler(nReps=4.0, method='sequential', 
         extraInfo=expInfo, originPath=-1,
         trialList=[None],
         seed=None, name='trials_num2')
@@ -1850,16 +1742,6 @@ for thisTrials_instruct_num2 in trials_instruct_num2:
                 fixation_cross.tStartRefresh = tThisFlipGlobal  # on global time
                 win.timeOnFlip(fixation_cross, 'tStartRefresh')  # time at next scr refresh
                 fixation_cross.setAutoDraw(True)
-            # eyetracking, append baseline measures with new pupil diameter
-            if(global_gaze_data != None):
-                #print(global_gaze_data.get('left_pupil_diameter'))
-                eye_measures.append(global_gaze_data.get('left_pupil_diameter'))
-                #time_stamps.append(dt.utcnow())
-                #print(global_gaze_data.get('left_pupil_diameter'))
-                baseline_s.append('b')
-                key_s.append('')
-                id_s.append('')
-                correct_s.append('')
             # check if timer is over
             if (loopClock.getTime() >0):
                 continueRoutine = False 
@@ -1895,12 +1777,12 @@ for thisTrials_instruct_num2 in trials_instruct_num2:
         continueRoutine = True
         routineTimer.add(5.000000)
         # update component parameters for each repeat
-        # generate a random number to be displayed which is not 10
-        #num = 10
         corResp = ''
-        #while num == 10:
-        #    num = random.randint(0,20)
-           
+        press_key_l.height = 0.05
+        press_key_l.pos = (-0.12, -0.3)
+        press_key_r.height = 0.05
+        press_key_r.pos = (0, -0.3)
+        
         # select number from list generated in the introduction
         ind = 0
         if reihenfolge:
@@ -1920,6 +1802,8 @@ for thisTrials_instruct_num2 in trials_instruct_num2:
         
         num_test.text = str(num)
         
+        # set arrow timer
+        timer_set = False
         # configure visual timer
         t = 5
         
@@ -1939,7 +1823,7 @@ for thisTrials_instruct_num2 in trials_instruct_num2:
         arrow_response.rt = []
         _arrow_response_allKeys = []
         # keep track of which components have finished
-        NumberTestComponents = [question_1, press_key, num_test, timer_line, arrow_response]
+        NumberTestComponents = [question_1, press_key_r, press_key_l, num_test, timer_line, arrow_response]
         for thisComponent in NumberTestComponents:
             thisComponent.tStart = None
             thisComponent.tStop = None
@@ -1979,22 +1863,39 @@ for thisTrials_instruct_num2 in trials_instruct_num2:
                     win.timeOnFlip(question_1, 'tStopRefresh')  # time at next scr refresh
                     question_1.setAutoDraw(False)
             
-            # *press_key* updates
-            if press_key.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
+            # *press_key_r* updates
+            if press_key_r.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
                 # keep track of start time/frame for later
-                press_key.frameNStart = frameN  # exact frame index
-                press_key.tStart = t  # local t and not account for scr refresh
-                press_key.tStartRefresh = tThisFlipGlobal  # on global time
-                win.timeOnFlip(press_key, 'tStartRefresh')  # time at next scr refresh
-                press_key.setAutoDraw(True)
-            if press_key.status == STARTED:
+                press_key_r.frameNStart = frameN  # exact frame index
+                press_key_r.tStart = t  # local t and not account for scr refresh
+                press_key_r.tStartRefresh = tThisFlipGlobal  # on global time
+                win.timeOnFlip(press_key_r, 'tStartRefresh')  # time at next scr refresh
+                press_key_r.setAutoDraw(True)
+            if press_key_r.status == STARTED:
                 # is it time to stop? (based on global clock, using actual start)
-                if tThisFlipGlobal > press_key.tStartRefresh + 5.0-frameTolerance:
+                if tThisFlipGlobal > press_key_r.tStartRefresh + 5.0-frameTolerance:
                     # keep track of stop time/frame for later
-                    press_key.tStop = t  # not accounting for scr refresh
-                    press_key.frameNStop = frameN  # exact frame index
-                    win.timeOnFlip(press_key, 'tStopRefresh')  # time at next scr refresh
-                    press_key.setAutoDraw(False)
+                    press_key_r.tStop = t  # not accounting for scr refresh
+                    press_key_r.frameNStop = frameN  # exact frame index
+                    win.timeOnFlip(press_key_r, 'tStopRefresh')  # time at next scr refresh
+                    press_key_r.setAutoDraw(False)
+            
+            # *press_key_l* updates
+            if press_key_l.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
+                # keep track of start time/frame for later
+                press_key_l.frameNStart = frameN  # exact frame index
+                press_key_l.tStart = t  # local t and not account for scr refresh
+                press_key_l.tStartRefresh = tThisFlipGlobal  # on global time
+                win.timeOnFlip(press_key_l, 'tStartRefresh')  # time at next scr refresh
+                press_key_l.setAutoDraw(True)
+            if press_key_l.status == STARTED:
+                # is it time to stop? (based on global clock, using actual start)
+                if tThisFlipGlobal > press_key_l.tStartRefresh + 5.0-frameTolerance:
+                    # keep track of stop time/frame for later
+                    press_key_l.tStop = t  # not accounting for scr refresh
+                    press_key_l.frameNStop = frameN  # exact frame index
+                    win.timeOnFlip(press_key_l, 'tStopRefresh')  # time at next scr refresh
+                    press_key_l.setAutoDraw(False)
             
             # *num_test* updates
             if num_test.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
@@ -2012,6 +1913,25 @@ for thisTrials_instruct_num2 in trials_instruct_num2:
                     num_test.frameNStop = frameN  # exact frame index
                     win.timeOnFlip(num_test, 'tStopRefresh')  # time at next scr refresh
                     num_test.setAutoDraw(False)
+            if arrow_response.keys and not timer_set:
+                # right key
+                if 'right' in arrow_response.keys:
+                    press_key_r.height = 0.08
+                    press_key_r.pos = (0, -0.29)
+                # left key
+                if 'left' in arrow_response.keys:
+                    press_key_l.height = 0.08
+                    press_key_l.pos = (-0.12, -0.29)
+                # set timer
+                text_clock = core.Clock()
+                text_clock.add(1)
+                timer_set = True
+                
+            if timer_set:
+                if text_clock.getTime()<0:
+                    pass
+                else:
+                    continueRoutine = False
             
             # *timer_line* updates
             if timer_line.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
@@ -2085,27 +2005,6 @@ for thisTrials_instruct_num2 in trials_instruct_num2:
                         arrow_response.corr = 1
                     else:
                         arrow_response.corr = 0
-                    # a response ends the routine
-                    continueRoutine = False
-            # eyetracking, append baseline measures with new pupil diameter
-            if(global_gaze_data != None):
-                #print(global_gaze_data.get('left_pupil_diameter'))
-                eye_measures.append(global_gaze_data.get('left_pupil_diameter'))
-                #time_stamps.append(dt.utcnow())
-                #print(global_gaze_data.get('left_pupil_diameter'))
-                baseline_s.append('')
-            
-                
-                if arrow_response.keys:
-                    correct_s.append(arrow_response.corr)
-                    key_s.append(arrow_response.keys)
-                else:
-                    correct_s.append('')
-                    key_s.append('')
-                        
-                id_s.append(num)
-                
-                
             
             # check for quit (typically the Esc key)
             if endExpNow or defaultKeyboard.getKeys(keyList=["escape"]):
@@ -2128,13 +2027,17 @@ for thisTrials_instruct_num2 in trials_instruct_num2:
         for thisComponent in NumberTestComponents:
             if hasattr(thisComponent, "setAutoDraw"):
                 thisComponent.setAutoDraw(False)
-        # if trials max is 20 end early 
+        trials_num2.addData('press_key_r.started', press_key_r.tStartRefresh)
+        trials_num2.addData('press_key_r.stopped', press_key_r.tStopRefresh)
+        text_clock.reset()
+        #if trials max is 20 end early 
         if reihenfolge:
             if trials_num.thisN >= (trials_limit-1):
                 trials_num.finished = True
         else: 
             if trials_num2.thisN >= (trials_limit-1):
                 trials_num2.finished = True
+        
         
         #rt = arrow_response.rt
         #print(rt)
@@ -2154,52 +2057,12 @@ for thisTrials_instruct_num2 in trials_instruct_num2:
             trials_num2.addData('arrow_response.rt', arrow_response.rt)
         thisExp.nextEntry()
         
-    # completed 40.0 repeats of 'trials_num2'
+    # completed 4.0 repeats of 'trials_num2'
     
     
     # ------Prepare to start Routine "Save_Data"-------
     continueRoutine = True
     # update component parameters for each repeat
-    import math
-    #save pupil data
-    
-    #stimuli_data = [s - bs_diameter if math.isnan(s) == False else s for s in stimuli_measures]
-    
-    workbook = xl.Workbook('data/' + str(user) + '_LieDetection_' + exp_time + '_' + option + '_' + mode  +'.xlsx')
-    ws = workbook.add_worksheet()
-    
-    ws.write('A1', 'pupil_dilation')
-    ws.write('B1', 'baseline')
-    ws.write('C1', 'num/id')
-    ws.write('D1', 'key')
-    ws.write('E1', 'correct')
-    
-    
-    row = 1
-    for sd in eye_measures:
-        i = eye_measures.index(sd)
-        #time = time_stamps[eye_measures.index(sd)]
-        if math.isnan(sd) == True :
-            ws.write(row, 0, 'Nan')
-        else:
-            ws.write(row, 0, sd)
-        ws.write(row, 1, str(baseline_s[i]))
-        ws.write(row, 2, str(id_s[i]))
-        ws.write(row, 3, str(key_s[i]))
-        ws.write(row, 4, str(correct_s[i]))
-        row += 1
-        
-    workbook.close()
-    
-    # reset eye data for next cond
-    eye_measures = []
-    baseline_s = []
-    eye_measures = []
-    key_s= []
-    id_s = []
-    correct_s = []
-    
-    #print(expInfo['arrow_response.keys'])
     # keep track of which components have finished
     Save_DataComponents = []
     for thisComponent in Save_DataComponents:
@@ -2249,7 +2112,7 @@ for thisTrials_instruct_num2 in trials_instruct_num2:
     routineTimer.reset()
     thisExp.nextEntry()
     
-# completed 3.0 repeats of 'trials_instruct_num2'
+# completed 1.0 repeats of 'trials_instruct_num2'
 
 
 # ------Prepare to start Routine "End"-------
