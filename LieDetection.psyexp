@@ -527,7 +527,7 @@
         <Param name="startType" updates="None" val="time (s)" valType="str"/>
         <Param name="startVal" updates="None" val="0.0" valType="num"/>
         <Param name="stopType" updates="None" val="duration (s)" valType="str"/>
-        <Param name="stopVal" updates="constant" val="10.0" valType="num"/>
+        <Param name="stopVal" updates="constant" val="15.0" valType="num"/>
         <Param name="syncScreenRefresh" updates="None" val="True" valType="bool"/>
         <Param name="text" updates="constant" val="&quot;←&quot; No         Yes &quot;→&quot; " valType="str"/>
         <Param name="units" updates="None" val="from exp settings" valType="str"/>
@@ -552,7 +552,7 @@
         <Param name="startType" updates="None" val="time (s)" valType="str"/>
         <Param name="startVal" updates="None" val="0.0" valType="num"/>
         <Param name="stopType" updates="None" val="duration (s)" valType="str"/>
-        <Param name="stopVal" updates="constant" val="10.0" valType="num"/>
+        <Param name="stopVal" updates="constant" val="15.0" valType="num"/>
         <Param name="syncScreenRefresh" updates="None" val="True" valType="bool"/>
         <Param name="text" updates="constant" val="" valType="str"/>
         <Param name="units" updates="None" val="from exp settings" valType="str"/>
@@ -588,7 +588,7 @@
         <Param name="startType" updates="None" val="time (s)" valType="str"/>
         <Param name="startVal" updates="None" val="0.0" valType="num"/>
         <Param name="stopType" updates="None" val="time (s)" valType="str"/>
-        <Param name="stopVal" updates="constant" val="10.0" valType="num"/>
+        <Param name="stopVal" updates="constant" val="15.0" valType="num"/>
         <Param name="store" updates="constant" val="last key" valType="str"/>
         <Param name="storeCorrect" updates="constant" val="False" valType="bool"/>
         <Param name="syncScreenRefresh" updates="constant" val="False" valType="bool"/>
@@ -614,7 +614,7 @@
         <Param name="startType" updates="None" val="time (s)" valType="str"/>
         <Param name="startVal" updates="None" val="0.0" valType="num"/>
         <Param name="stopType" updates="None" val="duration (s)" valType="str"/>
-        <Param name="stopVal" updates="constant" val="10.0" valType="num"/>
+        <Param name="stopVal" updates="constant" val="15.0" valType="num"/>
         <Param name="syncScreenRefresh" updates="None" val="True" valType="bool"/>
         <Param name="units" updates="None" val="from exp settings" valType="str"/>
         <Param name="vertices" updates="constant" val="" valType="list"/>
@@ -624,8 +624,8 @@
         <Param name="Before JS Experiment" updates="constant" val="" valType="extendedCode"/>
         <Param name="Begin Experiment" updates="constant" val="" valType="extendedCode"/>
         <Param name="Begin JS Experiment" updates="constant" val="" valType="extendedCode"/>
-        <Param name="Begin JS Routine" updates="constant" val="continueRoutine = true;&amp;#10;time = 10;&amp;#10;timer_line2.size = [1, 0.02];&amp;#10;width = timer_line2.size[0];&amp;#10;dist = (width / (30 * time));&amp;#10;timer_line2.autoDraw = false;&amp;#10;" valType="extendedCode"/>
-        <Param name="Begin Routine" updates="constant" val="continueRoutine = True&amp;#10;# configure visual timer&amp;#10;time = 10&amp;#10;#timer = core.CountdownTimer(time)&amp;#10;&amp;#10;# size of line&amp;#10;timer_line2.size = [1,0.02]&amp;#10;width = timer_line2.size[0]&amp;#10;&amp;#10;# how much the line shrinks each frame&amp;#10;dist = width/(30*time)&amp;#10;timer_line2.autoDraw= False" valType="extendedCode"/>
+        <Param name="Begin JS Routine" updates="constant" val="continueRoutine = true;&amp;#10;time = 15;&amp;#10;timer_line2.size = [1, 0.02];&amp;#10;width = timer_line2.size[0];&amp;#10;dist = (width / (30 * time));&amp;#10;timer_line2.autoDraw = false;&amp;#10;" valType="extendedCode"/>
+        <Param name="Begin Routine" updates="constant" val="continueRoutine = True&amp;#10;# configure visual timer&amp;#10;time = 15&amp;#10;#timer = core.CountdownTimer(time)&amp;#10;&amp;#10;# size of line&amp;#10;timer_line2.size = [1,0.02]&amp;#10;width = timer_line2.size[0]&amp;#10;&amp;#10;# how much the line shrinks each frame&amp;#10;dist = width/(30*time)&amp;#10;timer_line2.autoDraw= False" valType="extendedCode"/>
         <Param name="Code Type" updates="None" val="Auto-&gt;JS" valType="str"/>
         <Param name="Each Frame" updates="constant" val="#while timer.getTime() &gt; 0 and continueRoutine:&amp;#10;    # adjust line size to visualize time&amp;#10;width -= dist&amp;#10;timer_line2.size = [width,0.02]&amp;#10;timer_line2.draw()&amp;#10;    &amp;#10;&quot;&quot;&quot;&amp;#10;# check if response was given&amp;#10;keys = event.getKeys()&amp;#10;if keys: &amp;#10;    if 'right' in keys: &amp;#10;        continueRoutine = False&amp;#10;    if 'left' in keys: &amp;#10;        continueRoutine = False&amp;#10;&quot;&quot;&quot;        &amp;#10;win.flip()&amp;#10;" valType="extendedCode"/>
         <Param name="Each JS Frame" updates="constant" val="width -= dist;&amp;#10;timer_line2.size = [width, 0.02];&amp;#10;timer_line2.draw();&amp;#10;/*&amp;#10;# check if response was given&amp;#10;keys = event.getKeys()&amp;#10;if keys:&amp;#10;if 'right' in keys:&amp;#10;continueRoutine = False&amp;#10;if 'left' in keys:&amp;#10;continueRoutine = False*/&amp;#10;psychoJS.window.flip();&amp;#10;" valType="extendedCode"/>
@@ -727,7 +727,7 @@
       <Param name="endPoints" updates="None" val="[0, 1]" valType="num"/>
       <Param name="isTrials" updates="None" val="True" valType="bool"/>
       <Param name="loopType" updates="None" val="sequential" valType="str"/>
-      <Param name="nReps" updates="None" val="0" valType="num"/>
+      <Param name="nReps" updates="None" val="3" valType="num"/>
       <Param name="name" updates="None" val="trials_instruct_num" valType="code"/>
       <Param name="random seed" updates="None" val="" valType="code"/>
     </LoopInitiator>
@@ -739,7 +739,7 @@
       <Param name="endPoints" updates="None" val="[0, 1]" valType="num"/>
       <Param name="isTrials" updates="None" val="True" valType="bool"/>
       <Param name="loopType" updates="None" val="sequential" valType="str"/>
-      <Param name="nReps" updates="None" val="3" valType="num"/>
+      <Param name="nReps" updates="None" val="40" valType="num"/>
       <Param name="name" updates="None" val="trials_num" valType="code"/>
       <Param name="random seed" updates="None" val="" valType="code"/>
     </LoopInitiator>
@@ -783,7 +783,7 @@
       <Param name="endPoints" updates="None" val="[0, 1]" valType="num"/>
       <Param name="isTrials" updates="None" val="True" valType="bool"/>
       <Param name="loopType" updates="None" val="sequential" valType="str"/>
-      <Param name="nReps" updates="None" val="3" valType="num"/>
+      <Param name="nReps" updates="None" val="0" valType="num"/>
       <Param name="name" updates="None" val="trials_instruct_num2" valType="code"/>
       <Param name="random seed" updates="None" val="" valType="code"/>
     </LoopInitiator>

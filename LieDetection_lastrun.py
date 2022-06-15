@@ -1,8 +1,8 @@
-﻿#!/usr/bin/env python
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 This experiment was created using PsychoPy3 Experiment Builder (v2021.2.3),
-    on June 08, 2022, at 16:59
+    on June 14, 2022, at 17:16
 If you publish work using this script the most relevant publication is:
 
     Peirce J, Gray JR, Simpson S, MacAskill M, Höchenberger R, Sogo H, Kastman E, Lindeløv JK. (2019) 
@@ -157,7 +157,7 @@ key_resp = keyboard.Keyboard()
 user = expInfo['participant']
 
 #True = number, False = questions
-reihenfolge = False
+reihenfolge = True
 
 # Initialize components for Routine "Instructions"
 InstructionsClock = core.Clock()
@@ -501,7 +501,7 @@ thisExp.nextEntry()
 routineTimer.reset()
 
 # set up handler to look after randomisation of conditions etc
-trials_instruct_num = data.TrialHandler(nReps=0.0, method='sequential', 
+trials_instruct_num = data.TrialHandler(nReps=3.0, method='sequential', 
     extraInfo=expInfo, originPath=-1,
     trialList=[None],
     seed=None, name='trials_instruct_num')
@@ -648,7 +648,7 @@ for thisTrials_instruct_num in trials_instruct_num:
     routineTimer.reset()
     
     # set up handler to look after randomisation of conditions etc
-    trials_num = data.TrialHandler(nReps=3.0, method='sequential', 
+    trials_num = data.TrialHandler(nReps=40.0, method='sequential', 
         extraInfo=expInfo, originPath=-1,
         trialList=[None],
         seed=None, name='trials_num')
@@ -1010,7 +1010,7 @@ for thisTrials_instruct_num in trials_instruct_num:
             trials_num.addData('arrow_response.rt', arrow_response.rt)
         thisExp.nextEntry()
         
-    # completed 3.0 repeats of 'trials_num'
+    # completed 40.0 repeats of 'trials_num'
     
     
     # ------Prepare to start Routine "Save_Data"-------
@@ -1105,7 +1105,7 @@ for thisTrials_instruct_num in trials_instruct_num:
     routineTimer.reset()
     thisExp.nextEntry()
     
-# completed 0.0 repeats of 'trials_instruct_num'
+# completed 3.0 repeats of 'trials_instruct_num'
 
 
 # set up handler to look after randomisation of conditions etc
@@ -1349,7 +1349,7 @@ for thisTrials_instruct_quest in trials_instruct_quest:
         
         # ------Prepare to start Routine "QuestionsTest"-------
         continueRoutine = True
-        routineTimer.add(10.000000)
+        routineTimer.add(15.000000)
         # update component parameters for each repeat
         # get question to display on screen
         num_quest = trials_quest.thisN
@@ -1364,7 +1364,7 @@ for thisTrials_instruct_quest in trials_instruct_quest:
         _question_response_allKeys = []
         continueRoutine = True
         # configure visual timer
-        time = 10
+        time = 15
         #timer = core.CountdownTimer(time)
         
         # size of line
@@ -1408,7 +1408,7 @@ for thisTrials_instruct_quest in trials_instruct_quest:
                 press_key2.setAutoDraw(True)
             if press_key2.status == STARTED:
                 # is it time to stop? (based on global clock, using actual start)
-                if tThisFlipGlobal > press_key2.tStartRefresh + 10.0-frameTolerance:
+                if tThisFlipGlobal > press_key2.tStartRefresh + 15.0-frameTolerance:
                     # keep track of stop time/frame for later
                     press_key2.tStop = t  # not accounting for scr refresh
                     press_key2.frameNStop = frameN  # exact frame index
@@ -1425,7 +1425,7 @@ for thisTrials_instruct_quest in trials_instruct_quest:
                 question.setAutoDraw(True)
             if question.status == STARTED:
                 # is it time to stop? (based on global clock, using actual start)
-                if tThisFlipGlobal > question.tStartRefresh + 10.0-frameTolerance:
+                if tThisFlipGlobal > question.tStartRefresh + 15.0-frameTolerance:
                     # keep track of stop time/frame for later
                     question.tStop = t  # not accounting for scr refresh
                     question.frameNStop = frameN  # exact frame index
@@ -1445,7 +1445,7 @@ for thisTrials_instruct_quest in trials_instruct_quest:
                 question_response.clearEvents(eventType='keyboard')
             if question_response.status == STARTED:
                 # is it time to stop? (based on local clock)
-                if tThisFlip > 10.0-frameTolerance:
+                if tThisFlip > 15.0-frameTolerance:
                     # keep track of stop time/frame for later
                     question_response.tStop = t  # not accounting for scr refresh
                     question_response.frameNStop = frameN  # exact frame index
@@ -1470,7 +1470,7 @@ for thisTrials_instruct_quest in trials_instruct_quest:
                 timer_line2.setAutoDraw(True)
             if timer_line2.status == STARTED:
                 # is it time to stop? (based on global clock, using actual start)
-                if tThisFlipGlobal > timer_line2.tStartRefresh + 10.0-frameTolerance:
+                if tThisFlipGlobal > timer_line2.tStartRefresh + 15.0-frameTolerance:
                     # keep track of stop time/frame for later
                     timer_line2.tStop = t  # not accounting for scr refresh
                     timer_line2.frameNStop = frameN  # exact frame index
@@ -1645,7 +1645,7 @@ for thisTrials_instruct_quest in trials_instruct_quest:
 
 
 # set up handler to look after randomisation of conditions etc
-trials_instruct_num2 = data.TrialHandler(nReps=3.0, method='sequential', 
+trials_instruct_num2 = data.TrialHandler(nReps=0.0, method='sequential', 
     extraInfo=expInfo, originPath=-1,
     trialList=[None],
     seed=None, name='trials_instruct_num2')
@@ -2249,7 +2249,7 @@ for thisTrials_instruct_num2 in trials_instruct_num2:
     routineTimer.reset()
     thisExp.nextEntry()
     
-# completed 3.0 repeats of 'trials_instruct_num2'
+# completed 0.0 repeats of 'trials_instruct_num2'
 
 
 # ------Prepare to start Routine "End"-------
