@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 This experiment was created using PsychoPy3 Experiment Builder (v2021.1.4),
-    on Juni 13, 2022, at 16:29
+    on Juni 14, 2022, at 13:38
 If you publish work using this script the most relevant publication is:
 
     Peirce J, Gray JR, Simpson S, MacAskill M, Höchenberger R, Sogo H, Kastman E, Lindeløv JK. (2019) 
@@ -107,6 +107,8 @@ text = visual.TextStim(win=win, name='text',
 key_resp = keyboard.Keyboard()
 #True = number, False = questions
 reihenfolge = False
+
+text_clock = core.Clock()
 
 # Initialize components for Routine "Instructions"
 InstructionsClock = core.Clock()
@@ -1091,6 +1093,13 @@ for thisTrials_instruct_quest in trials_instruct_quest:
     
     random.shuffle(questions)
     #print(questions)
+    # some datastorages
+    
+    baseline_s = []
+    eye_measures = []
+    key_s = []
+    id_s = []
+    correct_s = []
     # keep track of which components have finished
     Instructions_QuestComponents = [key_resp_2, instructions_text2]
     for thisComponent in Instructions_QuestComponents:
@@ -1266,7 +1275,7 @@ for thisTrials_instruct_quest in trials_instruct_quest:
         
         # ------Prepare to start Routine "QuestionsTest"-------
         continueRoutine = True
-        routineTimer.add(10.000000)
+        routineTimer.add(15.000000)
         # update component parameters for each repeat
         # get question to display on screen
         num_quest = trials_quest.thisN
@@ -1286,7 +1295,7 @@ for thisTrials_instruct_quest in trials_instruct_quest:
         _question_response_allKeys = []
         continueRoutine = True
         # configure visual timer
-        time = 10
+        time = 15
         #timer = core.CountdownTimer(time)
         
         # size of line
@@ -1330,7 +1339,7 @@ for thisTrials_instruct_quest in trials_instruct_quest:
                 press_key_l2.setAutoDraw(True)
             if press_key_l2.status == STARTED:
                 # is it time to stop? (based on global clock, using actual start)
-                if tThisFlipGlobal > press_key_l2.tStartRefresh + 10.0-frameTolerance:
+                if tThisFlipGlobal > press_key_l2.tStartRefresh + 15.0-frameTolerance:
                     # keep track of stop time/frame for later
                     press_key_l2.tStop = t  # not accounting for scr refresh
                     press_key_l2.frameNStop = frameN  # exact frame index
@@ -1347,7 +1356,7 @@ for thisTrials_instruct_quest in trials_instruct_quest:
                 press_key_r2.setAutoDraw(True)
             if press_key_r2.status == STARTED:
                 # is it time to stop? (based on global clock, using actual start)
-                if tThisFlipGlobal > press_key_r2.tStartRefresh + 10.0-frameTolerance:
+                if tThisFlipGlobal > press_key_r2.tStartRefresh + 15.0-frameTolerance:
                     # keep track of stop time/frame for later
                     press_key_r2.tStop = t  # not accounting for scr refresh
                     press_key_r2.frameNStop = frameN  # exact frame index
@@ -1364,7 +1373,7 @@ for thisTrials_instruct_quest in trials_instruct_quest:
                 question.setAutoDraw(True)
             if question.status == STARTED:
                 # is it time to stop? (based on global clock, using actual start)
-                if tThisFlipGlobal > question.tStartRefresh + 10.0-frameTolerance:
+                if tThisFlipGlobal > question.tStartRefresh + 15.0-frameTolerance:
                     # keep track of stop time/frame for later
                     question.tStop = t  # not accounting for scr refresh
                     question.frameNStop = frameN  # exact frame index
@@ -1403,7 +1412,7 @@ for thisTrials_instruct_quest in trials_instruct_quest:
                 question_response.clearEvents(eventType='keyboard')
             if question_response.status == STARTED:
                 # is it time to stop? (based on local clock)
-                if tThisFlip > 10.0-frameTolerance:
+                if tThisFlip > 15.0-frameTolerance:
                     # keep track of stop time/frame for later
                     question_response.tStop = t  # not accounting for scr refresh
                     question_response.frameNStop = frameN  # exact frame index
@@ -1426,7 +1435,7 @@ for thisTrials_instruct_quest in trials_instruct_quest:
                 timer_line2.setAutoDraw(True)
             if timer_line2.status == STARTED:
                 # is it time to stop? (based on global clock, using actual start)
-                if tThisFlipGlobal > timer_line2.tStartRefresh + 10.0-frameTolerance:
+                if tThisFlipGlobal > timer_line2.tStartRefresh + 15.0-frameTolerance:
                     # keep track of stop time/frame for later
                     timer_line2.tStop = t  # not accounting for scr refresh
                     timer_line2.frameNStop = frameN  # exact frame index
