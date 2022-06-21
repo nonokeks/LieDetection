@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 This experiment was created using PsychoPy3 Experiment Builder (v2021.1.4),
-    on Juni 14, 2022, at 13:38
+    on Juni 21, 2022, at 12:04
 If you publish work using this script the most relevant publication is:
 
     Peirce J, Gray JR, Simpson S, MacAskill M, Höchenberger R, Sogo H, Kastman E, Lindeløv JK. (2019) 
@@ -2126,7 +2126,7 @@ for thisTrials_instruct_num2 in trials_instruct_num2:
 
 # ------Prepare to start Routine "End"-------
 continueRoutine = True
-routineTimer.add(5.000000)
+routineTimer.add(3.000000)
 # update component parameters for each repeat
 # keep track of which components have finished
 EndComponents = [end]
@@ -2162,7 +2162,7 @@ while continueRoutine and routineTimer.getTime() > 0:
         end.setAutoDraw(True)
     if end.status == STARTED:
         # is it time to stop? (based on global clock, using actual start)
-        if tThisFlipGlobal > end.tStartRefresh + 5.0-frameTolerance:
+        if tThisFlipGlobal > end.tStartRefresh + 3.0-frameTolerance:
             # keep track of stop time/frame for later
             end.tStop = t  # not accounting for scr refresh
             end.frameNStop = frameN  # exact frame index
@@ -2190,9 +2190,6 @@ while continueRoutine and routineTimer.getTime() > 0:
 for thisComponent in EndComponents:
     if hasattr(thisComponent, "setAutoDraw"):
         thisComponent.setAutoDraw(False)
-# start eyetracking 
-eye_tracker.unsubscribe_from(tr.EYETRACKER_GAZE_DATA, gaze_data_callback, as_dictionary=True)
-
 
 # Flip one final time so any remaining win.callOnFlip() 
 # and win.timeOnFlip() tasks get executed before quitting
